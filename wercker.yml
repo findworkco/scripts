@@ -6,10 +6,12 @@ build:
   steps:
     # Install our dependencies
     - script:
-        name: install ruby
+        name: install system dependencies
         code: |
           apt-get update
-          apt-get install -y ruby1.9.1
+          # Ruby for Bundler
+          # wget etc for Ubuntu/Chef
+          apt-get install -y ruby1.9.1 wget
     - script:
         name: install bundler
         code: gem install bundler

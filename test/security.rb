@@ -17,9 +17,9 @@ describe "Open ports" do
     expect(open_ports_result.exit_status).to(eq(0))
     open_ports = open_ports_result.stdout.split("\n")
 
-    # If we are in Vagrant or Travis CI
+    # If we are in Vagrant
     # DEV: This is running on the host OS which is why `which vagrant` works
-    if `which vagrant` != "" || ENV["TRAVIS"] == "true"
+    if `which vagrant` != ""
       # Use `sudo` to get additional info (e.g. pid/program)
       # tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN      617/rpcbind
       # tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      1016/nginx
@@ -30,8 +30,6 @@ describe "Open ports" do
       # Filter out trusted programs
       if `which vagrant` != ""
         open_ports.select! { |open_port| ! %r{/(rpcbind|rpc.statd|dhclient)\s*$}.match(open_port) }
-      elsif ENV["TRAVIS"] == "true"
-        open_ports.select! { |open_port| ! %r{/(dnsmasq|dhclient|ntpd)\s*$}.match(open_port) }
       end
     end
 
@@ -60,9 +58,6 @@ describe "Login shells" do
     # If we are on Vagrant, allow a Vagrant user to use ssh
     if `which vagrant` != ""
       ALLOWED_USERS.push("vagrant")
-    # Otherise, if we are on Travis CI, allow "maria", "me", "solarce", and "travis" users
-    elsif ENV["TRAVIS"] == "true"
-      ALLOWED_USERS.push("maria", "me", "solarce", "travis")
     end
 
     # Collect the passwd entries for our users

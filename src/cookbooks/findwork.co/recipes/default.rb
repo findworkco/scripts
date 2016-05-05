@@ -14,9 +14,9 @@ apt_package "nodejs" do
   only_if("test \"$(node --version)\" != \"v0.10.42\"")
 end
 
-# Configure NGINX for `twolfson.com` node
+# Configure NGINX for `findwork.co` node
 # @depends_on service[nginx]
-data_file "/etc/nginx/conf.d/twolfson.com.conf" do
+data_file "/etc/nginx/conf.d/findwork.co.conf" do
   owner("root")
   group("root")
   mode("644") # u=rw,g=r,o=r
@@ -25,32 +25,9 @@ data_file "/etc/nginx/conf.d/twolfson.com.conf" do
   # DEV: We have a delay to guarantee all configs reload at the same time
   notifies(:reload, "service[nginx]", :delayed)
 end
-data_file "/etc/nginx/conf.d/drive.twolfson.com.conf" do
-  owner("root")
-  group("root")
-  mode("644")
-  notifies(:reload, "service[nginx]", :delayed)
-end
-data_file "/etc/nginx/conf.d/twolfsn.com.conf" do
-  owner("root")
-  group("root")
-  mode("644")
-  notifies(:reload, "service[nginx]", :delayed)
-end
 data_file "/etc/nginx/nginx.conf" do
   owner("root")
   group("root")
   mode("644")
   notifies(:reload, "service[nginx]", :delayed)
-end
-# Guarantee we have a folder for `drive.twolfson.com`
-directory "/var/www" do
-  owner("root")
-  group("root")
-  mode("755") # u=rwx,g=rx,o=rx
-end
-directory "/var/www/drive.twolfson.com" do
-  owner("ubuntu")
-  group("ubuntu")
-  mode("755") # u=rwx,g=rx,o=rx
 end

@@ -10,8 +10,8 @@ build:
         code: |
           apt-get update
           # Ruby for Bundler
-          # wget etc for Ubuntu/Chef
-          apt-get install -y ruby1.9.1 wget
+          # curl, wget, etc for Ubuntu/Chef
+          apt-get install -y ruby1.9.1 curl wget
     - script:
         name: install bundler
         code: gem install bundler

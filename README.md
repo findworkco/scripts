@@ -46,5 +46,29 @@ vagrant up
 vagrant ssh
 ```
 
+## Documentation
+### Testing
+We use [Serverspec][] for testing local and remote servers. This is a [Ruby][] gem so you will need it installed to run our tests:
+
+```bash
+# Install bundler to manage gems for local directory
+gem install bundler
+
+# Install dependencies for this repo
+bundle install
+
+# Run our tests
+./test.sh
+```
+
+To make iterating on our test suite faster, we have set up `SKIP_LINT` and `SKIP_PROVISION` environment variables. This skips running linting and `vagrant provision` in our tests:
+
+```bash
+# Skip both linting and provisioning
+SKIP_LINT=TRUE SKIP_PROVISION=TRUE ./test.sh
+```
+
+[Ruby]: https://www.ruby-lang.org/en/
+
 ## Copyright
 All rights reserved, Shoulders of Titans LLC

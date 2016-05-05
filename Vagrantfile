@@ -7,7 +7,7 @@ Vagrant.configure(2) do |config|
   # https://github.com/fgrehm/vagrant-lxc/issues/151
   uid = `id -u`.strip()
   gid = `id -g`.strip()
-  config.vm.provision "shell", inline: <<-EOF
+  config.vm.provision "shell", :inline => <<-EOF
     # Exit on first error
     set -e
 
@@ -42,5 +42,5 @@ Vagrant.configure(2) do |config|
   end
 
   # Provision our box with a script
-  config.vm.provision "shell", path: "bin/bootstrap-vagrant.sh"
+  config.vm.provision("shell", :path => "bin/bootstrap-vagrant.sh")
 end

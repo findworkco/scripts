@@ -7,6 +7,9 @@ This repository is heavily based on [twolfson/twolfson.com-scripts][].
 
 TODO: Remove `*travis*` files (e.g. scripts)
 TODO: Rename `*twolfson*` files (e.g. scripts)
+TODO: Add ratelimiter to NGINX config
+TODO: Add username/password to NGINX config
+TODO: Update SSH keys for `ubuntu` user
 
 ## Background
 We maintain all of our service in a single VM via [Vagrant][]. We use [vagrant-lxc][] to get container performance while maintaining the ease of using a VM.

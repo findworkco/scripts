@@ -6,7 +6,6 @@ This repository is heavily based on [twolfson/twolfson.com-scripts][].
 [twolfson/twolfson.com-scripts]: https://github.com/twolfson/twolfson.com-scripts
 
 TODO: Remove `*travis*` files (e.g. scripts)
-TODO: Rename `*twolfson*` files (e.g. scripts)
 TODO: Add ratelimiter to NGINX config
 TODO: Add username/password to NGINX config
 TODO: Update SSH keys for `ubuntu` user

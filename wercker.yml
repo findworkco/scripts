@@ -6,6 +6,11 @@ build:
   steps:
     # Install our dependencies
     - script:
+        name: install ruby
+        code: |
+          apt-get update
+          apt-get install ruby1.9.1
+    - script:
         name: install bundler
         code: gem install bundler
     - script:

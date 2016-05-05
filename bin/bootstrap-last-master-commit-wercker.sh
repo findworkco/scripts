@@ -29,7 +29,7 @@ git checkout "$last_git_tag"
 trap "{ git checkout -; }" EXIT
 
 # Run our provisioner
-bin/bootstrap-travis-ci.sh
+bin/bootstrap-wercker.sh
 
 # Return to the past commit
 # DEV: We will return to the past commit via `trap`

@@ -199,7 +199,7 @@ directory "/var/log/supervisor" do
 end
 # Set up our supervisor configuration
 # TODO: Use a template for `supervisord.conf`
-#   and don't run any `twolfson.com` services by default (e.g. use `if twolfson.com` for conf blocks)
+#   and don't run any services by default (e.g. use `if {{service}}` for conf blocks)
 data_file "/etc/supervisord.conf" do
   owner("root")
   group("root")

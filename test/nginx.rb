@@ -59,10 +59,10 @@ describe "NGINX" do
     expect(sites_available_dir.group).to(eq(ROOT_GROUP))
 
     # Verify permissions for our configurations
-    twolfson_com_conf = file("/etc/nginx/conf.d/findwork.co.conf")
-    expect(twolfson_com_conf.mode).to(eq((USER_RW | GROUP_R | OTHER_R).to_s(8)))
-    expect(twolfson_com_conf.owner).to(eq(ROOT_USER))
-    expect(twolfson_com_conf.group).to(eq(ROOT_GROUP))
+    findwork_co_conf = file("/etc/nginx/conf.d/findwork.co.conf")
+    expect(findwork_co_conf.mode).to(eq((USER_RW | GROUP_R | OTHER_R).to_s(8)))
+    expect(findwork_co_conf.owner).to(eq(ROOT_USER))
+    expect(findwork_co_conf.group).to(eq(ROOT_GROUP))
   end
 
   it "has only expected configurations" do

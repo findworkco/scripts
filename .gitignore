@@ -1,1 +1,17 @@
+# Vagrant/bootstrapping files
 .vagrant/
+
+# Ruby dependencies (via bundler)
+vendor/
+
+# Ignore binstubs from Bundler
+bin/htmldiff
+bin/ldiff
+bin/rspec
+bin/rubocop
+bin/ruby-parse
+bin/ruby-rewrite
+bin/serverspec-init
+
+# Ignore temporary files
+tmp/

@@ -2,15 +2,16 @@
 # http://stackoverflow.com/a/9250482
 # DEV: Relies on apt hook
 #   http://serverfault.com/questions/20747/find-last-time-update-was-performed-with-apt-get
+#   http://askubuntu.com/a/410259
 execute "apt-get-update-periodic" do
   command("sudo apt-get update")
   only_if do
     # If we have have ran `apt-get update` before
-    if File.exist?("/var/lib/apt/periodic/update-success-stamp")
+    if File.exist?("/var/cache/apt/pkgcache.bin")
       # Return if we ran it in the past 24 hours
       # DEV: Equivalent to `date +%s` compared to `stat --format %Y`
       one_day_ago = Time.now().utc() - (60 * 60 * 24)
-      next File.mtime("/var/lib/apt/periodic/update-success-stamp") < one_day_ago
+      next File.mtime("/var/cache/apt/pkgcache.bin") < one_day_ago
     # Otherwise, tell it to run
     else
       next true

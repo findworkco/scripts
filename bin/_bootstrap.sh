@@ -40,4 +40,4 @@ if ! which chef-client &> /dev/null ||
 fi
 
 # Run our provisioner script
-. src/twolfson.com.sh
+. src/findwork.co.sh

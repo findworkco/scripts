@@ -15,7 +15,7 @@ fi
 cp --preserve --recursive "$src_data_dir" "$target_data_dir"
 
 # If we haven't set up SSL certificates, then generate and install them
-if ! test -f /etc/ssl/certs/twolfson.com.crt; then
+if ! test -f /etc/ssl/certs/findwork.co.crt; then
   # Create our certificates
   # https://www.digitalocean.com/community/tutorials/openssl-essentials-working-with-ssl-certificates-private-keys-and-csrs#generate-a-self-signed-certificate
   # https://www.openssl.org/docs/manmaster/apps/req.html#EXAMPLES
@@ -26,26 +26,20 @@ if ! test -f /etc/ssl/certs/twolfson.com.crt; then
   #   Organizational Unit Name (eg, section) []:
   #   Common Name (e.g. server FQDN or YOUR name) []:
   #   Email Address []:
-  openssl_subj="/C=US/ST=Illinois/L=Chicago/O=twolfson/CN=twolfson.com/emailAddress=todd@twolfson.com"
+  openssl_subj="/C=US/ST=Illinois/L=Chicago/O=Shoulders of Titans LLC/CN=Find Work/emailAddress=todd@findwork.co"
   openssl req \
-    -newkey rsa:2048 -nodes -keyout twolfson.com.key \
-    -x509 -days 365 -out twolfson.com.crt \
+    -newkey rsa:2048 -nodes -keyout findwork.co.key \
+    -x509 -days 365 -out findwork.co.crt \
     -subj "$openssl_subj"
 
   # Install our certificates
-  sudo mv twolfson.com.crt /etc/ssl/certs/twolfson.com.crt
-  sudo chown root:root /etc/ssl/certs/twolfson.com.crt
-  sudo chmod a=rwx /etc/ssl/certs/twolfson.com.crt # Anyone can do all the things
+  sudo mv findwork.co.crt /etc/ssl/certs/findwork.co.crt
+  sudo chown root:root /etc/ssl/certs/findwork.co.crt
+  sudo chmod a=rwx /etc/ssl/certs/findwork.co.crt # Anyone can do all the things
 
-  sudo mv twolfson.com.key /etc/ssl/private/twolfson.com.key
-  sudo chown root:root /etc/ssl/private/twolfson.com.key
-  sudo chmod u=r,g=,o= /etc/ssl/private/twolfson.com.key # Only user can read this file
-
-  # Create and install a Diffie-Hellman group
-  openssl dhparam -out dhparam.pem 2048
-  sudo mv dhparam.pem /etc/ssl/private/dhparam.pem
-  sudo chown root:root /etc/ssl/private/dhparam.pem
-  sudo chmod u=r,g=,o= /etc/ssl/private/dhparam.pem # Only user can read this file
+  sudo mv findwork.co.key /etc/ssl/private/findwork.co.key
+  sudo chown root:root /etc/ssl/private/findwork.co.key
+  sudo chmod u=r,g=,o= /etc/ssl/private/findwork.co.key # Only user can read this file
 fi
 
 # If we haven't set up a Diffie-Hellman group, then create and install it

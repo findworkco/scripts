@@ -32,6 +32,12 @@ sudo apt-get install lxc redir
 
 # Install our Vagrant plugin
 vagrant plugin install vagrant-lxc
+
+# Start our Vagrant instance
+vagrant up
+
+# SSH into the machine
+vagrant ssh
 ```
 
 ## Copyright

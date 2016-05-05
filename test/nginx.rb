@@ -22,12 +22,12 @@ describe "NGINX" do
   end
 
   it "has proper permissions for SSL certs" do
-    crt_file = file("/etc/ssl/certs/twolfson.com.crt")
+    crt_file = file("/etc/ssl/certs/findwork.co.crt")
     expect(crt_file.mode).to(eq((USER_RWX | GROUP_RWX | OTHER_RWX).to_s(8)))
     expect(crt_file.owner).to(eq(ROOT_USER))
     expect(crt_file.group).to(eq(ROOT_GROUP))
 
-    key_file = file("/etc/ssl/private/twolfson.com.key")
+    key_file = file("/etc/ssl/private/findwork.co.key")
     expect(key_file.mode).to(eq((USER_R | GROUP_NONE | OTHER_NONE).to_s(8)))
     expect(key_file.owner).to(eq(ROOT_USER))
     expect(key_file.group).to(eq(ROOT_GROUP))
@@ -59,40 +59,16 @@ describe "NGINX" do
     expect(sites_available_dir.group).to(eq(ROOT_GROUP))
 
     # Verify permissions for our configurations
-    twolfson_com_conf = file("/etc/nginx/conf.d/twolfson.com.conf")
+    twolfson_com_conf = file("/etc/nginx/conf.d/findwork.co.conf")
     expect(twolfson_com_conf.mode).to(eq((USER_RW | GROUP_R | OTHER_R).to_s(8)))
     expect(twolfson_com_conf.owner).to(eq(ROOT_USER))
     expect(twolfson_com_conf.group).to(eq(ROOT_GROUP))
-    drive_twolfson_com_conf = file("/etc/nginx/conf.d/drive.twolfson.com.conf")
-    expect(drive_twolfson_com_conf.mode).to(eq((USER_RW | GROUP_R | OTHER_R).to_s(8)))
-    expect(drive_twolfson_com_conf.owner).to(eq(ROOT_USER))
-    expect(drive_twolfson_com_conf.group).to(eq(ROOT_GROUP))
-    twolfsn_com_conf = file("/etc/nginx/conf.d/twolfsn.com.conf")
-    expect(twolfsn_com_conf.mode).to(eq((USER_RW | GROUP_R | OTHER_R).to_s(8)))
-    expect(twolfsn_com_conf.owner).to(eq(ROOT_USER))
-    expect(twolfsn_com_conf.group).to(eq(ROOT_GROUP))
   end
 
   it "has only expected configurations" do
     expect(command("ls /etc/nginx/sites-enabled").stdout).to(eq(""))
     expect(command("ls /etc/nginx/conf.d").stdout).to(eq([
-      "drive.twolfson.com.conf",
-      "twolfsn.com.conf",
-      "twolfson.com.conf",
+      "findowork.co.conf",
     ].join("\n") + "\n"))
-  end
-
-  it "has a locked down folder for www static files" do
-    www_dir = file("/var/www")
-    expect(www_dir.mode).to(eq((USER_RWX | GROUP_RX | OTHER_RX).to_s(8)))
-    expect(www_dir.owner).to(eq(ROOT_USER))
-    expect(www_dir.group).to(eq(ROOT_GROUP))
-  end
-
-  it "has a folder for drive.twolfson.com" do
-    drive_twolfson_com_dir = file("/var/www/drive.twolfson.com")
-    expect(drive_twolfson_com_dir.mode).to(eq((USER_RWX | GROUP_RX | OTHER_RX).to_s(8)))
-    expect(drive_twolfson_com_dir.owner).to(eq(UBUNTU_USER))
-    expect(drive_twolfson_com_dir.group).to(eq(UBUNTU_GROUP))
   end
 end

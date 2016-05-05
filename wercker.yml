@@ -9,7 +9,7 @@ build:
         name: install ruby
         code: |
           apt-get update
-          apt-get install ruby1.9.1
+          apt-get install -y ruby1.9.1
     - script:
         name: install bundler
         code: gem install bundler

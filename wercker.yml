@@ -1,0 +1,29 @@
+# Use Ubuntu@14.04 as our box image
+# https://hub.docker.com/_/ubuntu/
+box: ubuntu:14.04
+
+build:
+  steps:
+    # Install our dependencies
+    - script:
+        name: install bundler
+        code: gem install bundler
+    - script:
+        name: echo ruby information
+        code: |
+          echo "ruby version $(ruby --version) running"
+          echo "bundle version $(bundle --version) running"
+    - script:
+        name: install dependencies
+        code: bundle install
+
+    # Run our provisioner
+    # TODO: Set up last commit bootstrapping
+    - script:
+        name: bootstrap system
+        code: bin/bootstrap-wercker.sh
+
+    # Run our tests
+    - script:
+        name: run tests
+        code: bin/test-wercker.sh

@@ -1,1 +1,21 @@
+# Vagrant/bootstrapping files
 .vagrant/
+.updated-apt-get
+
+# Ruby dependencies (via bundler)
+vendor/
+
+# Node dependencies (for releasing)
+node_modules/
+
+# Ignore binstubs from Bundler
+bin/htmldiff
+bin/ldiff
+bin/rspec
+bin/rubocop
+bin/ruby-parse
+bin/ruby-rewrite
+bin/serverspec-init
+
+# Ignore temporary files
+tmp/

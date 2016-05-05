@@ -4,15 +4,14 @@ set -e
 set -x
 
 # Set up our data directory
-base_dir="/vagrant"
-src_data_dir="/vagrant/data"
-target_data_dir="$HOME/data"
-
-# Copy our data to a non-shared directory to prevent permissions from getting messed up
-if test -d "$target_data_dir"; then
-  rm -r "$target_data_dir"
+# https://docs.travis-ci.com/user/environment-variables/#Default-Environment-Variables
+if test "$TRAVIS_BUILD_DIR" = ""; then
+  echo "Expected \`TRAVIS_BUILD_DIR\` environment variable to be set but it was not. Something is seriously wrong." 1&>2
+  exit 1
 fi
-cp --preserve --recursive "$src_data_dir" "$target_data_dir"
+base_dir="$TRAVIS_BUILD_DIR"
+data_dir="$base_dir/data"
+src_dir="$base_dir/src"
 
 # If we haven't set up SSL certificates, then generate and install them
 if ! test -f /etc/ssl/certs/twolfson.com.crt; then
@@ -40,12 +39,6 @@ if ! test -f /etc/ssl/certs/twolfson.com.crt; then
   sudo mv twolfson.com.key /etc/ssl/private/twolfson.com.key
   sudo chown root:root /etc/ssl/private/twolfson.com.key
   sudo chmod u=r,g=,o= /etc/ssl/private/twolfson.com.key # Only user can read this file
-
-  # Create and install a Diffie-Hellman group
-  openssl dhparam -out dhparam.pem 2048
-  sudo mv dhparam.pem /etc/ssl/private/dhparam.pem
-  sudo chown root:root /etc/ssl/private/dhparam.pem
-  sudo chmod u=r,g=,o= /etc/ssl/private/dhparam.pem # Only user can read this file
 fi
 
 # If we haven't set up a Diffie-Hellman group, then create and install it
@@ -59,6 +52,4 @@ fi
 
 # Invoke bootstrap.sh in our context
 cd "$base_dir"
-data_dir="$target_data_dir"
-src_dir="/vagrant/src"
 . bin/_bootstrap.sh

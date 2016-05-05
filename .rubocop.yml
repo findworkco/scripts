@@ -1,0 +1,93 @@
+# Ignore third party and temporary files
+AllCops:
+  Exclude:
+    - bin/htmldiff
+    - bin/ldiff
+    - bin/rspec
+    - bin/rubocop
+    - bin/ruby-parse
+    - bin/ruby-rewrite
+    - bin/serverspec-init
+    - node_modules/**/*
+    - tmp/**/*
+    - vendor/**/*
+
+# Don't require parameters to line up on same line
+# DEV: Sometimes we are nested and don't want to hit line limit easily
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/align_parameters.rb
+Style/AlignParameters:
+  Enabled: false
+
+# Don't require documentation for every class/module
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/documentation.rb
+Style/Documentation:
+  Enabled: false
+
+# Prefer imperative logic rather than 1 liner `return + if`
+# Example: `if a; return 1; else; return 2; end`, not `return 1 if a; return 2`
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/guard_clause.rb
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/config/enabled.yml#L306
+Style/GuardClause:
+  Enabled: false
+
+# Use hash rockets to prevent confusion when using symbols as values
+# Example: `:action => :create`, not `action: :create`
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/hash_syntax.rb
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/config/enabled.yml#L313
+Style/HashSyntax:
+  EnforcedStyle: hash_rockets
+
+# Prefer imperative logic rather than 1 liner `return + if`
+# Example: `if a; return 1; end`, not `return 1 if a`
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/spec/rubocop/cop/style/if_unless_modifier_spec.rb
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/config/enabled.yml#L324
+Style/IfUnlessModifier:
+  Enabled: false
+
+# Prefer concatenation rather than trailing slash hacks
+# DEV: Skipping concatenation is a micro-optimization. The compiler/interpreter will optimize it out if necessary
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/line_end_concatenation.rb
+Style/LineEndConcatenation:
+  Enabled: false
+
+# Allow (and lean towards using) parenthenses
+# Example: `package('bash').to(be_installed())`, not `to(be_installed)`
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/method_call_parentheses.rb
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/config/enabled.yml#L392
+Style/MethodCallParentheses:
+  Enabled: false
+
+# Allow `self` to be used for clarity
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/redundant_self.rb
+Style/RedundantSelf:
+  Enabled: false
+
+# Require no whitespace for default values in parametes
+# Example: `def hello(a=1)`, not `def hello(a = 1)`
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/space_around_equals_in_parameter_default.rb
+Style/SpaceAroundEqualsInParameterDefault:
+  EnforcedStyle: no_space
+
+# Require double quotes to always be used for consistency
+# Example: "hello", not 'hello'
+# DEV: There is no performance loss as the compiler/interpreter will optimize hot code
+#   https://viget.com/extend/just-use-double-quoted-ruby-strings
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/string_literals.rb
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/config/enabled.yml#L758
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+# Perform similar enhancement for interpolated quotes
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/string_literals_in_interpolation.rb
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: double_quotes
+
+# Allow (and lean towards using) trailing commas in literals
+# Example: `[1,\n2,\n3,\n]`, not `[1,\n2,\n3\n]`
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/trailing_comma_in_literal.rb
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/config/enabled.yml#L797
+Style/TrailingCommaInLiteral:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 120

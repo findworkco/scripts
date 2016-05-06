@@ -56,3 +56,11 @@ cd "$base_dir"
 data_dir="$target_data_dir"
 src_dir="/vagrant/src"
 . bin/_bootstrap.sh
+
+# Install development scripts and repos
+if ! test -f ~/quick-start-app.sh; then
+  ln -s "$base_dir/bin/quick-start-app.sh" ~/quick-start-app.sh
+fi
+if ! test -f "$base_dir/app"; then
+  git clone git@github.com:twolfson/find-work-app.git "$base_dir/app"
+fi

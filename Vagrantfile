@@ -41,6 +41,9 @@ Vagrant.configure(2) do |config|
     lxc.customize("cgroup.memory.limit_in_bytes", "2048M")
   end
 
+  # Forward service ports to our host machine
+  config.vm.network("forwarded_port", :guest => 9000, :host => 9000)
+
   # Provision our box with a script
   config.vm.provision("shell", :path => "bin/bootstrap-vagrant.sh")
 end

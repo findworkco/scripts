@@ -61,8 +61,8 @@ src_dir="/vagrant/src"
 if ! which git &> /dev/null; then
   sudo apt-get install -y git
 fi
-if ! test -f ~/quick-start-app.sh; then
-  ln -s "$base_dir/bin/quick-start-app.sh" ~/quick-start-app.sh
+if ! test -f ~vagrant/quick-start-app.sh; then
+  ln -s "$base_dir/bin/quick-start-app.sh" ~vagrant/quick-start-app.sh
 fi
 if ! test -d "$base_dir/app"; then
   git clone git@github.com:twolfson/find-work-app.git "$base_dir/app"

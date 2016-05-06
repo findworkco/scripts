@@ -227,8 +227,6 @@ service "supervisord" do
 end
 execute "autostart-supervisord" do
   command("sudo update-rc.d supervisord defaults")
-  # TODO: Remove debug live stream
-  live_stream(true)
   only_if("! ls /etc/rc0.d/K20supervisord")
 end
 execute "update-supervisorctl" do
@@ -236,8 +234,6 @@ execute "update-supervisorctl" do
   # DEV: This command might fail if we change anything with `supervisor.d's` config
   #   Be sure to use `/etc/init.d/supervisord restart` in that case
   command("sudo supervisorctl update")
-  # TODO: Remove debug live stream
-  live_stream(true)
   action(:nothing)
 
   # When our configuration changes, update ourself

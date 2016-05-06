@@ -6,6 +6,7 @@ This document acts as a register of port reservations for our various services.
 | SSH                        | 22    | x      |       |
 | HTTP                       | 80    | x      |       |
 | HTTPS                      | 443   | x      |       |
+| Supervisor                 | 2000  |        |       |
 | app PostgreSQL             | 5500  |        |       |
 | Reserved for PostgreSQL    | 55XX  |        |       |
 | app Redis                  | 6400  |        |       |

@@ -36,14 +36,16 @@ if ! test -f /etc/ssl/certs/findwork.co.crt; then
   sudo chmod u=r,g=,o= /etc/ssl/private/findwork.co.key # Only user can read this file
 fi
 
-# If we haven't set up a Diffie-Hellman group, then create and install it
-# https://weakdh.org/sysadmin.html
-if ! test -f /etc/ssl/private/dhparam.pem; then
-  openssl dhparam -out dhparam.pem 2048
-  sudo mv dhparam.pem /etc/ssl/private/dhparam.pem
-  sudo chown root:root /etc/ssl/private/dhparam.pem
-  sudo chmod u=r,g=,o= /etc/ssl/private/dhparam.pem # Only user can read this file
-fi
+# TODO: Re-enable DH param
+
+# # If we haven't set up a Diffie-Hellman group, then create and install it
+# # https://weakdh.org/sysadmin.html
+# if ! test -f /etc/ssl/private/dhparam.pem; then
+#   openssl dhparam -out dhparam.pem 2048
+#   sudo mv dhparam.pem /etc/ssl/private/dhparam.pem
+#   sudo chown root:root /etc/ssl/private/dhparam.pem
+#   sudo chmod u=r,g=,o= /etc/ssl/private/dhparam.pem # Only user can read this file
+# fi
 
 # Invoke bootstrap.sh in our context
 cd "$base_dir"

@@ -7,11 +7,13 @@ execute "apt-get-update-periodic" do
   command("sudo apt-get update")
   only_if do
     # If we have have ran `apt-get update` before
-    if File.exist?("/var/cache/apt/pkgcache.bin")
+    # DEV: wercker doesn't support `/var/apt/cache` so use `update-success-stamp`
+    filepath = ENV["CI"] ? "/var/lib/apt/periodic/update-success-stamp" : "/var/cache/apt/pkgcache.bin"
+    if File.exist?(filepath)
       # Return if we ran it in the past 24 hours
       # DEV: Equivalent to `date +%s` compared to `stat --format %Y`
       one_day_ago = Time.now().utc() - (60 * 60 * 24)
-      next File.mtime("/var/cache/apt/pkgcache.bin") < one_day_ago
+      next File.mtime(filepath) < one_day_ago
     # Otherwise, tell it to run
     else
       next true

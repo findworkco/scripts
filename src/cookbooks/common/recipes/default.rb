@@ -139,7 +139,7 @@ service "ssh" do
   # Always enable and run our SSH server
   # https://docs.chef.io/resource_service.html#examples
   # DEV: Wercker seems to use Init whereas Vagrant uses Upstart
-  puts 'aaaaaaa', ENV
+  puts 'aaaaaaa', ENV.to_hash
   provider(ENV["CI"] ? Chef::Provider::Service::Init : Chef::Provider::Service::Upstart)
   supports(:reload => true, :restart => true, :status => true)
   action([:start])

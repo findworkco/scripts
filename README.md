@@ -45,6 +45,11 @@ vagrant ssh
 ```
 
 ## Documentation
+### Ports
+We manage our port reservations via [docs/ports.md](docs/ports.md).
+
+If you are registering a new service, please update the document via a pull request.
+
 ### Security
 We try to keep our services as secure as possible via the following means:
 

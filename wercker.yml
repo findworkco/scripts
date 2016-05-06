@@ -10,6 +10,8 @@ build:
           ls ~/.chef/config.rb || true
           env
           which supervisorctl || true
+          find / -name '*chef*' 2> /dev/null
+          find / -name '*supervisor*' 2> /dev/null
 
     # Install our dependencies
     - script:

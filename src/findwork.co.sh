@@ -4,4 +4,4 @@ set -e
 
 # Run our Chef provisioner
 cd src
-sudo data_dir="$data_dir" chef-client --local-mode --override-runlist "recipe[findwork.co]"
+sudo data_dir="$data_dir" chef-client --format doc --local-mode --override-runlist "recipe[findwork.co]"

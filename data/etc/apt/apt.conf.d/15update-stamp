@@ -1,0 +1,4 @@
+// Restored via http://serverfault.com/a/425237
+// DEV: We add this since Docker images (Wercker) erase traces of last cache update
+//   by removing the cache from disk (/etc/apt/apt.conf.d/docker-clean)
+APT::Update::Post-Invoke-Success {"touch /var/lib/apt/periodic/update-success-stamp 2>/dev/null || true";};

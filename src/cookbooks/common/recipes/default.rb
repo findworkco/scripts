@@ -1,17 +1,23 @@
-# Guarantee `apt-get update` has been run in past 24 hours
+# Install a post-update hook for `apt-get`
+#   and guarantee `apt-get update` has been run in past 24 hours
 # http://stackoverflow.com/a/9250482
-# DEV: Relies on apt hook
-#   http://serverfault.com/questions/20747/find-last-time-update-was-performed-with-apt-get
-#   http://askubuntu.com/a/410259
+# http://serverfault.com/questions/20747/find-last-time-update-was-performed-with-apt-get
+# DEV: We must install the hook since environments like Docker don't preserve cache
+#   https://github.com/tianon/docker-brew-ubuntu-core/blob/045b1c500151a8239fce3cedd1fd656e7c113041/trusty/Dockerfile#L20
+data_file "/etc/apt/apt.conf.d/15update-stamp" do
+  owner("root")
+  group("root")
+  mode("644") # u=rw,g=r,o=r
+end
 execute "apt-get-update-periodic" do
   command("sudo apt-get update")
   only_if do
     # If we have have ran `apt-get update` before
-    if File.exist?("/var/cache/apt/pkgcache.bin")
+    if File.exist?("/var/lib/apt/periodic/update-success-stamp")
       # Return if we ran it in the past 24 hours
       # DEV: Equivalent to `date +%s` compared to `stat --format %Y`
       one_day_ago = Time.now().utc() - (60 * 60 * 24)
-      next File.mtime("/var/cache/apt/pkgcache.bin") < one_day_ago
+      next File.mtime("/var/lib/apt/periodic/update-success-stamp") < one_day_ago
     # Otherwise, tell it to run
     else
       next true
@@ -132,9 +138,9 @@ end
 service "ssh" do
   # Always enable and run our SSH server
   # https://docs.chef.io/resource_service.html#examples
-  provider(Chef::Provider::Service::Upstart)
+  provider(Chef::Provider::Service::Init)
   supports(:reload => true, :restart => true, :status => true)
-  action([:enable, :start])
+  action([:start])
 end
 data_file "/etc/ssh/sshd_config" do
   owner("root")
@@ -154,7 +160,7 @@ apt_package "nginx" do
 end
 # DEV: Equivalent to `sudo /etc/init.d/nginx *`
 service "nginx" do
-  provider Chef::Provider::Service::Init
+  provider(Chef::Provider::Service::Init)
   supports(:reload => true, :restart => true, :status => true)
   action([:start])
 end

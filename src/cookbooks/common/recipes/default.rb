@@ -132,9 +132,9 @@ end
 service "ssh" do
   # Always enable and run our SSH server
   # https://docs.chef.io/resource_service.html#examples
-  provider(Chef::Provider::Service::Upstart)
+  provider(Chef::Provider::Service::Init)
   supports(:reload => true, :restart => true, :status => true)
-  action([:enable, :start])
+  action([:start])
 end
 data_file "/etc/ssh/sshd_config" do
   owner("root")
@@ -154,7 +154,7 @@ apt_package "nginx" do
 end
 # DEV: Equivalent to `sudo /etc/init.d/nginx *`
 service "nginx" do
-  provider Chef::Provider::Service::Init
+  provider(Chef::Provider::Service::Init)
   supports(:reload => true, :restart => true, :status => true)
   action([:start])
 end

@@ -4,15 +4,6 @@ box: ubuntu:14.04
 
 build:
   steps:
-    - script:
-        name: debug wercker
-        code: |
-          ls ~/.chef/config.rb || true
-          env
-          which supervisorctl || true
-          find / -name '*chef*' 2> /dev/null
-          find / -name '*supervisor*' 2> /dev/null
-
     # Install our dependencies
     - script:
         name: install system dependencies
@@ -34,7 +25,6 @@ build:
         code: bundle install
 
     # Run our provisioner
-    # TODO: Set up last commit bootstrapping
     - script:
         name: bootstrap system
         code: bin/bootstrap-wercker.sh

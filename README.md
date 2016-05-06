@@ -6,7 +6,6 @@ This repository is heavily based on [twolfson/twolfson.com-scripts][].
 [twolfson/twolfson.com-scripts]: https://github.com/twolfson/twolfson.com-scripts
 
 TODO: apt-get seems to be updating always in a docker instance...
-TODO: start service ssh seems to always be starting in a docker instance...
 
 ## Background
 We maintain all of our service in a single VM via [Vagrant][]. We use [vagrant-lxc][] to get container performance while maintaining the ease of using a VM.

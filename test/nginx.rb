@@ -63,6 +63,10 @@ describe "NGINX" do
     expect(findwork_co_conf.mode).to(eq((USER_RW | GROUP_R | OTHER_R).to_s(8)))
     expect(findwork_co_conf.owner).to(eq(ROOT_USER))
     expect(findwork_co_conf.group).to(eq(ROOT_GROUP))
+    findwork_co_htpasswd = file("/etc/nginx/conf.d/findwork.co.htpasswd")
+    expect(findwork_co_htpasswd.mode).to(eq((USER_RW | GROUP_R | OTHER_R).to_s(8)))
+    expect(findwork_co_htpasswd.owner).to(eq(ROOT_USER))
+    expect(findwork_co_htpasswd.group).to(eq(ROOT_GROUP))
   end
 
   it "has only expected configurations" do

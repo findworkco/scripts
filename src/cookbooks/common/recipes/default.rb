@@ -139,7 +139,8 @@ service "ssh" do
   # Always enable and run our SSH server
   # https://docs.chef.io/resource_service.html#examples
   # DEV: Wercker seems to use Init whereas Vagrant uses Upstart
-  provider(ENV["CI"] ? Chef::Provider::Service::Init : Chef::Provider::Service::Upstart)
+  # DEV: We use `Dir.exist?` over `ENV` since we restrict our variable passing in `findwork.co.sh`
+  provider(Dir.exist?("/pipeline") ? Chef::Provider::Service::Init : Chef::Provider::Service::Upstart)
   supports(:reload => true, :restart => true, :status => true)
   action([:start])
 end

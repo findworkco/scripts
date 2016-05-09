@@ -17,6 +17,11 @@ end
 
 # Configure NGINX for `findwork.co` node
 # @depends_on service[nginx]
+data_file "/etc/nginx/conf.d/findwork.co.htpasswd" do
+  owner("root")
+  group("root")
+  mode("644") # u=rw,g=r,o=r
+end
 data_file "/etc/nginx/conf.d/findwork.co.conf" do
   owner("root")
   group("root")

@@ -73,6 +73,7 @@ describe "NGINX" do
     expect(command("ls /etc/nginx/sites-enabled").stdout).to(eq(""))
     expect(command("ls /etc/nginx/conf.d").stdout).to(eq([
       "findwork.co.conf",
+      "findwork.co.htpasswd",
     ].join("\n") + "\n"))
   end
 end

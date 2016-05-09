@@ -50,6 +50,60 @@ We manage our port reservations via [docs/ports.md](docs/ports.md).
 
 If you are registering a new service, please update the document via a pull request.
 
+### File structure
+This repository has the following file structure:
+
+- `.bundle/` - Configuration for Bundler (used for managing Ruby gems)
+- `bin/` - Contains our executable files (e.g. deployment scripts)
+- `data/` - Contains static files used during provisioning
+    - This starts at `/` as if it were the root of a file system
+    - For multiple environment projects, it's good to have a `data/{{env}}` for each setup (e.g. `data/development`, `data/production`)
+- `src/` - Container for our bootstrapping scripts
+- `test/` - Container for our test files
+- `README.md` - Documentation for this repository
+- `Vagrantfile` - Configuration for Vagrant
+
+### Provisioning a new server
+To provision a new server via [Digital Ocean][], follow the steps below:
+
+- If we don't have a Digital Ocean SSH key pair yet, then generate one
+    - https://help.github.com/articles/generating-ssh-keys/
+- Create a new Ubuntu based droplet with our SSH key (14.04 x64)
+- Add public key to [data/home/ubuntu/.ssh/authorized_keys][] so we can `ssh` into the `ubuntu` user
+    - Digital Ocean's SSH key will initially be registered to `root` user but we dislike having direct SSH access into a `root` user
+- Once droplet has started, set up our `~/.ssh/config` on the local machine
+
+```
+# Replace `digital-my-server` with a better name
+# Replace 127.0.0.1 with droplet's public IP
+Host digital-my-server
+    User root
+    HostName 127.0.0.1
+```
+
+- Install our SSL certificates and Diffie-Hellman group to the server
+    - `bin/install-nginx-data-remote.sh digital-my-server --crt path/to/my-domain.crt --key path/to/my-domain.key --dhparam path/to/dhparam.pem`
+    - If you are trying to get a replica working (e.g. don't have these certificates), then self-signed certificates and a `dhparam.pem` can be generated via the `openssl` commands in `bin/bootstrap-vagrant.sh`
+- Bootstrap our server
+    - `bin/bootstrap-remote.sh digital-my-server`
+- Update `~/.ssh/config` to use `User ubuntu` instead of `User root`
+    - During the bootstrap process, we intentionally lock our `root` access via `ssh` for security
+- Run our tests on the server
+    - `bin/test-remote.sh digital-my-server`
+
+[Digital Ocean]: http://digitalocean.com/
+[data/home/ubuntu/.ssh/authorized_keys]: data/home/ubuntu/.ssh/authorized_keys
+
+### Updating a server configuration
+We reuse our provisioning script for managing server state. As a result, we can reuse it for updates:
+
+```bash
+bin/bootstrap-remote.sh digital-my-server
+
+# If we need to use a non-master ref, then pass it as a second parameter
+# bin/bootstrap-remote.com.sh digital-my-server dev/new.feature
+```
+
 ### Security
 We try to keep our services as secure as possible via the following means:
 
@@ -92,6 +146,18 @@ SKIP_LINT=TRUE SKIP_PROVISION=TRUE ./test.sh
 ```
 
 [Ruby]: https://www.ruby-lang.org/en/
+
+### Validating production
+To run our test suite against a production machine, we can use the `bin/test-remote.sh` script.
+
+```bash
+# Before running our tests, please add the remote server to ~/.ssh/config
+# For example:
+# Host my-server
+#     User ubuntu
+#     HostName 127.0.0.1
+TARGET_HOST="{{name-of-host-in-ssh-config}}" bin/test-remote.sh
+```
 
 ## Copyright
 All rights reserved, Shoulders of Titans LLC

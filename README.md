@@ -94,6 +94,16 @@ Host digital-my-server
 [Digital Ocean]: http://digitalocean.com/
 [data/home/ubuntu/.ssh/authorized_keys]: data/home/ubuntu/.ssh/authorized_keys
 
+### Updating a server configuration
+We reuse our provisioning script for managing server state. As a result, we can reuse it for updates:
+
+```bash
+bin/bootstrap-remote.sh digital-my-server
+
+# If we need to use a non-master ref, then pass it as a second parameter
+# bin/bootstrap-remote.com.sh digital-my-server dev/new.feature
+```
+
 ### Security
 We try to keep our services as secure as possible via the following means:
 

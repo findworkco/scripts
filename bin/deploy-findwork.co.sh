@@ -36,8 +36,8 @@ cd tmp/build/
 
 # Clone our repository for a fresh start
 # DEV: This is to prevent using accidentally dirty `data/`
-git clone $git_depth_flag git@github.com:twolfson/twolfson.com.git
-cd twolfson.com/
+git clone $git_depth_flag git@github.com:twolfson/find-work-app.git app
+cd app
 
 # Checkout the requested branch
 git checkout "$branch"
@@ -47,10 +47,13 @@ cd ../
 
 # Find a timestamp to use for our deploy
 timestamp="$(ssh "$target_host" "date --utc +%Y%m%d.%H%M%S.%N")"
-# TODO: Consider tagging repository
-base_target_dir="/home/ubuntu/twolfson.com"
+base_target_dir="/home/ubuntu/app"
 target_dir="$base_target_dir/$timestamp"
 main_target_dir="$base_target_dir/main"
+
+# Tag our repository with the timestamp
+git tag "$timestamp"
+git push origin "$timestamp"
 
 # Generate a folder to upload our server to
 # DEV: We use `-p` to avoid "File exists" issues
@@ -60,7 +63,7 @@ ssh "$target_host" "mkdir -p $base_target_dir"
 # TODO: Consider deleting `.git`
 # Expanded -havz is `--human-readable --archive --verbose --compress`
 # DEV: We use trailing slashes to force uploading into non-nested directories
-rsync --human-readable --archive --verbose --compress "twolfson.com/" "$target_host":"$target_dir/"
+rsync --human-readable --archive --verbose --compress "app/" "$target_host":"$target_dir/"
 
 # On the remote server, install our dependencies
 # DEV: We perform this on the server to prevent inconsistencies between development and production
@@ -69,8 +72,8 @@ ssh -A "$target_host" "cd $target_dir && bin/deploy-install.sh"
 # Replace our existing `main` server with the new one
 # DEV: We use `--no-dereference` to prevent creating a symlink in the existing `main` directory
 # DEV: We use a local relative target to make the symlink portable
-#   ln --symbolic 20151222.073547.761299235 twolfson.com/main
-#   twolfson.com/main -> 20151222.073547.761299235
+#   ln --symbolic 20151222.073547.761299235 findwork.co/main
+#   findwork.co/main -> 20151222.073547.761299235
 # TODO: Add health check (verify server is running) and load balance before swap
 ssh "$target_host" <<EOF
 # Exit upon first error and echo commands
@@ -81,8 +84,8 @@ set -x
 ln --symbolic --force --no-dereference "$target_dir" "$main_target_dir"
 
 # Restart our server
-sudo supervisorctl restart twolfson.com-server
+sudo supervisorctl restart app-server
 EOF
 
 # Notify the user of success
-echo "Server restarted. Please manually verify the server is running at http://twolfson.com/"
+echo "Server restarted. Please manually verify the server is running at https://findwork.co/"

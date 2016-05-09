@@ -105,13 +105,13 @@ bin/bootstrap-remote.sh digital-my-server
 ```
 
 ### Deploying a service
-To deploy a service, use its respective `bin/deploy-*.sh` script. Here's an example with `findwork.co`:
+To deploy a service, use its respective `bin/deploy-*.sh` script. Here's an example with `find-work-app`:
 
 ```bash
-bin/deploy-findwork.co.sh digital-my-server
+bin/deploy-app.sh digital-my-server
 
 # If we need to deploy a non-master ref, then pass as a second parameter
-# bin/deploy-findwork.co.sh digital-my-server dev/new.feature
+# bin/deploy-app.sh digital-my-server dev/new.feature
 ```
 
 ### Security

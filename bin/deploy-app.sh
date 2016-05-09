@@ -42,9 +42,6 @@ cd app
 # Checkout the requested branch
 git checkout "$branch"
 
-# Navigate back to containing folder
-cd ../
-
 # Find a timestamp to use for our deploy
 timestamp="$(ssh "$target_host" "date --utc +%Y%m%d.%H%M%S.%N")"
 base_target_dir="/home/ubuntu/app"
@@ -53,7 +50,10 @@ main_target_dir="$base_target_dir/main"
 
 # Tag our repository with the timestamp
 git tag "$timestamp"
-git push origin --tags
+git push origin "$timestamp"
+
+# Navigate back to containing folder
+cd ../
 
 # Generate a folder to upload our server to
 # DEV: We use `-p` to avoid "File exists" issues

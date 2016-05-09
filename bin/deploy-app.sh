@@ -53,7 +53,7 @@ main_target_dir="$base_target_dir/main"
 
 # Tag our repository with the timestamp
 git tag "$timestamp"
-git push origin "$timestamp"
+git push origin --tags
 
 # Generate a folder to upload our server to
 # DEV: We use `-p` to avoid "File exists" issues

@@ -15,6 +15,9 @@ apt_package "nodejs" do
   only_if("test \"$(node --version)\" != \"v4.4.4\"")
 end
 
+# Guarantee `git` is installed (required for `bower`)
+apt_package("git")
+
 # Configure NGINX for `findwork.co` node
 # @depends_on service[nginx]
 data_file "/etc/nginx/conf.d/findwork.co.htpasswd" do

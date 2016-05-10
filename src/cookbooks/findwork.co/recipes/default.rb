@@ -34,6 +34,12 @@ data_file "/etc/nginx/conf.d/findwork.co.conf" do
   # DEV: We have a delay to guarantee all configs reload at the same time
   notifies(:reload, "service[nginx]", :delayed)
 end
+data_file "/etc/nginx/conf.d/localhost.conf" do
+  owner("root")
+  group("root")
+  mode("644") # u=rw,g=r,o=r
+  notifies(:reload, "service[nginx]", :delayed)
+end
 data_file "/etc/nginx/nginx.conf" do
   owner("root")
   group("root")

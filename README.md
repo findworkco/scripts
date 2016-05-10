@@ -90,6 +90,17 @@ Host digital-my-server
     - During the bootstrap process, we intentionally lock our `root` access via `ssh` for security
 - Run our tests on the server
     - `bin/test-remote.sh digital-my-server`
+- Add swap space to the server (necessary for memory-intensive installs)
+    - https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-14-04
+    - On a 1GB Digial Ocean instance, we use:
+        - `sudo dd if=/dev/zero of=/swapfile bs=512M count=4`
+        - `sudo chmod 600 /swapfile`
+        - `sudo mkswap /swapfile`
+        - `sudo nano /etc/fstab`
+        - `sudo sysctl vm.swappiness=10`
+        - `sudo nano /etc/sysctl.conf`
+        - `sudo sysctl vm.vfs_cache_pressure=50`
+        - `sudo nano /etc/sysctl.conf`
 
 [Digital Ocean]: http://digitalocean.com/
 [data/home/ubuntu/.ssh/authorized_keys]: data/home/ubuntu/.ssh/authorized_keys
@@ -102,6 +113,16 @@ bin/bootstrap-remote.sh digital-my-server
 
 # If we need to use a non-master ref, then pass it as a second parameter
 # bin/bootstrap-remote.com.sh digital-my-server dev/new.feature
+```
+
+### Deploying a service
+To deploy a service, use its respective `bin/deploy-*.sh` script. Here's an example with `find-work-app`:
+
+```bash
+bin/deploy-app.sh digital-my-server
+
+# If we need to deploy a non-master ref, then pass as a second parameter
+# bin/deploy-app.sh digital-my-server dev/new.feature
 ```
 
 ### Security

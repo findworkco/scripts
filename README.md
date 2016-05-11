@@ -101,6 +101,8 @@ Host digital-my-server
         - `sudo nano /etc/sysctl.conf`
         - `sudo sysctl vm.vfs_cache_pressure=50`
         - `sudo nano /etc/sysctl.conf`
+- Install Librato via https://metrics.librato.com/integrations
+    - Instead of using `curl | sudo bash`. Download the script via `wget`, verify it looks good via `less`, and run it via `sudo ./{{script-name}}`
 
 [Digital Ocean]: http://digitalocean.com/
 [data/home/ubuntu/.ssh/authorized_keys]: data/home/ubuntu/.ssh/authorized_keys

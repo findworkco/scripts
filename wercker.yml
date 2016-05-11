@@ -4,6 +4,10 @@ box: ubuntu:14.04
 
 # Use a common build setup for default and diff builds
 init-build:
+  steps: []
+
+# Run our default build
+default-build:
   steps:
     # Install our dependencies
     - script:
@@ -35,6 +39,3 @@ init-build:
         name: run tests
         code: bin/test-wercker.sh
 
-# Run our default build
-default-build:
-  steps: []

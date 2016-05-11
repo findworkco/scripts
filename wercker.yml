@@ -2,6 +2,9 @@
 # https://hub.docker.com/_/ubuntu/
 box: ubuntu:14.04
 
+# DEV: We tried to share initial steps between builds via a common workflow
+#   However, wercker didn't seem to share installed programs like `openssl`
+
 # Run our default build
 default-build:
   steps:

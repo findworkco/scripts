@@ -3,7 +3,7 @@
 set -e
 set -x
 
-# Find the last git tag
+# Find the last commit on master
 last_git_tag="$(git tag | sort -V | tail -n 1)"
 
 # If the current commit is the same as our last tag, then find the previous one

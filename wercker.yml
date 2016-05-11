@@ -25,9 +25,6 @@ init-build:
         name: install dependencies
         code: bundle install
 
-# Run our default build
-default-build:
-  steps:
     # Run our provisioner
     - script:
         name: bootstrap system
@@ -37,3 +34,7 @@ default-build:
     - script:
         name: run tests
         code: bin/test-wercker.sh
+
+# Run our default build
+default-build:
+  steps: []

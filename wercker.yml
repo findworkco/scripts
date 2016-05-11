@@ -2,7 +2,11 @@
 # https://hub.docker.com/_/ubuntu/
 box: ubuntu:14.04
 
-build:
+# DEV: We tried to share initial steps between builds via a common workflow
+#   However, wercker didn't seem to share installed programs like `openssl`
+
+# Run our default build
+default-build:
   steps:
     # Install our dependencies
     - script:
@@ -27,6 +31,45 @@ build:
     # Run our provisioner
     - script:
         name: bootstrap system
+        code: bin/bootstrap-wercker.sh
+
+    # Run our tests
+    - script:
+        name: run tests
+        code: bin/test-wercker.sh
+
+# Run our diff build
+diff-build:
+  steps:
+    # Install our dependencies
+    - script:
+        name: install system dependencies
+        code: |
+          apt-get update
+          # Ruby for Bundler
+          # curl, wget, etc for Ubuntu/Chef
+          apt-get install -y ruby1.9.1 curl wget
+    - script:
+        name: install bundler
+        code: gem install bundler
+    - script:
+        name: echo ruby information
+        code: |
+          echo "ruby version $(ruby --version) running"
+          echo "bundle version $(bundle --version) running"
+    - script:
+        name: install dependencies
+        code: bundle install
+
+    # Run our provisioner for our older commit
+    # DEV: We allow failure as there could be old dependencies
+    - script:
+        name: bootstrap system on last master commit
+        code: bin/bootstrap-last-master-commit-wercker.sh || true
+
+    # Run our latest provisioner
+    - script:
+        name: bootstrap system on current commit
         code: bin/bootstrap-wercker.sh
 
     # Run our tests

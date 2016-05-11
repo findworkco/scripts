@@ -27,6 +27,7 @@ init-build:
 
 # Run our default build
 default-build:
+  steps:
     # Run our provisioner
     - script:
         name: bootstrap system

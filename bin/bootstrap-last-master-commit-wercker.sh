@@ -6,10 +6,10 @@ set -x
 # Find the last commit on master
 last_git_commit="$(git log master -n 1 --format=format:%H)"
 
-# If the current commit is the same as our last tag, then find the previous one
+# If the current commit is the same as our last commit, then find the previous one
 # DEV: This occurs during `tag` on a release
 current_commit="$(git rev-parse HEAD)"
-if test "$current_commit" = "$last_git_tag_commit"; then
+if test "$current_commit" = "$last_git_commit"; then
   last_git_commit="$(git log master -n 2 --format=format:%H | grep --invert-match "$last_git_commit")"
 fi
 
@@ -19,7 +19,7 @@ if test "$last_git_commit" = ""; then
   exit 1
 fi
 
-# Checkout our last tag
+# Checkout our last commit
 git checkout "$last_git_commit"
 
 # Always return to the previous revision, even when the past Bootstrap fails

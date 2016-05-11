@@ -58,9 +58,15 @@ diff-build:
         name: install dependencies
         code: bundle install
 
-    # Run our provisioner
+    # Run our provisioner for our older commit
+    # DEV: We allow failure as there could be old dependencies
     - script:
-        name: bootstrap system
+        name: bootstrap system on last master commit
+        code: bin/bootstrap-last-master-commit-wercker.sh || true
+
+    # Run our latest provisioner
+    - script:
+        name: bootstrap system on current commit
         code: bin/bootstrap-wercker.sh
 
     # Run our tests

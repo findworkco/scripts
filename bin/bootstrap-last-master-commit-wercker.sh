@@ -3,6 +3,11 @@
 set -e
 set -x
 
+# If there is no `git` installed, then install it
+if ! which git &> /dev/null; then
+  sudo apt-get install -y git
+fi
+
 # Find the last commit on master
 last_git_commit="$(git log master -n 1 --format=format:%H)"
 

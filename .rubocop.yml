@@ -57,6 +57,12 @@ Style/LineEndConcatenation:
 Style/MethodCallParentheses:
   Enabled: false
 
+# Allow numeric literals to not use `_` as 3 digit delimiter
+# Example: `12345`, not `12_345`
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/numeric_literals.rb
+Style/NumericLiterals:
+  Enabled: false
+
 # Allow `self` to be used for clarity
 # https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/redundant_self.rb
 Style/RedundantSelf:

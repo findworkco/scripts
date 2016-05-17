@@ -175,6 +175,17 @@ file "/etc/nginx/sites-enabled/default" do
   notifies(:reload, "service[nginx]", :immediately)
 end
 
+# Guarantee `redis-server` is installed
+apt_package "redis-server" do
+  version("2:2.8.4-2")
+end
+# Disable default Redis server to prevent confusion
+service "redis-server" do
+  provider(Chef::Provider::Service::Init)
+  supports(:reload => false, :restart => true, :status => true)
+  action([:stop])
+end
+
 # Guarantee `python` and `pip` are installed
 # @depends_on exectue[apt-get-update-periodic] (to make sure apt is updated)
 # DEV: Equivalent to `sudo apt-get install -y "python-setuptools=3.3-1ubuntu2" "python-pip=1.5.4-1ubuntu3"`

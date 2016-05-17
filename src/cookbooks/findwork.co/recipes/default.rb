@@ -46,3 +46,26 @@ data_file "/etc/nginx/nginx.conf" do
   mode("644")
   notifies(:reload, "service[nginx]", :delayed)
 end
+
+# Configure Redis for `findwork.co` node
+# @depends_on apt_packages[redis-server], service[supervisord]
+execute "app_redis_restart" do
+  command("supervisorctl restart app-redis")
+  # DEV: We don't run by default, only via `notifies` calls
+  action(:nothing)
+end
+data_file "/etc/redis/common-redis.conf" do
+  owner("root")
+  group("root")
+  mode("644") # u=rw,g=r,o=r
+
+  # When we update, reload our `app-redis` instance
+  # DEV: We have a delay to guarantee all configs reload at the same time
+  notifies(:run, "execute[app_redis_restart]", :delayed)
+end
+data_file "/etc/redis/app-redis.conf" do
+  owner("root")
+  group("root")
+  mode("644") # u=rw,g=r,o=r
+  notifies(:run, "execute[app_redis_restart]", :delayed)
+end

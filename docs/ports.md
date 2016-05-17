@@ -10,6 +10,7 @@ This document acts as a register of port reservations for our various services.
 | app PostgreSQL             | 5500  |        |                  |
 | Reserved for PostgreSQL    | 55XX  |        |                  |
 | app Redis                  | 6400  |        |                  |
+| app test Redis             | 6401  |        |                  |
 | Reserved for Redis         | 64XX  |        |                  |
 | app                        | 9000  |        |                  |
 | app test server            | 9001  |        |                  |

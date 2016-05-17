@@ -47,8 +47,6 @@ data_file "/etc/nginx/nginx.conf" do
   notifies(:reload, "service[nginx]", :delayed)
 end
 
-# TODO: Test file presence, verify Redis is running
-
 # Configure Redis for `findwork.co` node
 # @depends_on apt_packages[redis-server], service[supervisord]
 execute "app_redis_restart" do

@@ -176,8 +176,15 @@ file "/etc/nginx/sites-enabled/default" do
 end
 
 # Guarantee `redis-server` is installed
+# TODO: Enable server via supervisor
 apt_package "redis-server" do
   version("2:2.8.4-2")
+end
+# Disable default Redis server to prevent confusion
+service "redis-server" do
+  provider(Chef::Provider::Service::Init)
+  supports(:reload => false, :restart => true, :status => true)
+  action([:stop])
 end
 
 # Guarantee `python` and `pip` are installed

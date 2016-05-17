@@ -46,3 +46,23 @@ data_file "/etc/nginx/nginx.conf" do
   mode("644")
   notifies(:reload, "service[nginx]", :delayed)
 end
+
+# Configure Redis for `findwork.co` node
+# @depends_on apt_packages[redis-server], service[supervisord]
+data_file "/etc/redis/common-redis.conf" do
+  owner("root")
+  group("root")
+  mode("644") # u=rw,g=r,o=r
+
+  # When we update, reload our `app-redis` instance
+  # DEV: We have a delay to guarantee all configs reload at the same time
+  # TODO: Figure out how to notify supervisorctl (prob a CLI call)
+  # notifies(:reload, "service[nginx]", :delayed)
+end
+data_file "/etc/redis/app-redis.conf" do
+  owner("root")
+  group("root")
+  mode("644") # u=rw,g=r,o=r
+  # TODO: Figure out how to notify supervisorctl (prob a CLI call)
+  # notifies(:reload, "service[nginx]", :delayed)
+end

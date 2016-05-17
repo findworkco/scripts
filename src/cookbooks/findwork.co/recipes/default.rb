@@ -51,7 +51,7 @@ end
 
 # Configure Redis for `findwork.co` node
 # @depends_on apt_packages[redis-server], service[supervisord]
-execute app_redis_restart do
+execute "app_redis_restart" do
   command("supervisorctl restart app-redis")
   # DEV: We don't run by default, only via `notifies` calls
   action(:nothing)

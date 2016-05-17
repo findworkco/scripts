@@ -176,7 +176,6 @@ file "/etc/nginx/sites-enabled/default" do
 end
 
 # Guarantee `redis-server` is installed
-# TODO: Enable server via supervisor
 apt_package "redis-server" do
   version("2:2.8.4-2")
 end

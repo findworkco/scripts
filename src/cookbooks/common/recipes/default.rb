@@ -158,7 +158,7 @@ end
 # @depends_on exectue[apt-get-update-periodic] (to make sure apt is updated)
 # DEV: Equivalent to `sudo apt-get install -y "nginx=1.4.6-1ubuntu3.4"`
 apt_package "nginx" do
-  version("1.4.6-1ubuntu3.4")
+  version("1.4.6-1ubuntu3.5")
 end
 # DEV: Equivalent to `sudo /etc/init.d/nginx *`
 service "nginx" do

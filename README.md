@@ -174,12 +174,10 @@ SKIP_LINT=TRUE SKIP_PROVISION=TRUE ./test.sh
 To run our test suite against a production machine, we can use the `bin/test-remote.sh` script.
 
 ```bash
-# Before running our tests, please add the remote server to ~/.ssh/config
-# For example:
-# Host my-server
-#     User ubuntu
-#     HostName 127.0.0.1
-TARGET_HOST="{{name-of-host-in-ssh-config}}" bin/test-remote.sh
+bin/test-remote.sh digital-my-server
+
+# If we need to use a non-master ref, then pass as a second parameter
+# bin/test-remote.sh digital-my-server dev/new.feature
 ```
 
 ## Copyright

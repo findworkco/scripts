@@ -7,7 +7,6 @@ describe "PostgreSQL 9.3" do
     expect(package("postgresql-9.3")).to(be_installed())
   end
 
-  # TODO: Re-enable me
   it "is not running on its default port" do
     redis_port = port(5432)
     expect(redis_port).not_to(be_listening())

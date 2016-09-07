@@ -194,6 +194,11 @@ apt_package "postgresql-server-dev-9.3" do
   version("9.3.14-0ubuntu0.14.04")
 end
 
+# Lock out SSH shell for `postgres` user
+user "postgres" do
+  shell("/usr/sbin/nologin")
+end
+
 # Guarantee `python` and `pip` are installed
 # @depends_on exectue[apt-get-update-periodic] (to make sure apt is updated)
 # DEV: Equivalent to `sudo apt-get install -y "python-setuptools=3.3-1ubuntu2" "python-pip=1.5.4-1ubuntu3"`

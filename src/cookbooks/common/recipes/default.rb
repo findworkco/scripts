@@ -199,6 +199,29 @@ user "postgres" do
   shell("/usr/sbin/nologin")
 end
 
+# Configure/secure and restart our PostgreSQL server
+# @depends_on apt_packages[postgresql-9.3]
+execute "postgres_9_3_restart" do
+  command("sudo /etc/init.d/postgresql restart 9.3")
+  # DEV: We don't run by default, only via `notifies` calls
+  action(:nothing)
+end
+data_file "/etc/postgresql/9.3/main/pg_hba.conf" do
+  owner("postgres")
+  group("postgres")
+  mode("640") # u=rw,g=r,o=
+
+  # When we update, reload our PostgreSQL 9.3 instance
+  # DEV: We have a delay to guarantee all configs reload at the same time
+  notifies(:run, "execute[postgres_9_3_restart]", :delayed)
+end
+data_file "/etc/postgresql/9.3/main/postgresql.conf" do
+  owner("postgres")
+  group("postgres")
+  mode("644") # u=rw,g=r,o=r
+  notifies(:run, "execute[postgres_9_3_restart]", :delayed)
+end
+
 # Guarantee `python` and `pip` are installed
 # @depends_on exectue[apt-get-update-periodic] (to make sure apt is updated)
 # DEV: Equivalent to `sudo apt-get install -y "python-setuptools=3.3-1ubuntu2" "python-pip=1.5.4-1ubuntu3"`

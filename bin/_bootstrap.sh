@@ -3,10 +3,6 @@
 set -e
 set -x
 
-# Placeholder for `sed` injection of `data_dir` and `src_dir`
-# DATA_DIR_PLACEHOLDER
-# SRC_DIR_PLACEHOLDER
-
 # Verify we have a data_dir and src_dir variable set
 usage() {
   echo "Example: \`data_dir=\"/vagrant/data\"; src_dir=\"/vagrant/src\"; . bin/bootstrap.sh\`" 1>&2
@@ -23,6 +19,11 @@ if test "$src_dir" = ""; then
   usage
   exit 1
 fi
+
+# TODO: We might or might not need these subscripts
+# # Export data and src dir for future subscripts
+# export data_dir="$data_dir"
+# export src_dir="$src_dir"
 
 # Install a precompiled Chef for Ubuntu
 # https://downloads.chef.io/chef-client/ubuntu/

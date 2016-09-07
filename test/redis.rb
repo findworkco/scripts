@@ -22,9 +22,9 @@ describe "Redis" do
     expect(common_redis_conf.mode).to(eq((USER_RW | GROUP_R | OTHER_R).to_s(8)))
     expect(common_redis_conf.owner).to(eq(ROOT_USER))
     expect(common_redis_conf.group).to(eq(ROOT_GROUP))
-    common_redis_conf = file("/etc/redis/app-redis.conf")
-    expect(common_redis_conf.mode).to(eq((USER_RW | GROUP_R | OTHER_R).to_s(8)))
-    expect(common_redis_conf.owner).to(eq(ROOT_USER))
-    expect(common_redis_conf.group).to(eq(ROOT_GROUP))
+    app_redis_conf = file("/etc/redis/app-redis.conf")
+    expect(app_redis_conf.mode).to(eq((USER_RW | GROUP_R | OTHER_R).to_s(8)))
+    expect(app_redis_conf.owner).to(eq(ROOT_USER))
+    expect(app_redis_conf.group).to(eq(ROOT_GROUP))
   end
 end

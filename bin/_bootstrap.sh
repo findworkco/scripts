@@ -11,6 +11,7 @@ set -x
 # TODO: Secure PostgreSQL for production
 # TODO: Add users and databases for production
 # TODO: Add tests (security, users, db)
+# TODO: Set up Stellar?
 
 # Fallback data dir and src dir from `LC_*` variables
 # DEV: We restrict to `LC_*` variables to prevent undesired attacks

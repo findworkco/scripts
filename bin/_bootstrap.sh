@@ -3,17 +3,6 @@
 set -e
 set -x
 
-# [x] TODO: Install basic PostgreSQL
-# [x] TODO: Secure PostgreSQL for Vagrant
-# [x] TODO: Add basic security tests (port, files, service running)
-# TODO: Add tests for any undesired databases or PostgreSQL users
-# TODO: Add users and databases for Vagrant
-# TODO: Add tests for new databases
-# TODO: Secure PostgreSQL for production
-# TODO: Add users and databases for production
-# TODO: Add tests (security, users, db)
-# TODO: Set up Stellar?
-
 # Fallback data dir and src dir from `LC_*` variables
 # DEV: We restrict to `LC_*` variables to prevent undesired attacks
 #   http://superuser.com/a/385647

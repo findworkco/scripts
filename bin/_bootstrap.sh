@@ -26,10 +26,6 @@ if test "$src_dir" = ""; then
   exit 1
 fi
 
-echo "$data_dir"
-echo "$src_dir"
-exit 0
-
 # Install a precompiled Chef for Ubuntu
 # https://downloads.chef.io/chef-client/ubuntu/
 if ! which chef-client &> /dev/null ||

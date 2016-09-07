@@ -46,11 +46,5 @@ rsync --chmod u=rw,g=,o= --human-readable --archive --verbose --compress "src" "
 trap "{ ssh \"$target_host\" \"rm -rf \\\"$target_data_dir\\\"; rm -rf \\\"$target_src_dir\\\"\"; }" EXIT
 
 # Run our bootstrap on the remote server
-# DEV: We need to escape our target directory for the second sed
-#   "/a/b" -> "\/a\/b"
-escaped_target_data_dir="$(echo -n "$target_data_dir" | sed "s/\\//\\\\\//g")"
-escaped_target_src_dir="$(echo -n "$target_src_dir" | sed "s/\\//\\\\\//g")"
 cat bin/_bootstrap.sh |
-  sed "s/# DATA_DIR_PLACEHOLDER/export data_dir=\"$escaped_target_data_dir\"/" |
-  sed "s/# SRC_DIR_PLACEHOLDER/export src_dir=\"$escaped_target_src_dir\"/" |
-  ssh "$target_host"
+  LC_DATA_DIR="$target_data_dir" LC_SRC_DIR="$target_src_dir" ssh "$target_host"

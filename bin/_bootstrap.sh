@@ -3,9 +3,11 @@
 set -e
 set -x
 
-# Placeholder for `sed` injection of `data_dir` and `src_dir`
-# DATA_DIR_PLACEHOLDER
-# SRC_DIR_PLACEHOLDER
+# Fallback data dir and src dir from `LC_*` variables
+# DEV: We restrict to `LC_*` variables to prevent undesired attacks
+#   http://superuser.com/a/385647
+if test "$data_dir" = ""; then export data_dir="$LC_DATA_DIR"; fi
+if test "$src_dir" = ""; then export src_dir="$LC_SRC_DIR"; fi
 
 # Verify we have a data_dir and src_dir variable set
 usage() {

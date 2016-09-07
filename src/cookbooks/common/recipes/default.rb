@@ -187,7 +187,7 @@ service "redis-server" do
 end
 
 # Guarantee `postgresql` is instealled
-apt_package "postgresql" do
+apt_package "postgresql-9.3" do
   version("9.3.14-0ubuntu0.14.04")
 end
 apt_package "postgresql-server-dev-9.3" do

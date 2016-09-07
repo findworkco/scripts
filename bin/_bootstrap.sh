@@ -3,6 +3,12 @@
 set -e
 set -x
 
+# Fallback data dir and src dir from `LC_*` variables
+# DEV: We restrict to `LC_*` variables to prevent undesired attacks
+#   http://superuser.com/a/385647
+if test "$data_dir" = ""; then export data_dir="$LC_DATA_DIR"; fi
+if test "$src_dir" = ""; then export src_dir="$LC_SRC_DIR"; fi
+
 # Verify we have a data_dir and src_dir variable set
 usage() {
   echo "Example: \`data_dir=\"/vagrant/data\"; src_dir=\"/vagrant/src\"; . bin/bootstrap.sh\`" 1>&2
@@ -20,10 +26,9 @@ if test "$src_dir" = ""; then
   exit 1
 fi
 
-# TODO: We might or might not need these subscripts
-# # Export data and src dir for future subscripts
-# export data_dir="$data_dir"
-# export src_dir="$src_dir"
+echo "$data_dir"
+echo "$src_dir"
+exit 0
 
 # Install a precompiled Chef for Ubuntu
 # https://downloads.chef.io/chef-client/ubuntu/

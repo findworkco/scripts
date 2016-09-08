@@ -63,15 +63,17 @@ src_dir="/vagrant/src"
 # DEV: This `if` block always runs due to Chef resetting `pg_hba.conf` content
 # Grant our `vagrant` user access on the machine
 pg_hba_conf_file="/etc/postgresql/9.3/main/pg_hba.conf"
+postgresql_conf_file="/etc/postgresql/9.3/main/postgresql.conf"
 if ! grep "vagrant" "$pg_hba_conf_file" &> /dev/null; then
   # Add CLI access
   echo "# Add Vagrant specific CLI access locally" >> "$pg_hba_conf_file"
   echo "local   all             vagrant                                 peer" >> "$pg_hba_conf_file"
-  # Add host machine access
+  # Add host machine access (listen for host machine and allow access)
   #   Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
   #   0.0.0.0         10.0.1.1        0.0.0.0         UG        0 0          0 eth0
   #   -> 10.0.1.1
   host_ip="$(netstat --route --numeric | grep "^0.0.0.0 " | cut -d " " -f10)"
+  echo "listen_addresses = '*'" >> "$postgresql_conf_file"
   echo "# Add Vagrant specific access to host machine" >> "$pg_hba_conf_file"
   echo "host    all             all             $host_ip/0              md5" >> "$pg_hba_conf_file"
   sudo /etc/init.d/postgresql restart 9.3

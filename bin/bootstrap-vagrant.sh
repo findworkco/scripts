@@ -90,11 +90,7 @@ if ! sudo su vagrant --command "$echo_command" &> /dev/null; then
   sudo su postgres --shell /bin/bash --command "$set_user_password"
 fi
 
-# TODO: Continue to IP address setup from https://gist.github.com/twolfson/9cf0ae454be269f45af8
-# TODO: Complete our new tests
 # TODO: Figure out how we want to define a user for production
-# TODO: Document pg_service: https://gist.github.com/twolfson/5cd240862112ef4918bd
-# TODO: Restrict port tolerance for `$host_ip`
 
 # Install development repos and scripts
 if ! which git &> /dev/null; then

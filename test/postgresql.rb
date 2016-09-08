@@ -29,7 +29,7 @@ describe "PostgreSQL 9.3" do
     expect(postgresql_conf.group).to(eq(POSTGRES_GROUP))
   end
 
-  it "only has a `postgres` user" do
+  it "has only a `postgres` user" do
     # Define our allowed users
     # rubocop:disable Style/MutableConstant
     ALLOWED_POSTGRESQL_USERS = ["postgres"]
@@ -45,6 +45,6 @@ describe "PostgreSQL 9.3" do
     postgresql_users_result = command("sudo su postgres --shell /bin/bash --command \"#{postgresql_users_query}\"")
     expect(postgresql_users_result.exit_status).to(eq(0))
     postgresql_users = postgresql_users_result.stdout.split("\n")
-    expect(postgresql_users).to(eq(postgresql_users))
+    expect(postgresql_users.sort()).to(eq(postgresql_users.sort()))
   end
 end

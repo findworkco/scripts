@@ -70,6 +70,11 @@ if ! sudo su vagrant --command "$echo_command" &> /dev/null; then
   sudo su postgres --shell /bin/bash --command "$set_user_password"
 fi
 
+# TODO: Re-enable lines below
+# TODO: Continue to IP address setup from https://gist.github.com/twolfson/9cf0ae454be269f45af8
+# TODO: Complete our new tests
+# TODO: Figure out how we want to define a user for production
+
 # Grant our `vagrant` user CLI access on the machine
 pg_hba_conf_file="/etc/postgresql/9.3/main/pg_hba.conf"
 if ! grep "vagrant" "$pg_hba_conf_file" &> /dev/null; then

@@ -13,8 +13,8 @@ describe "PostgreSQL 9.3" do
   end
 
   it "is listening on our custom port" do
-    app_redis_port = port(5500)
-    expect(app_redis_port).to(be_listening().on("127.0.0.1"))
+    postgresql_port = port(5500)
+    expect(postgresql_port).to(be_listening().on("127.0.0.1"))
   end
 
   it "has proper permissions for configurations" do
@@ -28,12 +28,20 @@ describe "PostgreSQL 9.3" do
     expect(postgresql_conf.group).to(eq(POSTGRES_GROUP))
   end
 
-  it "restricts CLI access to `postgres` only" do
-    # TODO: Test me (list users via postgres? as inspecting file isn't good enough. Need to make sure running)
-    expect(1).to(eq(2))
-  end
-  it "allows access via localhost" do
-    # TODO: Test me (list users via postgres? as inspecting file isn't good enough. Need to make sure running)
-    expect(1).to(eq(2))
+  it "only has a `postgres` user" do
+    # Define our allowed users
+    ALLOWED_USERS = ['postgres']
+
+    # If we are in Vagrant, add our `vagrant` user
+    if `which vagrant` != ""
+      ALLOWED_USERS.push('vagrant')
+    end
+
+    # Retrieve and assert our PostgreSQL users
+    postgresql_users_query = "psql --command \"SELECT usename FROM pg_user;\"  --tuples --no-align"
+    postgresql_users_result = command("sudo su postgres --shell /bin/bash --command \"#{postgresql_users_query}\"")
+    expect(postgresql_users_result.exit_status).to(eq(0))
+    postgresql_users = postgresql_users_result.stdout.split("\n")
+    puts postgresql_users
   end
 end

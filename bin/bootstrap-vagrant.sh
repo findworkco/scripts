@@ -73,9 +73,10 @@ if ! grep "vagrant" "$pg_hba_conf_file" &> /dev/null; then
   #   0.0.0.0         10.0.1.1        0.0.0.0         UG        0 0          0 eth0
   #   -> 10.0.1.1
   host_ip="$(netstat --route --numeric | grep "^0.0.0.0 " | cut -d " " -f10)"
-  echo "listen_addresses = '*'" >> "$postgresql_conf_file"
+  echo "# Allow incoming connections from any IP" >> "$postgresql_conf_file"
+  echo "listen_addresses = '0.0.0.0'" >> "$postgresql_conf_file"
   echo "# Add Vagrant specific access to host machine" >> "$pg_hba_conf_file"
-  echo "host    all             all             $host_ip/0              md5" >> "$pg_hba_conf_file"
+  echo "host    all             vagrant         $host_ip/0              md5" >> "$pg_hba_conf_file"
   sudo /etc/init.d/postgresql restart 9.3
 fi
 

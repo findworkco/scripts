@@ -65,9 +65,9 @@ echo_command="psql --db postgres --command \"SELECT 'hai';\""
 if ! sudo su vagrant --command "$echo_command" &> /dev/null; then
   # Set up `vagrant` user in PostgreSQL
   create_user_command="psql --command \"CREATE ROLE vagrant WITH SUPERUSER CREATEDB LOGIN;\""
-  sudo su postgres --command "$create_user_command"
+  sudo su postgres --shell /bin/bash --command "$create_user_command"
   set_user_password="psql --command \"ALTER ROLE vagrant WITH PASSWORD 'vagrant';\""
-  sudo su postgres --command "$set_user_password"
+  sudo su postgres --shell /bin/bash --command "$set_user_password"
 fi
 
 # Grant our `vagrant` user CLI access on the machine

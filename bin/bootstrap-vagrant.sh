@@ -60,10 +60,18 @@ src_dir="/vagrant/src"
 # Set up development user for PostgreSQL
 # DEV: We should be using templating on `pg_hba.conf` but this is quicker/simpler for now
 # DEV: Modified from https://github.com/twolfson/vagrant-nodebugme/blob/1.0.0/bin/bootstrap.sh#L26-L54
-# If we can't open `psql` as `vagrant`
+# Grant our `vagrant` user CLI access on the machine
+pg_hba_conf_file="/etc/postgresql/9.3/main/pg_hba.conf"
+if ! grep "vagrant" "$pg_hba_conf_file" &> /dev/null; then
+  echo "# Add Vagrant specific CLI access locally" >> "$pg_hba_conf_file"
+  echo "local   all             vagrant                                 peer" >> "$pg_hba_conf_file"
+  sudo /etc/init.d/postgresql restart 9.3
+fi
+
+# If we can't open `psql` as `vagrant`, then set up a `vagrant` user in PostgreSQL
+# DEV: We must modify `pg_hba.conf` before running this command, otherwise we will be denied access
 echo_command="psql --db postgres --command \"SELECT 'hai';\""
 if ! sudo su vagrant --command "$echo_command" &> /dev/null; then
-  # Set up `vagrant` user in PostgreSQL
   create_user_command="psql --command \"CREATE ROLE vagrant WITH SUPERUSER CREATEDB LOGIN;\""
   sudo su postgres --shell /bin/bash --command "$create_user_command"
   set_user_password="psql --command \"ALTER ROLE vagrant WITH PASSWORD 'vagrant';\""
@@ -73,16 +81,6 @@ fi
 # TODO: Continue to IP address setup from https://gist.github.com/twolfson/9cf0ae454be269f45af8
 # TODO: Complete our new tests
 # TODO: Figure out how we want to define a user for production
-
-# Grant our `vagrant` user CLI access on the machine
-# DEV: We append to `pg_hba.conf` instead of using templating for `pg_hba.conf`
-#   to keep our repository simple for now
-pg_hba_conf_file="/etc/postgresql/9.3/main/pg_hba.conf"
-if ! grep "vagrant" "$pg_hba_conf_file" &> /dev/null; then
-  echo "# Add Vagrant specific CLI access locally" >> "$pg_hba_conf_file"
-  echo "local   all             vagrant                                 peer" >> "$pg_hba_conf_file"
-  sudo /etc/init.d/postgresql restart 9.3
-fi
 
 # Install development repos and scripts
 if ! which git &> /dev/null; then

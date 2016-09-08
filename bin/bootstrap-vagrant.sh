@@ -70,18 +70,18 @@ if ! sudo su vagrant --command "$echo_command" &> /dev/null; then
   sudo su postgres --shell /bin/bash --command "$set_user_password"
 fi
 
-# TODO: Re-enable lines below
 # TODO: Continue to IP address setup from https://gist.github.com/twolfson/9cf0ae454be269f45af8
 # TODO: Complete our new tests
 # TODO: Figure out how we want to define a user for production
 
 # Grant our `vagrant` user CLI access on the machine
+# DEV: We append to `pg_hba.conf` instead of using templating for `pg_hba.conf`
+#   to keep our repository simple for now
 pg_hba_conf_file="/etc/postgresql/9.3/main/pg_hba.conf"
 if ! grep "vagrant" "$pg_hba_conf_file" &> /dev/null; then
-  echo "yooooo"
-  # echo "# Add Vagrant specific CLI access locally" >> "$pg_hba_conf_file"
-  # echo "local   all             vagrant                                 peer" >> "$pg_hba_conf_file"
-  # sudo /etc/init.d/postgresql restart 9.3
+  echo "# Add Vagrant specific CLI access locally" >> "$pg_hba_conf_file"
+  echo "local   all             vagrant                                 peer" >> "$pg_hba_conf_file"
+  sudo /etc/init.d/postgresql restart 9.3
 fi
 
 # Install development repos and scripts

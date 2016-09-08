@@ -60,6 +60,7 @@ src_dir="/vagrant/src"
 # Set up development user for PostgreSQL
 # DEV: We should be using templating on `pg_hba.conf` but this is quicker/simpler for now
 # DEV: Modified from https://github.com/twolfson/vagrant-nodebugme/blob/1.0.0/bin/bootstrap.sh#L26-L54
+# DEV: This `if` block always runs due to Chef resetting `pg_hba.conf` content
 # Grant our `vagrant` user access on the machine
 pg_hba_conf_file="/etc/postgresql/9.3/main/pg_hba.conf"
 if ! grep "vagrant" "$pg_hba_conf_file" &> /dev/null; then
@@ -71,6 +72,7 @@ if ! grep "vagrant" "$pg_hba_conf_file" &> /dev/null; then
   #   0.0.0.0         10.0.1.1        0.0.0.0         UG        0 0          0 eth0
   #   -> 10.0.1.1
   host_ip="$(netstat --route --numeric | grep "^0.0.0.0 " | cut -d " " -f10)"
+  echo "# Add Vagrant specific access to host machine" >> "$pg_hba_conf_file"
   echo "host    all             all             $host_ip/0              md5" >> "$pg_hba_conf_file"
   sudo /etc/init.d/postgresql restart 9.3
 fi

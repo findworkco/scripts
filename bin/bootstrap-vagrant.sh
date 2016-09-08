@@ -57,6 +57,20 @@ data_dir="$target_data_dir"
 src_dir="/vagrant/src"
 . bin/_bootstrap.sh
 
+# Set up development user for PostgreSQL
+# DEV: We should be using templating on `pg_hba.conf` but this is quicker/simpler for now
+# Set up PostgreSQL 9.3 configuration
+# Modified from https://github.com/twolfson/vagrant-nodebugme/blob/1.0.0/bin/bootstrap.sh#L26-L54
+# If we can't open `psql` as `vagrant`
+echo_command="psql --db postgres --command \"SELECT 'hai';\""
+if ! sudo su vagrant --command "$echo_command" &> /dev/null; then
+  # Set up `vagrant` user in PostgreSQL
+  create_user_command="psql --command \"CREATE ROLE vagrant WITH SUPERUSER CREATEDB LOGIN;\""
+  sudo su postgres --command "$create_user_command"
+  set_user_password="psql --command \"ALTER ROLE vagrant WITH PASSWORD 'vagrant';\""
+  sudo su postgres --command "$set_user_password"
+fi
+
 # Install development repos and scripts
 if ! which git &> /dev/null; then
   sudo apt-get install -y git

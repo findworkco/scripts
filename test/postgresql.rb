@@ -27,4 +27,13 @@ describe "PostgreSQL 9.3" do
     expect(postgresql_conf.owner).to(eq(POSTGRES_USER))
     expect(postgresql_conf.group).to(eq(POSTGRES_GROUP))
   end
+
+  it "restricts CLI access to `postgres` only" do
+    # TODO: Test me (list users via postgres? as inspecting file isn't good enough. Need to make sure running)
+    expect(1).to(eq(2))
+  end
+  it "allows access via localhost" do
+    # TODO: Test me (list users via postgres? as inspecting file isn't good enough. Need to make sure running)
+    expect(1).to(eq(2))
+  end
 end

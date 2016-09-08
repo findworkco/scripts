@@ -32,6 +32,8 @@ OTHER_WX = OTHER_W | OTHER_X
 OTHER_RWX = OTHER_R | OTHER_W | OTHER_X
 
 # Define user/group constants
+POSTGRES_USER = "postgres".freeze()
+POSTGRES_GROUP = "postgres".freeze()
 ROOT_USER = "root".freeze()
 ROOT_GROUP = "root".freeze()
 UBUNTU_USER = "ubuntu".freeze()

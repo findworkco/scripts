@@ -201,12 +201,6 @@ end
 
 # Configure/secure and restart our PostgreSQL server
 # @depends_on apt_packages[postgresql-9.3]
-execute "debug_postgres_9_3_hba" do
-  command("sudo cat /etc/postgresql/9.3/main/pg_hba.conf")
-end
-execute "debug_postgres_9_3_postgresql" do
-  command("sudo cat /etc/postgresql/9.3/main/postgresql.conf")
-end
 execute "postgres_9_3_restart" do
   command("sudo /etc/init.d/postgresql restart 9.3")
   # DEV: We don't run by default, only via `notifies` calls

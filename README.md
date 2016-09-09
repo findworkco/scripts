@@ -140,6 +140,10 @@ bin/deploy-app.sh digital-my-server
 
 ```
 TODO: Get a proof of concept working dumping password in provisioning (we can remove it later)
+    - Use no SOPS in Vagrant
+    - Use SOPS in production (maybe make a `sops_get` function or something?)
+    - No need for user creation, only dumping to console
+    - Maybe ENV var in `bootstrap` commands and then in Chef we have a one-off switch
 TODO: Then, probably land it in a PR
 TODO: Then, create a development/production user with different passwords (or maybe multiple users -- not sure)
 TODO: Remainder is in a Trello card

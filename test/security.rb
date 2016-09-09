@@ -31,6 +31,9 @@ describe "Open ports" do
       if `which vagrant` != ""
         open_ports.select! { |open_port| ! %r{/(rpcbind|rpc.statd|dhclient)\s*$}.match(open_port) }
       end
+
+      # Add PostgreSQL as an allowed port
+      ALLOWED_PORTS.push(5500)
     end
 
     # Verify we only have our allowed ports

@@ -42,6 +42,7 @@ Vagrant.configure(2) do |config|
   end
 
   # Forward service ports to our host machine
+  config.vm.network("forwarded_port", :guest => 5500, :host => 5500)
   config.vm.network("forwarded_port", :guest => 9000, :host => 9000)
   config.vm.network("forwarded_port", :guest => 35729, :host => 35729)
 

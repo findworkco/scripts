@@ -13,8 +13,9 @@ describe "PostgreSQL 9.3" do
   end
 
   it "is listening on our custom port" do
-    app_redis_port = port(5500)
-    expect(app_redis_port).to(be_listening().on("127.0.0.1"))
+    postgresql_port = port(5500)
+    postgresql_listening_address = `which vagrant` != "" ? "0.0.0.0" : "127.0.0.1"
+    expect(postgresql_port).to(be_listening().on(postgresql_listening_address))
   end
 
   it "has proper permissions for configurations" do
@@ -26,5 +27,24 @@ describe "PostgreSQL 9.3" do
     expect(postgresql_conf.mode).to(eq((USER_RW | GROUP_R | OTHER_R).to_s(8)))
     expect(postgresql_conf.owner).to(eq(POSTGRES_USER))
     expect(postgresql_conf.group).to(eq(POSTGRES_GROUP))
+  end
+
+  it "has only a `postgres` user" do
+    # Define our allowed users
+    # rubocop:disable Style/MutableConstant
+    ALLOWED_POSTGRESQL_USERS = ["postgres"]
+    # rubocop:enable Style/MutableConstant
+
+    # If we are in Vagrant, add our `vagrant` user
+    if `which vagrant` != ""
+      ALLOWED_POSTGRESQL_USERS.push("vagrant")
+    end
+
+    # Retrieve and assert our PostgreSQL users
+    postgresql_users_query = "psql --command \\\"SELECT usename FROM pg_user;\\\"  --tuples --no-align"
+    postgresql_users_result = command("sudo su postgres --shell /bin/bash --command \"#{postgresql_users_query}\"")
+    expect(postgresql_users_result.exit_status).to(eq(0))
+    postgresql_users = postgresql_users_result.stdout.split("\n")
+    expect(postgresql_users.sort()).to(eq(postgresql_users.sort()))
   end
 end

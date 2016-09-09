@@ -127,6 +127,26 @@ bin/deploy-app.sh digital-my-server
 # bin/deploy-app.sh digital-my-server dev/new.feature
 ```
 
+### Editing secrets
+We maintain a set of secrets (e.g. passwords) for provisioning in production in `data/var/sops/find-work/scripts`. To edit these files locally, perform the following steps:
+
+- Install SOPS' dependencies as specified by https://github.com/mozilla/sops/tree/0494bc41911bc6e050ddd8a5da2bbb071a79a5b7#up-and-running-in-60-seconds
+- Downgrade to consistent SOPS version
+    - `pip install --upgrade sops==1.3`
+- Ask a coworker for the `find-work-scripts` PGP private key
+    - We assume you will receive it as `findwork.private.rsa`
+    - For coworkers, this can be exported via:
+        - `gpg --fingerprint`
+        - `gpg --export-secret-keys --armor {{fingerprint}} > findwork.private.rsa`
+- Install the `find-work-scripts` PGP private key to GPG
+    - `gpg --import findwork.private.rsa`
+- Edit the SOPS file
+    - `sops data/var/sops/find-work/scripts/secret.yml`
+
+If you would like to learn more about PGP and SOPS, @twolfson has prepared this document:
+
+https://gist.github.com/twolfson/01d515258eef8bdbda4f
+
 ### Security
 We try to keep our services as secure as possible via the following means:
 

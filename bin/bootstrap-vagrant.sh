@@ -90,8 +90,6 @@ if ! sudo su vagrant --command "$echo_command" &> /dev/null; then
   sudo su postgres --shell /bin/bash --command "$set_user_password"
 fi
 
-# TODO: Figure out how we want to define a user for production
-
 # Install development repos and scripts
 if ! which git &> /dev/null; then
   sudo apt-get install -y git

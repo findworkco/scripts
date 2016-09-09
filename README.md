@@ -127,6 +127,19 @@ bin/deploy-app.sh digital-my-server
 # bin/deploy-app.sh digital-my-server dev/new.feature
 ```
 
+```
+TODO: We need to run to pick up more bike pieces...
+TODO: We were busy setting up SOPS for `scripts`
+TODO: We just finished documenting how to perform editing
+TODO: Next we need to grab the `install-pgp-remote.sh` (or similar) script from `twolfson.com-scripts`
+TODO: Then, we should install the PGP key in production
+TODO: Then, document it
+TODO: Then, probably land it in a PR
+TODO: Then, create a development/production user with different passwords (or maybe multiple users -- not sure)
+TODO: Remainder is in a Trello card
+   https://trello.com/c/yLSImgiG/87-add-postgresql-and-migration-setup
+```
+
 ### Editing secrets
 We maintain a set of secrets (e.g. passwords) for provisioning in production in `data/var/sops/find-work/scripts`. To edit these files locally, perform the following steps:
 

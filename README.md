@@ -84,6 +84,17 @@ Host digital-my-server
 - Install our SSL certificates and Diffie-Hellman group to the server
     - `bin/install-nginx-data-remote.sh digital-my-server --crt path/to/my-domain.crt --key path/to/my-domain.key --dhparam path/to/dhparam.pem`
     - If you are trying to get a replica working (e.g. don't have these certificates), then self-signed certificates and a `dhparam.pem` can be generated via the `openssl` commands in `bin/bootstrap-vagrant.sh`
+- Install our PGP private key to the server
+    - `bin/install-pgp-data-remote.sh my-digital-server --secret-key path/to/private.rsa`
+    - If you don't have the `private.rsa` file on hand, it can be dumped via
+        - Find full fingerprint of key we want to export
+            - `gpg --fingerprint`
+            - Fingerprint will be `740D DBFA...` in `Key fingerprint = 740D DBFA...`
+        - Extract private key to file
+            - `gpg --export-secret-keys --armor {{fingerprint}} > private.rsa`
+            - `--armor` exports a human-friendly ASCII format instead of binary
+    - If you are trying to get a replica working (e.g. don't have these certificates), then a key can be generated via these instructions
+        - https://gist.github.com/twolfson/01d515258eef8bdbda4f#setting-up-sops-with-pgp
 - Bootstrap our server
     - `bin/bootstrap-remote.sh digital-my-server`
 - Update `~/.ssh/config` to use `User ubuntu` instead of `User root`
@@ -128,10 +139,6 @@ bin/deploy-app.sh digital-my-server
 ```
 
 ```
-TODO: We need to run to pick up more bike pieces...
-TODO: We were busy setting up SOPS for `scripts`
-TODO: We just finished documenting how to perform editing
-TODO: Next we need to grab the `install-pgp-remote.sh` (or similar) script from `twolfson.com-scripts`
 TODO: Then, we should install the PGP key in production
 TODO: Then, document it
 TODO: Then, probably land it in a PR
@@ -147,12 +154,10 @@ We maintain a set of secrets (e.g. passwords) for provisioning in production in 
 - Downgrade to consistent SOPS version
     - `pip install --upgrade sops==1.3`
 - Ask a coworker for the `find-work-scripts` PGP private key
-    - We assume you will receive it as `findwork.private.rsa`
-    - For coworkers, this can be exported via:
-        - `gpg --fingerprint`
-        - `gpg --export-secret-keys --armor {{fingerprint}} > findwork.private.rsa`
+    - We assume you will receive it as `private.rsa`
+    - For coworkers, see the Provisioning a new server section for dump commands
 - Install the `find-work-scripts` PGP private key to GPG
-    - `gpg --import findwork.private.rsa`
+    - `gpg --import private.rsa`
 - Edit the SOPS file
     - `sops data/var/sops/find-work/scripts/secret.yml`
 

@@ -139,8 +139,7 @@ bin/deploy-app.sh digital-my-server
 ```
 
 ```
-TODO: Then, we should install the PGP key in production
-TODO: Then, document it
+TODO: Get a proof of concept working dumping password in provisioning (we can remove it later)
 TODO: Then, probably land it in a PR
 TODO: Then, create a development/production user with different passwords (or maybe multiple users -- not sure)
 TODO: Remainder is in a Trello card

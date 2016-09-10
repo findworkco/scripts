@@ -142,8 +142,9 @@ bin/deploy-app.sh digital-my-server
 We maintain a set of secrets (e.g. passwords) for provisioning in production in `data/var/sops/find-work/scripts`. To edit these files locally, perform the following steps:
 
 - Install SOPS' dependencies as specified by https://github.com/mozilla/sops/tree/0494bc41911bc6e050ddd8a5da2bbb071a79a5b7#up-and-running-in-60-seconds
-- Downgrade to consistent SOPS version
-    - `pip install --upgrade sops==1.3`
+- Install our consistent patched SOPS version
+    - `pip install --upgrade -e git+ssh://git@github.com/twolfson/sops.git@b8ce8fb#egg=sops`
+    - TODO: We can move back to a normal SOPS when https://github.com/mozilla/sops/pull/120 is landed
 - Ask a coworker for the `find-work-scripts` PGP private key
     - We assume you will receive it as `private.rsa`
     - For coworkers, see the Provisioning a new server section for dump commands

@@ -138,18 +138,6 @@ bin/deploy-app.sh digital-my-server
 # bin/deploy-app.sh digital-my-server dev/new.feature
 ```
 
-```
-TODO: Get a proof of concept working dumping password in provisioning (we can remove it later)
-    - Use no SOPS in Vagrant
-    - Use SOPS in production (maybe make a `sops_get` function or something?)
-    - No need for user creation, only dumping to console
-    - Maybe ENV var in `bootstrap` commands and then in Chef we have a one-off switch
-TODO: Then, probably land it in a PR
-TODO: Then, create a development/production user with different passwords (or maybe multiple users -- not sure)
-TODO: Remainder is in a Trello card
-   https://trello.com/c/yLSImgiG/87-add-postgresql-and-migration-setup
-```
-
 ### Editing secrets
 We maintain a set of secrets (e.g. passwords) for provisioning in production in `data/var/sops/find-work/scripts`. To edit these files locally, perform the following steps:
 

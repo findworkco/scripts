@@ -138,12 +138,24 @@ bin/deploy-app.sh digital-my-server
 # bin/deploy-app.sh digital-my-server dev/new.feature
 ```
 
+```
+TODO: Get a proof of concept working dumping password in provisioning (we can remove it later)
+    - Use SOPS in production (maybe make a `sops_get` function or something?)
+    - Use no SOPS in Vagrant
+    - No need for user creation, only dumping to console
+    - Maybe ENV var in `bootstrap` commands and then in Chef we have a one-off switch
+TODO: Then, probably land it in a PR
+TODO: Then, create a development/production user with different passwords (or maybe multiple users -- not sure)
+TODO: Remainder is in a Trello card
+   https://trello.com/c/yLSImgiG/87-add-postgresql-and-migration-setup
+```
+
 ### Editing secrets
 We maintain a set of secrets (e.g. passwords) for provisioning in production in `data/var/sops/find-work/scripts`. To edit these files locally, perform the following steps:
 
 - Install SOPS' dependencies as specified by https://github.com/mozilla/sops/tree/0494bc41911bc6e050ddd8a5da2bbb071a79a5b7#up-and-running-in-60-seconds
 - Install our consistent patched SOPS version
-    - `pip install --upgrade -e git+ssh://git@github.com/twolfson/sops.git@b8ce8fb#egg=sops`
+    - `pip install --upgrade git+https://github.com/twolfson/sops.git@b8ce8fb#egg=sops`
     - TODO: We can move back to a normal SOPS when https://github.com/mozilla/sops/pull/120 is landed
 - Ask a coworker for the `find-work-scripts` PGP private key
     - We assume you will receive it as `private.rsa`

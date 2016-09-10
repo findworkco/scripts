@@ -302,6 +302,6 @@ apt_package("openssl")
 apt_package("python-dev")
 execute "install-sops" do
   # TODO: We can move back to a normal SOPS when https://github.com/mozilla/sops/pull/120 is landed
-  command("sudo pip install --upgrade -e git+ssh://git@github.com/twolfson/sops.git@b8ce8fb#egg=sops")
+  command("sudo pip install --upgrade git+https://github.com/twolfson/sops.git@b8ce8fb#egg=sops")
   only_if("! pip freeze | grep \"sops==1.14\"")
 end

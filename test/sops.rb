@@ -4,8 +4,8 @@ require_relative "utils/serverspec"
 # Start our tests
 describe "SOPS" do
   it "is installed" do
-    sops_version_result = command("sops --help")
+    sops_version_result = command("sops --version")
     expect(sops_version_result.exit_status).to(eq(0))
-    expect(sops_version_result.stdout.strip()).to(include("Version 1.14"))
+    expect(sops_version_result.stdout.strip()).to(include("sops 1.14"))
   end
 end

@@ -71,7 +71,7 @@ data_file "/etc/redis/app-redis.conf" do
 end
 
 # Set up super user for our find-work-app repo
-bash "add-postgresql-find-work" do
+execute "postgresql-add-find-work-user" do
   # If the user doesn't exist yet
   find_work_query_command = "psql postgres --command \\\"SELECT usename FROM pg_user WHERE usename='find-work';\\\" --tuples --no-align"
   only_if(
@@ -79,24 +79,5 @@ bash "add-postgresql-find-work" do
 
   # Then create our user
   code <<-EOF
-    # Exit on first error and don't allow unset variables
-    set -e
-    set -u
-
-    # Fetch our user's password
-    password="find-work"
-    if test "$use_sops" = "TRUE"; then
-      sops_secret_filepath = "$data_dir/var/sops/find-work/scripts/secret.yml"
-      key="["find_work_db_user_password"]"
-      password="$(sops "$sops_secret_filepath" --decrypt --extract "$key")"
-    fi
-
-    # Create our user
-    # create_user_command="psql --command \"CREATE ROLE vagrant WITH CREATEDB;\""
-    # sudo su postgres --shell /bin/bash --command "$create_user_command"
-
-    # Set our user's password
-    # set_user_password="psql --command \"ALTER ROLE vagrant WITH PASSWORD 'vagrant';\""
-    # sudo su postgres --shell /bin/bash --command "$set_user_password"
   EOF
 end

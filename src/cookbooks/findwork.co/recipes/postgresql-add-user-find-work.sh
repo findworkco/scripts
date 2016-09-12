@@ -4,6 +4,7 @@ set -e
 set -u
 
 # Fetch our user's password
+user="find_work"
 password="find_work"
 if test "$use_sops" = "TRUE"; then
   sops_secret_filepath = "$data_dir/var/sops/find-work/scripts/secret.yml"
@@ -13,9 +14,9 @@ fi
 echo "$password"
 
 # Create our user
-# create_user_command="psql --command \"CREATE ROLE find_work WITH CREATEDB;\""
+# create_user_command="psql --command \"CREATE ROLE $user WITH CREATEDB;\""
 # sudo su postgres --shell /bin/bash --command "$create_user_command"
 
 # Set our user's password
-set_user_password="psql --command \"ALTER ROLE find_work WITH PASSWORD '$password';\""
+set_user_password="psql --command \"ALTER ROLE $user WITH PASSWORD '$password';\""
 sudo su postgres --shell /bin/bash --command "$set_user_password"

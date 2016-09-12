@@ -73,6 +73,8 @@ end
 # Set up user for our find-work-app repo
 # DEV: We use `execute` with bash scripts over `bash` as they easier to debug
 execute "postgresql-add-user-find-work" do
-  only_if("./postgresql-user-exists-find-work.sh")
-  command("./postgresql-add-user-find-work.sh")
+  puts ENV.fetch('src_dir')
+  cwd(Chef::Config[:file_cache_path])
+  only_if("./cookbooks/findwork.co/recipes/postgresql-user-exists-find-work.sh", :cwd => ENV.fetch('src_dir'))
+  command("./cookbooks/findwork.co/recipes/postgresql-add-user-find-work.sh")
 end

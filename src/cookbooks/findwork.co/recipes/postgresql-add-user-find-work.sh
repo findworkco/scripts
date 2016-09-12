@@ -14,7 +14,7 @@ fi
 echo "$password"
 
 # Create our user
-# create_user_command="psql --command \"CREATE ROLE $user WITH CREATEDB;\""
+# create_user_command="psql --command \"CREATE ROLE $user WITH CREATEDB LOGIN;\""
 # sudo su postgres --shell /bin/bash --command "$create_user_command"
 
 # Set our user's password

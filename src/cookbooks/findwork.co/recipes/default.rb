@@ -79,10 +79,13 @@ data_file "/etc/redis/app-redis.conf" do
 end
 
 # Set up super user for our find-work-app repo
-use_sops = ENV.fetch("use_sops")
-puts `whoami`
-if use_sops == "TRUE"; then
-  puts sops_get("[\"find_work_db_user_password\"]")
-else
-  puts "use default password"
+bash "add-postgresql-find-work" do
+  # If the user doesn't exist yet
+  find_work_user_query = "SELECT usename FROM pg_user WHERE usename='find-work';"
+  only_if("test \"$(psql postgres --command \"#{find_work_user_query}\" --tuples --no-align)\" = \"\n\"")
+
+  # Then create our user
+  code <<-EOF
+    echo 'hello world'
+  EOF
 end

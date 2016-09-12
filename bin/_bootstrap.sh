@@ -8,6 +8,7 @@ set -x
 #   http://superuser.com/a/385647
 if test "$data_dir" = ""; then export data_dir="$LC_DATA_DIR"; fi
 if test "$src_dir" = ""; then export src_dir="$LC_SRC_DIR"; fi
+if test "$use_sops" = ""; then export use_sops="$LC_USE_SOPS"; fi
 
 # Verify we have a data_dir and src_dir variable set
 usage() {
@@ -21,6 +22,12 @@ if test "$data_dir" = ""; then
 fi
 if test "$src_dir" = ""; then
   echo "Environment variable \`src_dir\` wasn't set when calling \`bootstrap.sh\`." 1>&2
+  echo "Please verify it is set before running it." 1>&2
+  usage
+  exit 1
+fi
+if test "$use_sops" = ""; then
+  echo "Environment variable \`use_sops\` wasn't set when calling \`bootstrap.sh\`." 1>&2
   echo "Please verify it is set before running it." 1>&2
   usage
   exit 1

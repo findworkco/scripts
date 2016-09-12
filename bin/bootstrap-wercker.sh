@@ -8,6 +8,9 @@ base_dir="$PWD"
 data_dir="$base_dir/data"
 src_dir="$base_dir/src"
 
+# Set up flags for bootstrapping
+use_sops="FALSE"
+
 # If we haven't set up SSL certificates, then generate and install them
 if ! test -f /etc/ssl/certs/findwork.co.crt; then
   # Create our certificates

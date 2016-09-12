@@ -3,13 +3,21 @@
 set -e
 set -u
 
+# TODO: Heavy lifting mostly done
+# TODO: Need to fix up something going wrong with SOPS decryption
+#   (run the script in Vagrant for ease of access)
+# TODO: Need to verify out `only_if` logic stands (run the script in Vagrant)
+# TODO: Re-enable `Create our user` when we are good to go
+# TODO: Verify our password works
+
 # Fetch our user's password
 user="find_work"
 password="find_work"
 if test "$use_sops" = "TRUE"; then
-  sops_secret_filepath = "$data_dir/var/sops/find-work/scripts/secret.yml"
-  key="["find_work_db_user_password"]"
-  password="$(sops "$sops_secret_filepath" --decrypt --extract "$key")"
+  sops_secret_filepath="$data_dir/var/sops/find-work/scripts/secret.yml"
+  key='["find_work_db_user_password"]'
+  sops "$sops_secret_filepath" --decrypt
+  # password="$(sops "$sops_secret_filepath" --decrypt --extract '$key')"
 fi
 echo "$password"
 

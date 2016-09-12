@@ -1,6 +1,5 @@
 # Load in our dependencies
 include_recipe "common"
-require_relative "../../../utils/sops.rb"
 
 # Guarantee `node` is installed
 # @depends_on execute[apt-get-update-periodic]
@@ -72,5 +71,15 @@ data_file "/etc/redis/app-redis.conf" do
 end
 
 # Set up super user for our find-work-app repo
-# TODO: Remove me
+def sops_get(key)
+  use_sops = ENV.fetch("use_sops")
+  if use_sops == "TRUE"; then
+    data_dir = ENV.fetch("data_dir")
+    sops_secret_filepath = "#{data_dir}/var/sops/find-work/scripts/secret.yml"
+    # TODO: Escape for shell execution
+    puts `sops #{sops_secret_filepath} --decrypt --extract #{key}`
+  else
+    puts "use default password"
+  end
+end
 sops_get("[\"find_work_db_user_password\"]")

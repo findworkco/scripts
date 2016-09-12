@@ -81,12 +81,12 @@ end
 # Set up super user for our find-work-app repo
 bash "add-postgresql-find-work" do
   # If the user doesn't exist yet
-  find_work_user_query = "SELECT usename FROM pg_user WHERE usename='find-work';"
-  # only_if("test \"$(psql postgres --command \"#{find_work_user_query}\" --tuples --no-align)\" = \"\n\"")
-  user("postgres")
+  find_work_query_command = "psql postgres --command \\\"SELECT usename FROM pg_user WHERE usename='find-work';\\\" --tuples --no-align"
+  only_if(
+    "test \"$(sudo su postgres --shell /bin/bash --command \"#{find_work_query_command}\")\" != \"\\n\"")
 
   # Then create our user
   code <<-EOF
-    psql postgres --command \"#{find_work_user_query}\" --tuples --no-align
+    echo 'hello world'
   EOF
 end

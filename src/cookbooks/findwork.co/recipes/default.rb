@@ -6,7 +6,6 @@ def sops_get(key)
   data_dir = ENV.fetch("data_dir")
   sops_secret_filepath = "#{data_dir}/var/sops/find-work/scripts/secret.yml"
   # TODO: Escape for shell execution
-  # TODO: Is SOPS being executed on host or remote?
   puts `sops #{sops_secret_filepath} --decrypt --extract '#{key}'`
 end
 
@@ -81,6 +80,7 @@ end
 
 # Set up super user for our find-work-app repo
 use_sops = ENV.fetch("use_sops")
+puts `whoami`
 if use_sops == "TRUE"; then
   puts sops_get("[\"find_work_db_user_password\"]")
 else

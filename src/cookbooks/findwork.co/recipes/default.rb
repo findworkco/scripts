@@ -1,6 +1,6 @@
 # Load in our dependencies
 include_recipe "common"
-require_relative "./tmp.rb"
+require_relative "../../../utils/sops.rb"
 
 # Guarantee `node` is installed
 # @depends_on execute[apt-get-update-periodic]
@@ -73,4 +73,4 @@ end
 
 # Set up super user for our find-work-app repo
 # TODO: Remove me
-test_me()
+sops_get("[\"find_work_db_user_password\"]")

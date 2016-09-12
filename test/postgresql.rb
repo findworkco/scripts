@@ -41,7 +41,7 @@ describe "PostgreSQL 9.3" do
     end
 
     # Retrieve and assert our PostgreSQL users
-    postgresql_users_query = "psql --command \\\"SELECT rolname FROM pg_roles;\\\"  --tuples --no-align"
+    postgresql_users_query = "psql --command \\\"SELECT usename FROM pg_user;\\\"  --tuples --no-align"
     postgresql_users_result = command("sudo su postgres --shell /bin/bash --command \"#{postgresql_users_query}\"")
     expect(postgresql_users_result.exit_status).to(eq(0))
     postgresql_users = postgresql_users_result.stdout.split("\n")

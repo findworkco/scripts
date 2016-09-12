@@ -70,7 +70,8 @@ data_file "/etc/redis/app-redis.conf" do
   notifies(:run, "execute[app_redis_restart]", :delayed)
 end
 
-# Set up super user for our find-work-app repo
+# Set up user for our find-work-app repo
+# DEV: We use `execute` with bash scripts over `bash` as they easier to debug
 execute "postgresql-add-find-work-user" do
   # If the user doesn't exist yet
   find_work_query_command = "psql postgres --command \\\"SELECT usename FROM pg_user WHERE usename='find-work';\\\" --tuples --no-align"

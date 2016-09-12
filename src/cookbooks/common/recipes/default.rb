@@ -300,7 +300,11 @@ apt_package("libyaml-dev")
 apt_package("make")
 apt_package("openssl")
 apt_package("python-dev")
+# Guarantee `git` is installed (required for cloning)
+# TODO: Remove `git` requirement for `sops` when back to non-git version
+apt_package("git")
 execute "install-sops" do
-  command("sudo pip install \"sops==1.3\"")
-  only_if("! pip freeze | grep \"sops==1.3\"")
+  # TODO: We can move back to a normal SOPS when https://github.com/mozilla/sops/pull/120 is landed
+  command("sudo pip install --upgrade git+https://github.com/twolfson/sops.git@b8ce8fb#egg=sops")
+  only_if("! pip freeze | grep \"sops==1.14\"")
 end

@@ -1,6 +1,15 @@
 # Load in our dependencies
 include_recipe "common"
 
+# Define common helpers
+def sops_get(key)
+  data_dir = ENV.fetch("data_dir")
+  sops_secret_filepath = "#{data_dir}/var/sops/find-work/scripts/secret.yml"
+  # TODO: Escape for shell execution
+  # TODO: Is SOPS being executed on host or remote?
+  puts `sops #{sops_secret_filepath} --decrypt --extract '#{key}'`
+end
+
 # Guarantee `node` is installed
 # @depends_on execute[apt-get-update-periodic]
 # https://github.com/nodesource/distributions/tree/96e9b7d40b6aff7ade7bc130d9e18fd140e9f4f8#installation-instructions
@@ -71,15 +80,9 @@ data_file "/etc/redis/app-redis.conf" do
 end
 
 # Set up super user for our find-work-app repo
-def sops_get(key)
-  use_sops = ENV.fetch("use_sops")
-  if use_sops == "TRUE"; then
-    data_dir = ENV.fetch("data_dir")
-    sops_secret_filepath = "#{data_dir}/var/sops/find-work/scripts/secret.yml"
-    # TODO: Escape for shell execution
-    puts `sops #{sops_secret_filepath} --decrypt --extract #{key}`
-  else
-    puts "use default password"
-  end
+use_sops = ENV.fetch("use_sops")
+if use_sops == "TRUE"; then
+  puts sops_get("[\"find_work_db_user_password\"]")
+else
+  puts "use default password"
 end
-sops_get("[\"find_work_db_user_password\"]")

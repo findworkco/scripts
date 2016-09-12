@@ -82,10 +82,11 @@ end
 bash "add-postgresql-find-work" do
   # If the user doesn't exist yet
   find_work_user_query = "SELECT usename FROM pg_user WHERE usename='find-work';"
-  only_if("test \"$(psql postgres --command \"#{find_work_user_query}\" --tuples --no-align)\" = \"\n\"")
+  # only_if("test \"$(psql postgres --command \"#{find_work_user_query}\" --tuples --no-align)\" = \"\n\"")
+  user("postgres")
 
   # Then create our user
   code <<-EOF
-    echo 'hello world'
+    psql postgres --command \"#{find_work_user_query}\" --tuples --no-align
   EOF
 end

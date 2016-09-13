@@ -3,13 +3,7 @@
 set -e
 set -u
 
-# TODO: Heavy lifting mostly done
-# TODO: Need to fix up something going wrong with SOPS decryption
-#   (run the script in Vagrant for ease of access)
-# TODO: Need to verify out `only_if` logic stands (run the script in Vagrant)
-# TODO: Re-enable `Create our user` when we are good to go
-# TODO: Verify our password works
-# TODO: Add test that remote has secure password yet local has insecure password
+# TODO: Add test that we can use insecure password in Vagrant but it fails for remote
 
 # Fetch our user's password
 # DEV: We cannot run this branch inside of Vagrant due to
@@ -22,10 +16,10 @@ if test "$use_sops" = "TRUE"; then
 fi
 echo "$password"
 
-# # Create our user
-# create_user_command="psql --command \"CREATE ROLE $user WITH CREATEDB LOGIN;\""
-# sudo su postgres --shell /bin/bash --command "$create_user_command"
+# Create our user
+create_user_command="psql --command \"CREATE ROLE $user WITH LOGIN;\""
+sudo su postgres --shell /bin/bash --command "$create_user_command"
 
-# # Set our user's password
-# set_user_password="psql --command \"ALTER ROLE $user WITH PASSWORD '$password';\""
-# sudo su postgres --shell /bin/bash --command "$set_user_password"
+# Set our user's password
+set_user_password="psql --command \"ALTER ROLE $user WITH PASSWORD '$password';\""
+sudo su postgres --shell /bin/bash --command "$set_user_password"

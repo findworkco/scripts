@@ -73,8 +73,7 @@ end
 # Set up user for our find-work-app repo
 # DEV: We use `execute` with bash scripts over `bash` as they easier to debug
 execute "postgresql-add-user-find-work" do
-  # TODO: Figure out what's wrong with negation
   cwd(ENV.fetch('src_dir'))
-  only_if("./cookbooks/findwork.co/recipes/postgresql-user-exists-find-work.sh", :cwd => ENV.fetch('src_dir'))
+  only_if("! ./cookbooks/findwork.co/recipes/postgresql-user-exists-find-work.sh", :cwd => ENV.fetch('src_dir'))
   command("./cookbooks/findwork.co/recipes/postgresql-add-user-find-work.sh")
 end

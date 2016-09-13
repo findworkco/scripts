@@ -29,10 +29,10 @@ describe "PostgreSQL 9.3" do
     expect(postgresql_conf.group).to(eq(POSTGRES_GROUP))
   end
 
-  it "has only a `postgres` user" do
+  it "has only a `find_work` and `postgres` user" do
     # Define our allowed users
     # rubocop:disable Style/MutableConstant
-    ALLOWED_POSTGRESQL_USERS = ["postgres"]
+    ALLOWED_POSTGRESQL_USERS = ["find_work", "postgres"]
     # rubocop:enable Style/MutableConstant
 
     # If we are in Vagrant, add our `vagrant` user
@@ -41,6 +41,7 @@ describe "PostgreSQL 9.3" do
     end
 
     # Retrieve and assert our PostgreSQL users
+    # DEV: This strict equality asserts that we have no extra nor are missing any users
     postgresql_users_query = "psql --command \\\"SELECT usename FROM pg_user;\\\"  --tuples --no-align"
     postgresql_users_result = command("sudo su postgres --shell /bin/bash --command \"#{postgresql_users_query}\"")
     expect(postgresql_users_result.exit_status).to(eq(0))

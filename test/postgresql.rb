@@ -48,4 +48,20 @@ describe "PostgreSQL 9.3" do
     postgresql_users = postgresql_users_result.stdout.split("\n")
     expect(postgresql_users.sort()).to(eq(postgresql_users.sort()))
   end
+
+  it "has expected password for `find_work` user" do
+    # Perform our login attempt
+    # DEV: We use a connection URI as the CLI doesn't support password input
+    #   Structure: postgres://user:password@hostname:port/database
+    postgresql_uri = "postgres://find_work:find_work@127.0.0.1:5500/postgres"
+    psql_login_result = command("psql \"#{postgresql_uri}\" --command "SELECT 'hai';"")
+
+    # If we are in Vagrant/Wercker, verify we logged in successfully
+    if `which vagrant` != "" || ENV["CI"] == "true"
+      expect(psql_login_result.exit_status).to(eq(0))
+    # Otherwise, verify we failed to login
+    else
+      expect(psql_login_result.exit_status).to(eq(1))
+    end
+  end
 end

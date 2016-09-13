@@ -8,6 +8,9 @@ base_dir="/vagrant"
 src_data_dir="/vagrant/data"
 target_data_dir="$HOME/data"
 
+# Set up flags for bootstrapping
+use_sops="FALSE"
+
 # Copy our data to a non-shared directory to prevent permissions from getting messed up
 if test -d "$target_data_dir"; then
   rm -r "$target_data_dir"

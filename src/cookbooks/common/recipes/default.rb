@@ -186,12 +186,17 @@ service "redis-server" do
   action([:stop])
 end
 
-# Guarantee `postgresql` is installed
+# Guarantee `postgresql` is installed and running
 apt_package "postgresql-9.3" do
   version("9.3.14-0ubuntu0.14.04")
 end
 apt_package "postgresql-server-dev-9.3" do
   version("9.3.14-0ubuntu0.14.04")
+end
+service "postgresql" do
+  provider(Chef::Provider::Service::Init)
+  supports(:reload => true, :restart => true, :status => true)
+  action([:start])
 end
 
 # Lock out SSH shell for `postgres` user
@@ -219,7 +224,8 @@ data_file "/etc/postgresql/9.3/main/postgresql.conf" do
   owner("postgres")
   group("postgres")
   mode("644") # u=rw,g=r,o=r
-  notifies(:run, "execute[postgres_9_3_restart]", :delayed)
+  # DEV: We must restart immediately due to port change so other resources can access PostgreSQL
+  notifies(:run, "execute[postgres_9_3_restart]", :immediately)
 end
 
 # Guarantee `python` and `pip` are installed

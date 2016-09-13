@@ -69,3 +69,20 @@ data_file "/etc/redis/app-redis.conf" do
   mode("644") # u=rw,g=r,o=r
   notifies(:run, "execute[app_redis_restart]", :delayed)
 end
+
+# Set up user for our find-work-app repo
+# Guarantee our scripts are executable
+# DEV: We can lose executability during provisioning
+src_dir = ENV.fetch("src_dir")
+file "#{src_dir}/cookbooks/findwork.co/recipes/postgresql-user-exists-find-work.sh" do
+  mode("700") # u=rwx,g=,o=
+end
+file "#{src_dir}/cookbooks/findwork.co/recipes/postgresql-add-user-find-work.sh" do
+  mode("700") # u=rwx,g=,o=
+end
+# DEV: We use `execute` with bash scripts over `bash` as they easier to debug
+# @depends_on apt_packages[postgresql-9.3], service[postgresql]
+execute "postgresql-add-user-find-work" do
+  only_if("! #{src_dir}/cookbooks/findwork.co/recipes/postgresql-user-exists-find-work.sh")
+  command("#{src_dir}/cookbooks/findwork.co/recipes/postgresql-add-user-find-work.sh")
+end

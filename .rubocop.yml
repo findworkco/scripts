@@ -95,5 +95,11 @@ Style/StringLiteralsInInterpolation:
 Style/TrailingCommaInLiteral:
   Enabled: false
 
+# Require using brackets instead of `%w`/`%W` for arrays of words
+# Example: `["foo","bar"]`, not `%w(foo bar)`
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/word_array.rb#L16-L32
+Style/WordArray:
+  EnforcedStyle: brackets
+
 Metrics/LineLength:
   Max: 120

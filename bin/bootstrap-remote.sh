@@ -2,6 +2,8 @@
 # Exit on first error
 set -e
 
+# Bootstrapping flags set at SSH, must be unprefixed (i.e. no LC_) in `_bootstrap.sh`
+
 # If there is no remote server to bootstrap on, then complain and leave
 target_host="$1"
 if test "$target_host" = ""; then
@@ -47,4 +49,7 @@ trap "{ ssh \"$target_host\" \"rm -rf \\\"$target_data_dir\\\"; rm -rf \\\"$targ
 
 # Run our bootstrap on the remote server
 cat bin/_bootstrap.sh |
-  LC_DATA_DIR="$target_data_dir" LC_SRC_DIR="$target_src_dir" ssh "$target_host"
+  LC_DATA_DIR="$target_data_dir" \
+  LC_SRC_DIR="$target_src_dir" \
+  LC_USE_SOPS="TRUE" \
+  ssh "$target_host"

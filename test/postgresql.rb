@@ -61,7 +61,7 @@ describe "PostgreSQL 9.3" do
       expect(psql_login_result.exit_status).to(eq(0))
     # Otherwise, verify we failed to login
     else
-      expect(psql_login_result.exit_status).to(eq(1))
+      expect(psql_login_result.exit_status).to(eq(2))
     end
   end
 end

@@ -29,7 +29,7 @@ describe "PostgreSQL 9.3" do
     expect(postgresql_conf.group).to(eq(POSTGRES_GROUP))
   end
 
-  it "has only a `find_work` and `postgres` user" do
+  it "has only `find_work` and `postgres` users" do
     # Define our allowed users
     # rubocop:disable Style/MutableConstant
     ALLOWED_POSTGRESQL_USERS = ["find_work", "postgres"]

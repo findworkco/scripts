@@ -3,8 +3,6 @@
 set -e
 set -u
 
-# TODO: Add test that we can use insecure password in Vagrant but it fails for remote
-
 # Fetch our user's password
 # DEV: We cannot run this branch inside of Vagrant due to
 user="find_work"
@@ -14,7 +12,6 @@ if test "$use_sops" = "TRUE"; then
   key="[\"find_work_db_user_password\"]"
   password="$(sops "$sops_secret_filepath" --decrypt --extract "$key")"
 fi
-echo "$password"
 
 # Create our user
 create_user_command="psql --command \"CREATE ROLE $user WITH LOGIN;\""

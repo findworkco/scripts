@@ -14,7 +14,7 @@ describe "PostgreSQL 9.3" do
 
   it "is listening on our custom port" do
     postgresql_port = port(5500)
-    postgresql_listening_address = `which vagrant` != "" ? "0.0.0.0" : "127.0.0.1"
+    postgresql_listening_address = TEST_ENV == TEST_ENV_VAGRANT ? "0.0.0.0" : "127.0.0.1"
     expect(postgresql_port).to(be_listening().on(postgresql_listening_address))
   end
 
@@ -36,7 +36,7 @@ describe "PostgreSQL 9.3" do
     # rubocop:enable Style/MutableConstant
 
     # If we are in Vagrant, add our `vagrant` user
-    if `which vagrant` != ""
+    if TEST_ENV == TEST_ENV_VAGRANT
       ALLOWED_POSTGRESQL_USERS.push("vagrant")
     end
 

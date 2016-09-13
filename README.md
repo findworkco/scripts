@@ -205,9 +205,6 @@ To run our test suite against a production machine, we can use the `bin/test-rem
 
 ```bash
 bin/test-remote.sh digital-my-server
-
-# If we need to use a non-master ref, then pass as a second parameter
-# bin/test-remote.sh digital-my-server dev/new.feature
 ```
 
 ## Copyright

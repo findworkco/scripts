@@ -18,8 +18,7 @@ describe "Open ports" do
     open_ports = open_ports_result.stdout.split("\n")
 
     # If we are in Vagrant
-    # DEV: This is running on the host OS which is why `which vagrant` works
-    if `which vagrant` != ""
+    if TEST_ENV != TEST_ENV_VAGRANT
       # Use `sudo` to get additional info (e.g. pid/program)
       # tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN      617/rpcbind
       # tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      1016/nginx
@@ -28,7 +27,7 @@ describe "Open ports" do
       open_ports = open_ports_result.stdout.split("\n")
 
       # Filter out trusted programs
-      if `which vagrant` != ""
+      if TEST_ENV != TEST_ENV_VAGRANT
         open_ports.select! { |open_port| ! %r{/(rpcbind|rpc.statd|dhclient)\s*$}.match(open_port) }
       end
 
@@ -59,7 +58,7 @@ describe "Login shells" do
     # rubocop:enable Style/MutableConstant
 
     # If we are on Vagrant, allow a Vagrant user to use ssh
-    if `which vagrant` != ""
+    if TEST_ENV != TEST_ENV_VAGRANT
       ALLOWED_USERS.push("vagrant")
     end
 

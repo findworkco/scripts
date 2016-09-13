@@ -39,6 +39,9 @@ ROOT_GROUP = "root".freeze()
 UBUNTU_USER = "ubuntu".freeze()
 UBUNTU_GROUP = "ubuntu".freeze()
 
+# Define TEST_ENV constant
+TEST_ENV = ENV.fetch("TEST_ENV")
+
 # If we are using a SSH backend, then configure it
 if ENV["SERVERSPEC_BACKEND"] == "ssh"
   # Load in our environment variable to the SSH config

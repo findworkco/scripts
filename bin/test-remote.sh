@@ -13,6 +13,7 @@ fi
 # Set up the backend for serverspec to run via SSH on a remote server
 export SSH_CONFIG="$HOME/.ssh/config"
 export TARGET_HOST="$target_host"
+export TEST_ENV="remote"
 export SERVERSPEC_BACKEND="ssh"
 
 # Run our tests

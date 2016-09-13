@@ -16,6 +16,7 @@ fi
 # Export the `ssh-config` for our Vagrant server
 export SSH_CONFIG=".vagrant/ssh-config"
 export TARGET_HOST="default"
+export TEST_ENV="vagrant"
 vagrant ssh-config > "$SSH_CONFIG"
 
 # Set up the backend for serverspec to run inside Vagrant

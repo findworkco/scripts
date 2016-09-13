@@ -45,7 +45,7 @@ rsync --chmod u=rw,g=,o= --human-readable --archive --verbose --compress "src" "
 # Remove our sensitive files from the remote server on exit
 # http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_12_02.html
 # DEV: This will always run whether bootstrap succeeds/fails
-# trap "{ ssh \"$target_host\" \"rm -rf \\\"$target_data_dir\\\"; rm -rf \\\"$target_src_dir\\\"\"; }" EXIT
+trap "{ ssh \"$target_host\" \"rm -rf \\\"$target_data_dir\\\"; rm -rf \\\"$target_src_dir\\\"\"; }" EXIT
 
 # Run our bootstrap on the remote server
 cat bin/_bootstrap.sh |

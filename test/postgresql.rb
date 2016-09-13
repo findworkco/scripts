@@ -57,7 +57,7 @@ describe "PostgreSQL 9.3" do
     psql_login_result = command("psql \"#{postgresql_uri}\" --command \"SELECT 'hai';\"")
 
     # If we are in Vagrant/Wercker, verify we logged in successfully
-    if `which vagrant` != "" || ENV["CI"] == "true"
+    if [TEST_ENV_VAGRANT, TEST_ENV_WERCKER].include?(TEST_ENV)
       expect(psql_login_result.exit_status).to(eq(0))
     # Otherwise, verify we failed to login
     else

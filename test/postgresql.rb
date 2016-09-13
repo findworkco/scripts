@@ -54,7 +54,7 @@ describe "PostgreSQL 9.3" do
     # DEV: We use a connection URI as the CLI doesn't support password input
     #   Structure: postgres://user:password@hostname:port/database
     postgresql_uri = "postgres://find_work:find_work@127.0.0.1:5500/postgres"
-    psql_login_result = command("psql \"#{postgresql_uri}\" --command "SELECT 'hai';"")
+    psql_login_result = command("psql \"#{postgresql_uri}\" --command \"SELECT 'hai';\"")
 
     # If we are in Vagrant/Wercker, verify we logged in successfully
     if `which vagrant` != "" || ENV["CI"] == "true"

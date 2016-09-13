@@ -186,12 +186,17 @@ service "redis-server" do
   action([:stop])
 end
 
-# Guarantee `postgresql` is installed
+# Guarantee `postgresql` is installed and running
 apt_package "postgresql-9.3" do
   version("9.3.14-0ubuntu0.14.04")
 end
 apt_package "postgresql-server-dev-9.3" do
   version("9.3.14-0ubuntu0.14.04")
+end
+service "postgresql" do
+  provider(Chef::Provider::Service::Init)
+  supports(:reload => true, :restart => true, :status => true)
+  action([:start])
 end
 
 # Lock out SSH shell for `postgres` user

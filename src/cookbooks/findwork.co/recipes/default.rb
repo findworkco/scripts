@@ -81,6 +81,7 @@ file "#{src_dir}/cookbooks/findwork.co/recipes/postgresql-add-user-find-work.sh"
   mode("700") # u=rwx,g=,o=
 end
 # DEV: We use `execute` with bash scripts over `bash` as they easier to debug
+# @depends_on apt_packages[postgresql-9.3], service[postgresql]
 execute "postgresql-add-user-find-work" do
   only_if("! #{src_dir}/cookbooks/findwork.co/recipes/postgresql-user-exists-find-work.sh")
   command("#{src_dir}/cookbooks/findwork.co/recipes/postgresql-add-user-find-work.sh")

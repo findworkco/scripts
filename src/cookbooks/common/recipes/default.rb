@@ -224,7 +224,8 @@ data_file "/etc/postgresql/9.3/main/postgresql.conf" do
   owner("postgres")
   group("postgres")
   mode("644") # u=rw,g=r,o=r
-  notifies(:run, "execute[postgres_9_3_restart]", :delayed)
+  # DEV: We must restart immediately due to port change so other resources can access PostgreSQL
+  notifies(:run, "execute[postgres_9_3_restart]", :immediately)
 end
 
 # Guarantee `python` and `pip` are installed

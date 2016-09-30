@@ -37,6 +37,10 @@ sudo apt-get install lxc redir
 # Install our Vagrant plugin
 vagrant plugin install vagrant-lxc
 
+# Set up `sudoers` bindings for `vagrant-lxc` (avoids `sudo` for `vagrant up`/`vagrant ssh`/etc)
+# https://github.com/fgrehm/vagrant-lxc/blob/v1.2.1/lib/vagrant-lxc/command/sudoers.rb
+vagrant lxc sudoers
+
 # Start our Vagrant instance
 vagrant up
 

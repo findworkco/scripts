@@ -11,8 +11,8 @@ execute "add-nodejs-apt-repository" do
   only_if("! which node")
 end
 apt_package "nodejs" do
-  version("4.6.0-1nodesource1~trusty1")
-  only_if("test \"$(node --version)\" != \"v4.6.0\"")
+  version("4.6.1-1nodesource1~trusty1")
+  only_if("test \"$(node --version)\" != \"v4.6.1\"")
 end
 
 # Guarantee `git` is installed (required for `bower`)

@@ -4,6 +4,10 @@ box: ubuntu:14.04
 
 # DEV: We tried to share initial steps between builds via a common workflow
 #   However, wercker didn't seem to share installed programs like `openssl`
+# DEV: To reproduce a build locally, run:
+#   docker run -it -v $PWD:/vagrant ubuntu:14.04 /bin/bash
+#   cd /vagrant
+#   Then copy/paste the steps below
 
 # Run our default build
 default-build:

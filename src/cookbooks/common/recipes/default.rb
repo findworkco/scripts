@@ -156,9 +156,9 @@ end
 
 # Guarantee `nginx` is installed
 # @depends_on exectue[apt-get-update-periodic] (to make sure apt is updated)
-# DEV: Equivalent to `sudo apt-get install -y "nginx=1.4.6-1ubuntu3.4"`
+# DEV: Equivalent to `sudo apt-get install -y "nginx=1.4.6-1ubuntu3.7"`
 apt_package "nginx" do
-  version("1.4.6-1ubuntu3.5")
+  version("1.4.6-1ubuntu3.7")
 end
 # DEV: Equivalent to `sudo /etc/init.d/nginx *`
 service "nginx" do
@@ -306,11 +306,7 @@ apt_package("libyaml-dev")
 apt_package("make")
 apt_package("openssl")
 apt_package("python-dev")
-# Guarantee `git` is installed (required for cloning)
-# TODO: Remove `git` requirement for `sops` when back to non-git version
-apt_package("git")
 execute "install-sops" do
-  # TODO: We can move back to a normal SOPS when https://github.com/mozilla/sops/pull/120 is landed
-  command("sudo pip install --upgrade git+https://github.com/twolfson/sops.git@b8ce8fb#egg=sops")
-  only_if("! pip freeze | grep \"sops==1.14\"")
+  command("sudo pip install --upgrade sops==1.15")
+  only_if("! pip freeze | grep \"sops==1.15\"")
 end

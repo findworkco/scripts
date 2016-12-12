@@ -22,7 +22,8 @@ default-build:
           apt-get install -y ruby1.9.1 curl wget
     - script:
         name: install bundler
-        code: gem install bundler
+        code: |
+          gem install bundler
     - script:
         name: echo ruby information
         code: |
@@ -30,17 +31,20 @@ default-build:
           echo "bundle version $(bundle --version) running"
     - script:
         name: install dependencies
-        code: bundle install
+        code: |
+          bundle install
 
     # Run our provisioner
     - script:
         name: bootstrap system
-        code: bin/bootstrap-wercker.sh
+        code: |
+          bin/bootstrap-wercker.sh
 
     # Run our tests
     - script:
         name: run tests
-        code: bin/test-wercker.sh
+        code: |
+          bin/test-wercker.sh
 
 # Run our diff build
 diff-build:
@@ -55,7 +59,8 @@ diff-build:
           apt-get install -y ruby1.9.1 curl wget
     - script:
         name: install bundler
-        code: gem install bundler
+        code: |
+          gem install bundler
     - script:
         name: echo ruby information
         code: |
@@ -63,20 +68,24 @@ diff-build:
           echo "bundle version $(bundle --version) running"
     - script:
         name: install dependencies
-        code: bundle install
+        code: |
+          bundle install
 
     # Run our provisioner for our older commit
     # DEV: We allow failure as there could be old dependencies
     - script:
         name: bootstrap system on last master commit
-        code: bin/bootstrap-last-master-commit-wercker.sh || true
+        code: |
+          bin/bootstrap-last-master-commit-wercker.sh || true
 
     # Run our latest provisioner
     - script:
         name: bootstrap system on current commit
-        code: bin/bootstrap-wercker.sh
+        code: |
+          bin/bootstrap-wercker.sh
 
     # Run our tests
     - script:
         name: run tests
-        code: bin/test-wercker.sh
+        code: |
+          bin/test-wercker.sh

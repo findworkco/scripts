@@ -83,8 +83,9 @@ set -x
 # Swap directories
 ln --symbolic --force --no-dereference "$target_dir" "$main_target_dir"
 
-# Restart our server
+# Restart our server and queue
 sudo supervisorctl restart app-server
+sudo supervisorctl restart app-queue
 EOF
 
 # Notify the user of success

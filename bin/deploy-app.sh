@@ -56,6 +56,7 @@ if test "$librato_annotation_id" = ""; then
   echo "Unable to extract Librato annotation id. Skipping end time update" 1>&2
 else
   end_time="$(date +%s)"
+  echo "Updating Librato annotation $librato_annotation_id..." 1>&2
   curl \
     -u "$librato_username:$librato_token" \
     -d "end_time=$end_time" \

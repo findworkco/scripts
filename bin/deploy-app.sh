@@ -40,28 +40,42 @@ git_tag="$timestamp"
 
 # Notify Librato that our deployment has started
 # https://www.librato.com/docs/api/#create-an-annotation
-curl \
+# {"id":287072313,"title":"Deploy 20170213.224423.773304961","description":null,"source":"unassigned","start_time":1487025855,"end_time":null,"links":[{"label":"GitHub","href":"https://github.com/twolfson/find-work-app/tree/20170213.224423.773304961","rel":"github"}]}
+librato_response="$(curl \
   -u "$librato_username:$librato_token" \
   -d "title=Deploy $git_tag&start_time=$start_time" \
   -d "links[0][label]=GitHub" \
   -d "links[0][href]=https://github.com/twolfson/find-work-app/tree/$git_tag" \
   -d "links[0][rel]=github" \
-  -X POST "https://metrics-api.librato.com/v1/annotations/app-deploys"
+  -X POST "https://metrics-api.librato.com/v1/annotations/app-deploys")"
+librato_annotation_id="$(echo "$librato_response" | sed -E "s/.*\"id\":([0-9]+).*/\1/")"
 
-```
-for dt in $(< tags.txt); do
-    start_time="$(date --date="$dt" --utc +%s)"
-    git_tag="$(date --date="$dt" --utc +%Y%m%d.%H%M%S.%N)"
-    curl \
-      -u "$librato_username:$librato_token" \
-      -d "title=Deploy $git_tag&start_time=$start_time" \
-      -d "links[0][label]=GitHub" \
-      -d "links[0][href]=https://github.com/twolfson/find-work-app/tree/$git_tag" \
-      -d "links[0][rel]=github" \
-      -X POST "https://metrics-api.librato.com/v1/annotations/app-deploys"
-done
+# Update our Librato annotation to include end time
+# https://www.librato.com/docs/api/#update-an-annotation
+if test "$librato_annotation_id" = ""; then
+  echo "Unable to extract Librato annotation id. Skipping end time update" 1>&2
+else
+  end_time="$(date +%s)"
+  curl \
+    -u "$librato_username:$librato_token" \
+    -d "end_time=$end_time" \
+    -X PUT "https://metrics-api.librato.com/v1/annotations/app-deploys/$librato_annotation_id"
+fi
 
-```
+# ```
+# for dt in $(< tags.txt); do
+#     start_time="$(date --date="$dt" --utc +%s)"
+#     git_tag="$(date --date="$dt" --utc +%Y%m%d.%H%M%S.%N)"
+#     curl \
+#       -u "$librato_username:$librato_token" \
+#       -d "title=Deploy $git_tag&start_time=$start_time" \
+#       -d "links[0][label]=GitHub" \
+#       -d "links[0][href]=https://github.com/twolfson/find-work-app/tree/$git_tag" \
+#       -d "links[0][rel]=github" \
+#       -X POST "https://metrics-api.librato.com/v1/annotations/app-deploys"
+# done
+
+# ```
 exit 0
 
 # Output future commands

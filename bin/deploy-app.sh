@@ -47,6 +47,21 @@ curl \
   -d "links[0][href]=https://github.com/twolfson/find-work-app/tree/$git_tag" \
   -d "links[0][rel]=github" \
   -X POST "https://metrics-api.librato.com/v1/annotations/app-deploys"
+
+```
+for dt in $(< tags.txt); do
+    start_time="$(date --date="$dt" --utc +%s)"
+    git_tag="$(date --date="$dt" --utc +%Y%m%d.%H%M%S.%N)"
+    curl \
+      -u "$librato_username:$librato_token" \
+      -d "title=Deploy $git_tag&start_time=$start_time" \
+      -d "links[0][label]=GitHub" \
+      -d "links[0][href]=https://github.com/twolfson/find-work-app/tree/$git_tag" \
+      -d "links[0][rel]=github" \
+      -X POST "https://metrics-api.librato.com/v1/annotations/app-deploys"
+done
+
+```
 exit 0
 
 # Output future commands

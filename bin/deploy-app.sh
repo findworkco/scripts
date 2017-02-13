@@ -32,53 +32,6 @@ if test "$librato_username" = "" || test "$librato_token" = ""; then
   exit 1
 fi
 
-# TODO: Relocate content, add END event
-# TODO: Add note about how we could do start/stop but this is saner imho
-start_time="$(date +%s)"
-timestamp="$(ssh "$target_host" "date --utc +%Y%m%d.%H%M%S.%N")"
-git_tag="$timestamp"
-
-# Notify Librato that our deployment has started
-# https://www.librato.com/docs/api/#create-an-annotation
-# {"id":287072313,"title":"Deploy 20170213.224423.773304961","description":null,"source":"unassigned","start_time":1487025855,"end_time":null,"links":[{"label":"GitHub","href":"https://github.com/twolfson/find-work-app/tree/20170213.224423.773304961","rel":"github"}]}
-librato_response="$(curl \
-  -u "$librato_username:$librato_token" \
-  -d "title=Deploy $git_tag&start_time=$start_time" \
-  -d "links[0][label]=GitHub" \
-  -d "links[0][href]=https://github.com/twolfson/find-work-app/tree/$git_tag" \
-  -d "links[0][rel]=github" \
-  -X POST "https://metrics-api.librato.com/v1/annotations/app-deploys")"
-librato_annotation_id="$(echo "$librato_response" | sed -E "s/.*\"id\":([0-9]+).*/\1/")"
-
-# Update our Librato annotation to include end time
-# https://www.librato.com/docs/api/#update-an-annotation
-if test "$librato_annotation_id" = ""; then
-  echo "Unable to extract Librato annotation id. Skipping end time update" 1>&2
-else
-  end_time="$(date +%s)"
-  echo "Updating Librato annotation $librato_annotation_id..." 1>&2
-  curl \
-    -u "$librato_username:$librato_token" \
-    -d "end_time=$end_time" \
-    -X PUT "https://metrics-api.librato.com/v1/annotations/app-deploys/$librato_annotation_id"
-fi
-
-# ```
-# for dt in $(< tags.txt); do
-#     start_time="$(date --date="$dt" --utc +%s)"
-#     git_tag="$(date --date="$dt" --utc +%Y%m%d.%H%M%S.%N)"
-#     curl \
-#       -u "$librato_username:$librato_token" \
-#       -d "title=Deploy $git_tag&start_time=$start_time" \
-#       -d "links[0][label]=GitHub" \
-#       -d "links[0][href]=https://github.com/twolfson/find-work-app/tree/$git_tag" \
-#       -d "links[0][rel]=github" \
-#       -X POST "https://metrics-api.librato.com/v1/annotations/app-deploys"
-# done
-
-# ```
-exit 0
-
 # Output future commands
 set -x
 
@@ -98,17 +51,31 @@ cd app
 git checkout "$branch"
 
 # Find a timestamp to use for our deploy
+start_time="$(date +%s)"
 timestamp="$(ssh "$target_host" "date --utc +%Y%m%d.%H%M%S.%N")"
 base_target_dir="/home/ubuntu/app"
 target_dir="$base_target_dir/$timestamp"
 main_target_dir="$base_target_dir/main"
 
 # Tag our repository with the timestamp
-git tag "$timestamp"
-git push origin "$timestamp"
+git_tag="$timestamp"
+git tag "$git_tag"
+git push origin "$git_tag"
 
 # Navigate back to containing folder
 cd ../
+
+# Notify Librato that our deployment has started
+# https://www.librato.com/docs/api/#create-an-annotation
+# {"id":287072313,"title":"Deploy 20170213.224423.773304961","description":null,"source":"unassigned","start_time":1487025855,"end_time":null,"links":[{"label":"GitHub","href":"https://github.com/twolfson/find-work-app/tree/20170213.224423.773304961","rel":"github"}]}
+librato_response="$(curl \
+  -u "$librato_username:$librato_token" \
+  -d "title=Deploy $git_tag&start_time=$start_time" \
+  -d "links[0][label]=GitHub" \
+  -d "links[0][href]=https://github.com/twolfson/find-work-app/tree/$git_tag" \
+  -d "links[0][rel]=github" \
+  -X POST "https://metrics-api.librato.com/v1/annotations/app-deploys")"
+librato_annotation_id="$(echo "$librato_response" | sed -E "s/.*\"id\":([0-9]+).*/\1/")"
 
 # Generate a folder to upload our server to
 # DEV: We use `-p` to avoid "File exists" issues
@@ -142,6 +109,19 @@ ln --symbolic --force --no-dereference "$target_dir" "$main_target_dir"
 sudo supervisorctl restart app-server
 sudo supervisorctl restart app-queue
 EOF
+
+# Update our Librato annotation to include end time
+# https://www.librato.com/docs/api/#update-an-annotation
+if test "$librato_annotation_id" = ""; then
+  echo "Unable to extract Librato annotation id. Skipping end time update" 1>&2
+else
+  end_time="$(date +%s)"
+  echo "Updating Librato annotation $librato_annotation_id..." 1>&2
+  curl \
+    -u "$librato_username:$librato_token" \
+    -d "end_time=$end_time" \
+    -X PUT "https://metrics-api.librato.com/v1/annotations/app-deploys/$librato_annotation_id"
+fi
 
 # Notify the user of success
 echo "Server restarted. Please manually verify the server is running at https://findwork.co/"

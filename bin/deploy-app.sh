@@ -24,6 +24,31 @@ else
   shift
 fi
 
+# Resolve our token for Librato
+librato_username="$(sops --decrypt --extract "[\"librato_username\"]" data/var/sops/find-work/scripts/secret.yml)"
+librato_token="$(sops --decrypt --extract "[\"librato_token\"]" data/var/sops/find-work/scripts/secret.yml)"
+if test "$librato_username" = "" || test "$librato_token" = ""; then
+  echo "Unable to resolve Librato information" 1>&2
+  exit 1
+fi
+
+# TODO: Relocate content, add END event
+# TODO: Add note about how we could do start/stop but this is saner imho
+start_time="$(date +%s)"
+timestamp="$(ssh "$target_host" "date --utc +%Y%m%d.%H%M%S.%N")"
+git_tag="$timestamp"
+
+# Notify Librato that our deployment has started
+# https://www.librato.com/docs/api/#create-an-annotation
+curl \
+  -u "$librato_username:$librato_token" \
+  -d "title=Deploy $git_tag&start_time=$start_time" \
+  -d "links[0][label]=GitHub" \
+  -d "links[0][href]=https://github.com/twolfson/find-work-app/tree/$git_tag" \
+  -d "links[0][rel]=github" \
+  -X POST "https://metrics-api.librato.com/v1/annotations/app-deploys"
+exit 0
+
 # Output future commands
 set -x
 

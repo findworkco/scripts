@@ -88,6 +88,11 @@ execute "postgresql-add-user-find-work" do
 end
 
 # Set up log folder for our find-work-app repo
+directory "/var/log/findworkco" do
+  owner("ubuntu")
+  group("ubuntu")
+  mode("755") # u=rwx,g=rx,o=rx
+end
 directory "/var/log/findworkco/app" do
   owner("ubuntu")
   group("ubuntu")

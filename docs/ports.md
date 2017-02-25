@@ -14,6 +14,7 @@ This document acts as a register of port reservations for our various services.
 | Reserved for Redis             | 64XX  |        |                  |
 | app test fake Google server    | 7000  |        |                  |
 | app test fake Glassdoor server | 7001  |        |                  |
+| app test external proxy server | 7002  |        |                  |
 | Reserved for fake servers      | 70XX  |        |                  |
 | app                            | 9000  |        |                  |
 | app test server                | 9001  |        |                  |

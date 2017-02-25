@@ -8,6 +8,6 @@ describe "Node.js" do
   end
 
   it "has our expected version" do
-    expect(command("node --version").stdout).to(eq("v4.7.3\n"))
+    expect(command("node --version").stdout).to(eq("v4.8.0\n"))
   end
 end

@@ -70,7 +70,7 @@ data_file "/etc/redis/app-redis.conf" do
   notifies(:run, "execute[app_redis_restart]", :delayed)
 end
 
-# Set up user for our find-work-app repo
+# Set up PostgreSQL user for our find-work-app repo
 # Guarantee our scripts are executable
 # DEV: We can lose executability during provisioning
 src_dir = ENV.fetch("src_dir")
@@ -85,4 +85,16 @@ end
 execute "postgresql-add-user-find-work" do
   only_if("! #{src_dir}/cookbooks/findwork.co/recipes/postgresql-user-exists-find-work.sh")
   command("#{src_dir}/cookbooks/findwork.co/recipes/postgresql-add-user-find-work.sh")
+end
+
+# Set up log folder for our find-work-app repo
+directory "/var/log/findworkco" do
+  owner("ubuntu")
+  group("ubuntu")
+  mode("755") # u=rwx,g=rx,o=rx
+end
+directory "/var/log/findworkco/app" do
+  owner("ubuntu")
+  group("ubuntu")
+  mode("755") # u=rwx,g=rx,o=rx
 end

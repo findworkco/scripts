@@ -20,9 +20,6 @@ apt_package("git")
 
 # Configure NGINX for `findwork.co` node
 # @depends_on service[nginx]
-file "/etc/nginx/conf.d/findwork.co.htpasswd" do
-  action(:delete)
-end
 data_file "/etc/nginx/conf.d/findwork.co.conf" do
   owner("root")
   group("root")

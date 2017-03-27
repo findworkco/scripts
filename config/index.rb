@@ -1,5 +1,6 @@
 # Load in our dependencies
+require "yaml"
 require_relative "./static.rb"
 
-# Output our static.rb to stdout
-puts(CONFIG)
+# Output our config to stdout
+puts(YAML.dump(CONFIG))

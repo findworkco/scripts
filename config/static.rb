@@ -8,17 +8,18 @@ static_secrets = YAML.load_file("#{__DIR__}/static-secrets.yml")
 # Define our generic config
 CONFIG = {}
 
-CONFIG[:common] = {
+CONFIG["common"] = {
 }
 
-CONFIG[:development] = {
-  :find_work_db_user_user => "find_work",
-  :find_work_db_user_password => "find_work",
+# DEV: We use string keys for simpler YAML files
+CONFIG["development"] = {
+  "find_work_db_user_user" => "find_work",
+  "find_work_db_user_password" => "find_work",
 }
 
 # DEV: For more production variants (e.g. different services, different nodes)
 #   then define more production keys
-CONFIG[:production] = {
-  :find_work_db_user_user => "find_work",
-  :find_work_db_user_password => static_secrets.fetch("find_work_db_user_password"),
+CONFIG["production"] = {
+  "find_work_db_user_user" => "find_work",
+  "find_work_db_user_password" => static_secrets.fetch("find_work_db_user_password"),
 }

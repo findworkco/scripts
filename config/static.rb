@@ -12,14 +12,21 @@ CONFIG["common"] = {
 }
 
 # DEV: We use string keys for simpler YAML files
-CONFIG["development"] = {
+# DEV: We don't use any nested content to limit complexity
+CONFIG["vagrant"] = {
   "find_work_db_user_user" => "find_work",
   "find_work_db_user_password" => "find_work",
 }
 
-# DEV: For more production variants (e.g. different services, different nodes)
-#   then define more production keys
-CONFIG["production"] = {
+CONFIG["wercker"] = {
+  "find_work_db_user_user" => CONFIG["vagrant"]["find_work_db_user_user"],
+  "find_work_db_user_password" => CONFIG["vagrant"]["find_work_db_user_password"],
+}
+
+# DEV: For more remote variants, split up `remote` into more items
+CONFIG["remote"] = {
   "find_work_db_user_user" => "find_work",
   "find_work_db_user_password" => static_secrets.fetch("find_work_db_user_password"),
 }
+
+# TODO: Expose Librato as well

@@ -2,7 +2,7 @@
 require "yaml"
 
 # Resolve and export our local config
-# http://rubyforadmins.com/config-files
+# http://stackoverflow.com/a/86325
 filepath = "/var/find-work/scripts/index.yml"
 if not File.exists?(filepath)
   abort("#{filepath} doesn't exist. " +

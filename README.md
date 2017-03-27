@@ -5,6 +5,7 @@ This repository is heavily based on [twolfson/twolfson.com-scripts][].
 
 TODO: Let's make v1 existing setup only (i.e. existing SOPS info)
 TODO: Update `postgresql...sh` to use environment vars from Ruby or something so we have consistency of Ruby as source of truth
+TODO: Document initial `decrypt` if necessary (in Wercker we'll likely need something for that... I think we have a `cp` mechanism)
 
 TODO: Maybe create a `config` folder and a Node.js script to define our config
     TODO: Node.js script is prob a bad idea as we need existing system dependencies. Prob only Ruby valid

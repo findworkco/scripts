@@ -1,8 +1,7 @@
 # Load in our dependencies
+# DEV: We use `require` for config instead of environment variables as they get tedious to pass
 include_recipe "common"
-require_relative "#{ENV.fetch("src_dir")}/config.rb"
-
-# TODO: Should we use require or `ENV`?
+require "#{ENV.fetch("src_dir")}/config.rb"
 
 # Guarantee `node` is installed
 # @depends_on execute[apt-get-update-periodic]

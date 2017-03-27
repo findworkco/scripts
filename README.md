@@ -166,7 +166,7 @@ We maintain a set of secrets (e.g. passwords) for provisioning in production in 
 - Install the `find-work-scripts` PGP private key to GPG
     - `gpg --import private.rsa`
 - Edit the SOPS file
-    - `sops data/var/sops/find-work/scripts/secret.yml`
+    - `bin/edit-secrets.sh`
 
 If you would like to learn more about PGP and SOPS, @twolfson has prepared this document:
 

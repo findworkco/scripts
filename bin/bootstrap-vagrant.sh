@@ -17,6 +17,12 @@ if test -d "$target_data_dir"; then
 fi
 cp --preserve --recursive "$src_data_dir" "$target_data_dir"
 
+# Generate our configuration
+mkdir -p /var/find-work/scripts
+NODE_TYPE=vagrant ruby config/index.rb > /var/find-work/scripts/index.yml
+
+exit 0
+
 # If we haven't set up SSL certificates, then generate and install them
 if ! test -f /etc/ssl/certs/findwork.co.crt; then
   # Create our certificates

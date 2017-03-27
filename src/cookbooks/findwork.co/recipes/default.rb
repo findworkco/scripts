@@ -1,5 +1,8 @@
 # Load in our dependencies
 include_recipe "common"
+require "../config.rb"
+
+# TODO: Should we use require or `ENV`?
 
 # Guarantee `node` is installed
 # @depends_on execute[apt-get-update-periodic]

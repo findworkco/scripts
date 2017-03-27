@@ -18,6 +18,8 @@ fi
 cp --preserve --recursive "$src_data_dir" "$target_data_dir"
 
 # Generate our configuration
+# TODO: Need to either install Ruby or move elsewhere
+#   I think install Ruby but going to take a breather
 mkdir -p /var/find-work/scripts
 NODE_TYPE=vagrant ruby config/index.rb > /var/find-work/scripts/index.yml
 

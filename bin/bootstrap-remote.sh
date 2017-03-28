@@ -51,5 +51,4 @@ trap "{ ssh \"$target_host\" \"rm -rf \\\"$target_data_dir\\\"; rm -rf \\\"$targ
 cat bin/_bootstrap.sh |
   LC_DATA_DIR="$target_data_dir" \
   LC_SRC_DIR="$target_src_dir" \
-  LC_USE_SOPS="TRUE" \
   ssh "$target_host"

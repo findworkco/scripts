@@ -3,11 +3,10 @@ Organizational and maintenance scripts for Find Work repositories
 
 This repository is heavily based on [twolfson/twolfson.com-scripts][].
 
-TODO: Let's make v1 existing setup only (i.e. existing SOPS info)
-TODO: Destroy `use_sops`
 TODO: Document initial `decrypt` if necessary (in Wercker we'll likely need something for that... I think we have a `cp` mechanism)
     Maybe put it in the bootstraps
 
+TODO: See TODOs
 TODO: Delete `/data/var/.../secret.yml` from remotes
 TODO: Then have a script which creates a YML file or overloads existing config on remote
     Prob with a comment about its argv

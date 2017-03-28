@@ -101,3 +101,15 @@ directory "/var/log/findworkco/app" do
   group("ubuntu")
   mode("755") # u=rwx,g=rx,o=rx
 end
+
+# Set up our daily cron
+# DEV: We could always provide a script and call `app/bin/cron.daily` with the appropriate `ENV`
+#   but there's logical kinks like where the dead person's switch lives
+#   so we're going with the simpler choice for now
+data_file "/etc/cron.daily/findworkco-scripts" do
+  if CONFIG.fetch("run_cron")
+
+  else
+
+  end
+end

@@ -3,7 +3,7 @@ require_relative "utils/serverspec"
 
 # Start our tests
 describe "cron" do
-  cron_daily_filepath = "/etc/cron.daily/findworkco"
+  cron_daily_filepath = "/etc/cron.daily/findworkco-scripts"
   if TEST_ENV == TEST_ENV_REMOTE
     it "is installed" do
       cron_daily_file = file(cron_daily_filepath)

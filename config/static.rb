@@ -16,15 +16,18 @@ CONFIG["common"] = {
 CONFIG["vagrant"] = {
   "find_work_db_user_user" => "find_work",
   "find_work_db_user_password" => "find_work",
+  "run_cron" => false,
 }
 
 CONFIG["wercker"] = {
   "find_work_db_user_user" => CONFIG["vagrant"]["find_work_db_user_user"],
   "find_work_db_user_password" => CONFIG["vagrant"]["find_work_db_user_password"],
+  "run_cron" => CONFIG["vagrant"]["run_cron"],
 }
 
 # DEV: For more remote variants, split up `remote` into more items
 CONFIG["remote"] = {
   "find_work_db_user_user" => "find_work",
   "find_work_db_user_password" => static_secrets.fetch("find_work_db_user_password"),
+  "run_cron" => true,
 }

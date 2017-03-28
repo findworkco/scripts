@@ -9,11 +9,6 @@ TODO: Destroy `use_sops`
 TODO: Document initial `decrypt` if necessary (in Wercker we'll likely need something for that... I think we have a `cp` mechanism)
     Maybe put it in the bootstraps
 
-TODO: Maybe create a `config` folder and a Node.js script to define our config
-    TODO: Node.js script is prob a bad idea as we need existing system dependencies. Prob only Ruby valid
-    TODO: Maybe do similar inheritance system to `app` though?
-        Let's keep it intentionally shallow for sanity/simplicity
-TODO: Relocate `/data/var/sops/find-work/scripts/secret.yml` to `config`
 TODO: Delete `/data/var/.../secret.yml` from remotes
 TODO: Then have a script which creates a YML file or overloads existing config on remote
     Prob with a comment about its argv

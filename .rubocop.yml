@@ -18,6 +18,11 @@ AllCops:
 Style/AlignParameters:
   Enabled: false
 
+# Allow redundant braces around hash parameter for clarity
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/braces_around_hash_parameters.rb
+Style/BracesAroundHashParameters:
+  Enabled: false
+
 # Don't require documentation for every class/module
 # https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/documentation.rb
 Style/Documentation:
@@ -43,6 +48,12 @@ Style/HashSyntax:
 # https://github.com/bbatsov/rubocop/blob/v0.36.0/config/enabled.yml#L324
 Style/IfUnlessModifier:
   Enabled: false
+
+# Allow sane indentation for hash
+# Example: `env({\n  :abc => :def\n})`
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/indent_hash.rb
+Style/IndentHash:
+  EnforcedStyle: consistent
 
 # Prefer concatenation rather than trailing slash hacks
 # DEV: Skipping concatenation is a micro-optimization. The compiler/interpreter will optimize it out if necessary

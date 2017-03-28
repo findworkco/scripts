@@ -27,8 +27,6 @@ fi
 mkdir -p /var/find-work/scripts
 NODE_TYPE=vagrant ruby "$base_dir/config/index.rb" > /var/find-work/scripts/index.yml
 
-exit 0
-
 # If we haven't set up SSL certificates, then generate and install them
 if ! test -f /etc/ssl/certs/findwork.co.crt; then
   # Create our certificates

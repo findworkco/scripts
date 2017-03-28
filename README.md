@@ -8,9 +8,7 @@ TODO: Document initial `decrypt` if necessary (in Wercker we'll likely need some
     Both Vagrant and remote should use live data
 
 TODO: See TODOs
-TODO: Delete `/data/var/.../secret.yml` from remotes
 TODO: Then have a script which creates a YML file or overloads existing config on remote
-    Prob with a comment about its argv
 
 [twolfson/twolfson.com-scripts]: https://github.com/twolfson/twolfson.com-scripts
 

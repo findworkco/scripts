@@ -101,3 +101,15 @@ directory "/var/log/findworkco/app" do
   group("ubuntu")
   mode("755") # u=rwx,g=rx,o=rx
 end
+
+# Set up our daily cron
+data_file "/etc/cron.daily/findworkco-scripts" do
+  if CONFIG.fetch("run_cron")
+    owner("root")
+    group("root")
+    mode("755") # u=rwx,g=rx,o=rx
+    action(:create)
+  else
+    action(:delete)
+  end
+end

@@ -13,27 +13,16 @@ if test "$target_host" = "" || test "${target_host:0:1}" = "-"; then
   exit 1
 fi
 
-# Parse remaining arguments
-# http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_03.html
-# http://superuser.com/a/541675
-while true; do
-  case "$1" in
-    # DEV: We can dodge `&&` since we are using `set -e`
-    --secret-key) shift; export secret_key="$1"; shift || break;;
-    *) break;;
-  esac
-done
-
-# If we don't have a secret key, then complain and leave
-if test "$secret_key" = ""; then
-  echo "Secret key was not set. Please pass it as an argument (\`--secret_key\`) to \`$0\`" 1>&2
-  echo "$usage_str" 1>&2
-  exit 1
-fi
-
 # Output all future commands
 set -x
 
-# Declare our command for SSH and run it
-gpg_import_command="echo \"$(cat "$secret_key")\" | gpg --import -"
-ssh "$target_host" "$gpg_import_command"
+# Generate our config
+mkdir -p tmp/config
+bin/decrypt-config.sh
+NODE_TYPE=remote ruby config/index.rb > tmp/config/remote.yml
+
+# Upload it to
+ssh "$target_host" "mkdir -p /var/find-work/scripts"
+rsync -havz --chmod=0000 tmp/config/remote.yml "$target_host:/var/find-work/scripts/index.yml"
+ssh "$target_host" "sudo chown -R root:root /var/find-work"
+ssh "$target_host" "sudo chmod u=rw,g=r,o=r /var/find-work/scripts/index.yml"

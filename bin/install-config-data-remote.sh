@@ -23,8 +23,6 @@ NODE_TYPE=remote ruby config/index.rb > tmp/config/remote.yml
 
 # Upload it to our host and install it
 rsync -havz --chmod=0000 tmp/config/remote.yml "$target_host:remote.yml"
-ssh "$target_host" ""
-# Correct permissions and relocate our files
 ssh "$target_host" <<EOF
 # Exit upon first error and echo commands
 set -e
@@ -32,7 +30,7 @@ set -x
 
 # Correct our permissions
 sudo chown root:root remote.yml
-sudo chmod u=rw,g=r,o=r remote.yml
+sudo chmod u=r,g=,o= remote.yml
 
 # Install our configuration
 sudo mkdir -p /var/find-work/scripts

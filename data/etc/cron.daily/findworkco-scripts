@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Exit on our first error
+# Exit on our first error and output commands
 set -e
+set -x
 
 # DEV: We could always provide a script and call `app/bin/cron.daily` with the appropriate `ENV`
 #   but there's logical kinks like where the dead person's switch lives

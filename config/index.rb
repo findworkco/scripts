@@ -4,6 +4,9 @@ require "date"
 require "yaml"
 require_relative "./static.rb"
 
+# Define our constants
+__DIR__ = File.dirname(__FILE__)
+
 # Resolve our node type
 NODE_TYPE = ENV["NODE_TYPE"]
 if not NODE_TYPE
@@ -17,8 +20,11 @@ if not ["vagrant", "wercker", "remote"].include?(NODE_TYPE)
 end
 
 # Resolve our git version
-GIT_VERSION = `git rev-parse HEAD`.strip()
-if GIT_VERSION.empty?() then raise() end
+# http://stackoverflow.com/a/10148325
+Dir.chdir(__DIR__) {
+  GIT_VERSION = `git rev-parse HEAD`.strip()
+  if GIT_VERSION.empty?() then raise() end
+}
 
 # Define our main function
 def get_config()

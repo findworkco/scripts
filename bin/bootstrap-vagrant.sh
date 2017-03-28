@@ -18,11 +18,14 @@ fi
 cp --preserve --recursive "$src_data_dir" "$target_data_dir"
 
 # Generate our configuration
+if ! which git &> /dev/null; then
+  sudo apt-get install -y git
+fi
 if ! which ruby1.9.3 &> /dev/null; then
   sudo apt-get install -y ruby1.9.3
 fi
 mkdir -p /var/find-work/scripts
-NODE_TYPE=vagrant ruby config/index.rb > /var/find-work/scripts/index.yml
+NODE_TYPE=vagrant ruby "$base_dir/config/index.rb" > /var/find-work/scripts/index.yml
 
 exit 0
 
@@ -103,9 +106,6 @@ if ! sudo su vagrant --command "$echo_command" &> /dev/null; then
 fi
 
 # Install development repos and scripts
-if ! which git &> /dev/null; then
-  sudo apt-get install -y git
-fi
 if ! test -d "$base_dir/app"; then
   git clone git@github.com:twolfson/find-work-app.git "$base_dir/app"
 fi

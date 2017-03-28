@@ -8,6 +8,21 @@ base_dir="$PWD"
 data_dir="$base_dir/data"
 src_dir="$base_dir/src"
 
+# Decrypt our configuration automatically (done manually in other setups)
+cd "$base_dir"
+CONFIG_COPY_ONLY=TRUE bin/decrypt-config.sh
+cd -
+
+# Generate our configuration
+if ! which git &> /dev/null; then
+  sudo apt-get install -y git
+fi
+if ! which ruby1.9.3 &> /dev/null; then
+  sudo apt-get install -y ruby1.9.3
+fi
+mkdir -p /var/find-work/scripts
+NODE_TYPE=vagrant ruby "$base_dir/config/index.rb" > /var/find-work/scripts/index.yml
+
 # If we haven't set up SSL certificates, then generate and install them
 if ! test -f /etc/ssl/certs/findwork.co.crt; then
   # Create our certificates

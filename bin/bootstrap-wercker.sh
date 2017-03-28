@@ -8,11 +8,6 @@ base_dir="$PWD"
 data_dir="$base_dir/data"
 src_dir="$base_dir/src"
 
-# Decrypt our configuration automatically (done manually in other setups)
-cd "$base_dir"
-CONFIG_COPY_ONLY=TRUE bin/decrypt-config.sh
-cd -
-
 # Generate our configuration
 if ! which git &> /dev/null; then
   sudo apt-get install -y git
@@ -20,6 +15,9 @@ fi
 if ! which ruby1.9.3 &> /dev/null; then
   sudo apt-get install -y ruby1.9.3
 fi
+cd "$base_dir"
+CONFIG_COPY_ONLY=TRUE bin/decrypt-config.sh
+cd -
 mkdir -p /var/find-work/scripts
 NODE_TYPE=vagrant ruby "$base_dir/config/index.rb" > /var/find-work/scripts/index.yml
 sudo chown root:root /var/find-work/scripts/index.yml

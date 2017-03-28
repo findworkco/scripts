@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Exit on our first error
+set -e
+
+# DEV: We could always provide a script and call `app/bin/cron.daily` with the appropriate `ENV`
+#   but there's logical kinks like where the dead person's switch lives
+#   so we're going with the simpler choice for now
+
+# Run our backup script
+ENV=production /usr/bin/node /home/ubuntu/app/main/bin/backup-remote-db.js
+
+# Notify our healthcheck of success
+curl --retry 3 https://hchk.io/950baa38-883c-4834-a67e-7ca0c3eed394

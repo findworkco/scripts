@@ -8,7 +8,9 @@ set -x
 #   so we're going with the simpler choice for now
 
 # Run our backup script
+cd /home/ubuntu/app/main
 ENV=production /usr/bin/node /home/ubuntu/app/main/bin/backup-remote-db.js
+cd -
 
 # Notify our healthcheck of success
 curl --retry 3 https://hchk.io/950baa38-883c-4834-a67e-7ca0c3eed394

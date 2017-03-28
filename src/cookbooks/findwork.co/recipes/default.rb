@@ -82,9 +82,11 @@ end
 execute "postgresql-add-user-find-work" do
   only_if("! #{src_dir}/cookbooks/findwork.co/recipes/postgresql-user-exists-find-work.sh")
   command("#{src_dir}/cookbooks/findwork.co/recipes/postgresql-add-user-find-work.sh")
+  # DEV: We use explicit keys to avoid a convention that could leak secrets (e.g. `env(CONFIG)` for all execute)
+  # DEV: We use `fetch` to guarantee our variables exist before passing
   env({
-    "user" => CONFIG.fetch("find_work_db_user_user"),
-    "password" => CONFIG.fetch("find_work_db_user_password"),
+    :find_work_db_user_user => CONFIG.fetch("find_work_db_user_user"),
+    :find_work_db_user_password => CONFIG.fetch("find_work_db_user_password"),
   })
 end
 

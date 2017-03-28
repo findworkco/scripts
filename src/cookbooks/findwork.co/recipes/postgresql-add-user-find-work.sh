@@ -3,14 +3,16 @@
 set -e
 set -u
 
-
-echo "oh hai"
-env
+# Resolve our environment variables
+if test "$find_work_db_user_user" = "" || test "$find_work_db_user_password" = ""; then
+  echo "Expected environment variable \`find_work_db_user_user\` and \`find_work_db_user_password\` to be defined but at least one of them wasn\'t" 1>&2
+  exit 1
+fi
 
 # Fetch our user's password
 # DEV: We cannot run this branch inside of Vagrant due to
-user="find_work"
-password="find_work"
+user="$find_work_db_user_user"
+password="$find_work_db_user_password"
 if test "$use_sops" = "TRUE"; then
   sops_secret_filepath="$data_dir/var/sops/find-work/scripts/secret.yml"
   key="[\"find_work_db_user_password\"]"

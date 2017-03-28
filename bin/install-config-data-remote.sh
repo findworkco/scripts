@@ -21,10 +21,21 @@ mkdir -p tmp/config
 bin/decrypt-config.sh
 NODE_TYPE=remote ruby config/index.rb > tmp/config/remote.yml
 
-# TODO: Test me....
+# Upload it to our host and install it
+rsync -havz --chmod=0000 tmp/config/remote.yml "$target_host:remote.yml"
+ssh "$target_host" ""
+# Correct permissions and relocate our files
+ssh "$target_host" <<EOF
+# Exit upon first error and echo commands
+set -e
+set -x
 
-# Upload it to
-ssh "$target_host" "mkdir -p /var/find-work/scripts"
-rsync -havz --chmod=0000 tmp/config/remote.yml "$target_host:/var/find-work/scripts/index.yml"
-ssh "$target_host" "sudo chown -R root:root /var/find-work"
-ssh "$target_host" "sudo chmod u=rw,g=r,o=r /var/find-work/scripts/index.yml"
+# Correct our permissions
+sudo chown root:root remote.yml
+sudo chmod u=rw,g=r,o=r remote.yml
+
+# Install our configuration
+sudo mkdir -p /var/find-work/scripts
+sudo chown -R root:root /var/find-work
+sudo mv remote.yml /var/find-work/scripts/index.yml
+EOF

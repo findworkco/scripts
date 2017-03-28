@@ -25,8 +25,8 @@ else
 fi
 
 # Resolve our token for Librato
-librato_username="$(sops --decrypt --extract "[\"librato_username\"]" data/var/sops/find-work/scripts/secret.yml)"
-librato_token="$(sops --decrypt --extract "[\"librato_token\"]" data/var/sops/find-work/scripts/secret.yml)"
+librato_username="$(sops --decrypt --extract "[\"librato_username\"]" config/static-secrets.enc.yml)"
+librato_token="$(sops --decrypt --extract "[\"librato_token\"]" config/static-secrets.enc.yml)"
 if test "$librato_username" = "" || test "$librato_token" = ""; then
   echo "Unable to resolve Librato information" 1>&2
   exit 1

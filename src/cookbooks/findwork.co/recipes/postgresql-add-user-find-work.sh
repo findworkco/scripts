@@ -3,15 +3,15 @@
 set -e
 set -u
 
-# Fetch our user's password
-# DEV: We cannot run this branch inside of Vagrant due to
-user="find_work"
-password="find_work"
-if test "$use_sops" = "TRUE"; then
-  sops_secret_filepath="$data_dir/var/sops/find-work/scripts/secret.yml"
-  key="[\"find_work_db_user_password\"]"
-  password="$(sops "$sops_secret_filepath" --decrypt --extract "$key")"
+# Resolve our environment variables
+if test "$find_work_db_user_user" = "" || test "$find_work_db_user_password" = ""; then
+  echo "Expected environment variable \`find_work_db_user_user\` and \`find_work_db_user_password\` to be defined but at least one of them wasn\'t" 1>&2
+  exit 1
 fi
+
+# Alias our variables for simplicity
+user="$find_work_db_user_user"
+password="$find_work_db_user_password"
 
 # Create our user
 create_user_command="psql --command \"CREATE ROLE $user WITH LOGIN;\""

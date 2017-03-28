@@ -18,6 +18,11 @@ AllCops:
 Style/AlignParameters:
   Enabled: false
 
+# Allow redundant braces around hash parameter for clarity
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/braces_around_hash_parameters.rb
+Style/BracesAroundHashParameters:
+  Enabled: false
+
 # Don't require documentation for every class/module
 # https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/documentation.rb
 Style/Documentation:
@@ -44,6 +49,12 @@ Style/HashSyntax:
 Style/IfUnlessModifier:
   Enabled: false
 
+# Allow sane indentation for hash
+# Example: `env({\n  :abc => :def\n})`
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/indent_hash.rb
+Style/IndentHash:
+  EnforcedStyle: consistent
+
 # Prefer concatenation rather than trailing slash hacks
 # DEV: Skipping concatenation is a micro-optimization. The compiler/interpreter will optimize it out if necessary
 # https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/line_end_concatenation.rb
@@ -55,6 +66,11 @@ Style/LineEndConcatenation:
 # https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/method_call_parentheses.rb
 # https://github.com/bbatsov/rubocop/blob/v0.36.0/config/enabled.yml#L392
 Style/MethodCallParentheses:
+  Enabled: false
+
+# Allow both `if` and `unless` for appropriate situation
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/negated_if.rb
+Style/NegatedIf:
   Enabled: false
 
 # Allow numeric literals to not use `_` as 3 digit delimiter

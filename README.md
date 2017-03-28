@@ -41,6 +41,11 @@ vagrant plugin install vagrant-lxc
 # https://github.com/fgrehm/vagrant-lxc/blob/v1.2.1/lib/vagrant-lxc/command/sudoers.rb
 vagrant lxc sudoers
 
+# Decrypt our configuration
+CONFIG_COPY_ONLY=TRUE bin/decrypt-config.sh
+# To decrypt our secrets (e.g. production db password), use
+#   CONFIG_COPY_ONLY=FALSE bin/decrypt-config.sh
+
 # Start our Vagrant instance
 vagrant up
 
@@ -99,6 +104,9 @@ Host digital-my-server
             - `--armor` exports a human-friendly ASCII format instead of binary
     - If you are trying to get a replica working (e.g. don't have these certificates), then a key can be generated via these instructions
         - https://gist.github.com/twolfson/01d515258eef8bdbda4f#setting-up-sops-with-pgp
+- Install our server configuration
+    - `bin/install-config-data-remote.sh digital-my-server`
+    - If you are trying to get a replica working (e.g. don't have these certificates), then use `CONFIG_COPY_ONLY=TRUE` to prevent SOPS errors
 - Bootstrap our server
     - `bin/bootstrap-remote.sh digital-my-server`
 - Update `~/.ssh/config` to use `User ubuntu` instead of `User root`
@@ -143,7 +151,7 @@ bin/deploy-app.sh digital-my-server
 ```
 
 ### Editing secrets
-We maintain a set of secrets (e.g. passwords) for provisioning in production in `data/var/sops/find-work/scripts`. To edit these files locally, perform the following steps:
+We maintain a set of secrets (e.g. passwords) for provisioning in production in `config/static-secrets.enc.yml`. To edit these files locally, perform the following steps:
 
 - Install SOPS' dependencies as specified by https://github.com/mozilla/sops/tree/0494bc41911bc6e050ddd8a5da2bbb071a79a5b7#up-and-running-in-60-seconds
 - Install our consistent patched SOPS version
@@ -154,7 +162,7 @@ We maintain a set of secrets (e.g. passwords) for provisioning in production in 
 - Install the `find-work-scripts` PGP private key to GPG
     - `gpg --import private.rsa`
 - Edit the SOPS file
-    - `sops data/var/sops/find-work/scripts/secret.yml`
+    - `bin/edit-secrets.sh`
 
 If you would like to learn more about PGP and SOPS, @twolfson has prepared this document:
 

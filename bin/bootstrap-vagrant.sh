@@ -8,14 +8,23 @@ base_dir="/vagrant"
 src_data_dir="/vagrant/data"
 target_data_dir="$HOME/data"
 
-# Set up flags for bootstrapping
-use_sops="FALSE"
-
 # Copy our data to a non-shared directory to prevent permissions from getting messed up
 if test -d "$target_data_dir"; then
   rm -r "$target_data_dir"
 fi
 cp --preserve --recursive "$src_data_dir" "$target_data_dir"
+
+# Generate our configuration
+if ! which git &> /dev/null; then
+  sudo apt-get install -y git
+fi
+if ! which ruby1.9.3 &> /dev/null; then
+  sudo apt-get install -y ruby1.9.3
+fi
+mkdir -p /var/find-work/scripts
+NODE_TYPE=vagrant ruby "$base_dir/config/index.rb" > /var/find-work/scripts/index.yml
+sudo chown root:root /var/find-work/scripts/index.yml
+sudo chmod u=r,g=,o= /var/find-work/scripts/index.yml
 
 # If we haven't set up SSL certificates, then generate and install them
 if ! test -f /etc/ssl/certs/findwork.co.crt; then
@@ -94,9 +103,6 @@ if ! sudo su vagrant --command "$echo_command" &> /dev/null; then
 fi
 
 # Install development repos and scripts
-if ! which git &> /dev/null; then
-  sudo apt-get install -y git
-fi
 if ! test -d "$base_dir/app"; then
   git clone git@github.com:twolfson/find-work-app.git "$base_dir/app"
 fi

@@ -1,5 +1,7 @@
 # Load in our dependencies
+# DEV: We use `require` for config instead of environment variables as they get tedious to pass
 include_recipe "common"
+require "#{ENV.fetch("src_dir")}/config.rb"
 
 # Guarantee `node` is installed
 # @depends_on execute[apt-get-update-periodic]
@@ -80,6 +82,12 @@ end
 execute "postgresql-add-user-find-work" do
   only_if("! #{src_dir}/cookbooks/findwork.co/recipes/postgresql-user-exists-find-work.sh")
   command("#{src_dir}/cookbooks/findwork.co/recipes/postgresql-add-user-find-work.sh")
+  # DEV: We use explicit keys to avoid a convention that could leak secrets (e.g. `env(CONFIG)` for all execute)
+  # DEV: We use `fetch` to guarantee our variables exist before passing
+  env({
+    :find_work_db_user_user => CONFIG.fetch("find_work_db_user_user"),
+    :find_work_db_user_password => CONFIG.fetch("find_work_db_user_password"),
+  })
 end
 
 # Set up log folder for our find-work-app repo

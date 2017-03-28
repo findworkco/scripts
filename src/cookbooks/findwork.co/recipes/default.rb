@@ -108,8 +108,11 @@ end
 #   so we're going with the simpler choice for now
 data_file "/etc/cron.daily/findworkco-scripts" do
   if CONFIG.fetch("run_cron")
-
+    owner("root")
+    group("root")
+    mode("755") # u=rwx,g=rx,o=rx
+    action(:create)
   else
-
+    action(:delete)
   end
 end

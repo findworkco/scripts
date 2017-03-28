@@ -28,5 +28,3 @@ CONFIG["remote"] = {
   "find_work_db_user_user" => "find_work",
   "find_work_db_user_password" => static_secrets.fetch("find_work_db_user_password"),
 }
-
-# TODO: Expose Librato as well

@@ -3,6 +3,10 @@
 set -e
 set -u
 
+
+echo "oh hai"
+env
+
 # Fetch our user's password
 # DEV: We cannot run this branch inside of Vagrant due to
 user="find_work"

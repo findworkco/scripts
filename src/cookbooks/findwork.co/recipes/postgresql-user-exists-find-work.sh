@@ -3,6 +3,10 @@
 set -e
 
 # Prepare and run our command
+echo "oh hai" 1>&2
+env 1>&2
+exit 1
+
 user="find_work"
 find_work_query_command="psql postgres --command \"SELECT usename FROM pg_user WHERE usename='$user';\" --tuples --no-align"
 test "$(sudo su postgres --shell /bin/bash --command "$find_work_query_command")" = "$user"

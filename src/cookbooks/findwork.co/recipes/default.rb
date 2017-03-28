@@ -82,6 +82,10 @@ end
 execute "postgresql-add-user-find-work" do
   only_if("! #{src_dir}/cookbooks/findwork.co/recipes/postgresql-user-exists-find-work.sh")
   command("#{src_dir}/cookbooks/findwork.co/recipes/postgresql-add-user-find-work.sh")
+  env({
+    "user" => CONFIG.fetch("find_work_db_user_user"),
+    "password" => CONFIG.fetch("find_work_db_user_password"),
+  })
 end
 
 # Set up log folder for our find-work-app repo

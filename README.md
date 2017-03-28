@@ -4,7 +4,8 @@ Organizational and maintenance scripts for Find Work repositories
 This repository is heavily based on [twolfson/twolfson.com-scripts][].
 
 TODO: Document initial `decrypt` if necessary (in Wercker we'll likely need something for that... I think we have a `cp` mechanism)
-    Maybe put it in the bootstraps
+    Maybe put it in the bootstraps (only wercker)
+    Both Vagrant and remote should use live data
 
 TODO: See TODOs
 TODO: Delete `/data/var/.../secret.yml` from remotes
@@ -151,7 +152,7 @@ bin/deploy-app.sh digital-my-server
 ```
 
 ### Editing secrets
-We maintain a set of secrets (e.g. passwords) for provisioning in production in `data/var/sops/find-work/scripts`. To edit these files locally, perform the following steps:
+We maintain a set of secrets (e.g. passwords) for provisioning in production in `config/static-secrets.enc.yml`. To edit these files locally, perform the following steps:
 
 - Install SOPS' dependencies as specified by https://github.com/mozilla/sops/tree/0494bc41911bc6e050ddd8a5da2bbb071a79a5b7#up-and-running-in-60-seconds
 - Install our consistent patched SOPS version

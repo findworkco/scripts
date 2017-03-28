@@ -23,6 +23,8 @@ if ! which ruby1.9.3 &> /dev/null; then
 fi
 mkdir -p /var/find-work/scripts
 NODE_TYPE=vagrant ruby "$base_dir/config/index.rb" > /var/find-work/scripts/index.yml
+sudo chown root:root /var/find-work/scripts/index.yml
+sudo chmod u=r,g=,o= /var/find-work/scripts/index.yml
 
 # If we haven't set up SSL certificates, then generate and install them
 if ! test -f /etc/ssl/certs/findwork.co.crt; then

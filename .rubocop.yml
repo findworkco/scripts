@@ -68,6 +68,11 @@ Style/LineEndConcatenation:
 Style/MethodCallParentheses:
   Enabled: false
 
+# Allow both `if` and `unless` for appropriate situation
+# https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/negated_if.rb
+Style/NegatedIf:
+  Enabled: false
+
 # Allow numeric literals to not use `_` as 3 digit delimiter
 # Example: `12345`, not `12_345`
 # https://github.com/bbatsov/rubocop/blob/v0.36.0/lib/rubocop/cop/style/numeric_literals.rb

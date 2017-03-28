@@ -1,8 +1,6 @@
 # scripts [![wercker status](https://app.wercker.com/status/425773dc85192ae3b37425708037be8e/s/master)](https://app.wercker.com/project/bykey/425773dc85192ae3b37425708037be8e)
 Organizational and maintenance scripts for Find Work repositories
 
-TODO: Fix lint errors
-
 This repository is heavily based on [twolfson/twolfson.com-scripts][].
 
 [twolfson/twolfson.com-scripts]: https://github.com/twolfson/twolfson.com-scripts

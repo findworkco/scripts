@@ -47,6 +47,11 @@ vagrant plugin install vagrant-lxc
 # https://github.com/fgrehm/vagrant-lxc/blob/v1.2.1/lib/vagrant-lxc/command/sudoers.rb
 vagrant lxc sudoers
 
+# Decrypt our configuration
+CONFIG_COPY_ONLY=TRUE bin/decrypt-config.sh
+# To decrypt our secrets (e.g. production db password), use
+#   CONFIG_COPY_ONLY=FALSE bin/decrypt-config.sh
+
 # Start our Vagrant instance
 vagrant up
 
@@ -105,6 +110,9 @@ Host digital-my-server
             - `--armor` exports a human-friendly ASCII format instead of binary
     - If you are trying to get a replica working (e.g. don't have these certificates), then a key can be generated via these instructions
         - https://gist.github.com/twolfson/01d515258eef8bdbda4f#setting-up-sops-with-pgp
+- Install our server configuration
+    - `bin/install-config-data-remote.sh digital-my-server`
+    - If you are trying to get a replica working (e.g. don't have these certificates), then use `CONFIG_COPY_ONLY=TRUE` to prevent SOPS errors
 - Bootstrap our server
     - `bin/bootstrap-remote.sh digital-my-server`
 - Update `~/.ssh/config` to use `User ubuntu` instead of `User root`

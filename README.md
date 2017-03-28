@@ -6,6 +6,8 @@ This repository is heavily based on [twolfson/twolfson.com-scripts][].
 TODO: Document initial `decrypt` if necessary (in Wercker we'll likely need something for that... I think we have a `cp` mechanism)
     Maybe put it in the bootstraps (only wercker)
     Both Vagrant and remote should use live data
+TODO: Add test for owner of `/var.../`
+TODO: Add test for owner of `/var.../config`
 
 TODO: See TODOs
 TODO: Then have a script which creates a YML file or overloads existing config on remote

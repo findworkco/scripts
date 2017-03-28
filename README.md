@@ -10,7 +10,6 @@ TODO: Add test for owner of `/var.../`
 TODO: Add test for owner of `/var.../config`
 
 TODO: See TODOs
-TODO: Then have a script which creates a YML file or overloads existing config on remote
 
 [twolfson/twolfson.com-scripts]: https://github.com/twolfson/twolfson.com-scripts
 

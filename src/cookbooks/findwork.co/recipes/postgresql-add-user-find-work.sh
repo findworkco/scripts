@@ -9,15 +9,9 @@ if test "$find_work_db_user_user" = "" || test "$find_work_db_user_password" = "
   exit 1
 fi
 
-# Fetch our user's password
-# DEV: We cannot run this branch inside of Vagrant due to
+# Alias our variables for simplicity
 user="$find_work_db_user_user"
 password="$find_work_db_user_password"
-if test "$use_sops" = "TRUE"; then
-  sops_secret_filepath="$data_dir/var/sops/find-work/scripts/secret.yml"
-  key="[\"find_work_db_user_password\"]"
-  password="$(sops "$sops_secret_filepath" --decrypt --extract "$key")"
-fi
 
 # Create our user
 create_user_command="psql --command \"CREATE ROLE $user WITH LOGIN;\""

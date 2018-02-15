@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Taken from `find-work-app`
+# Taken from `findworkco/app`
 # Exit on first error
 set -e
 

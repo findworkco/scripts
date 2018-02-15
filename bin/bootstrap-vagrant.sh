@@ -104,7 +104,7 @@ fi
 
 # Install development repos and scripts
 if ! test -d "$base_dir/app"; then
-  git clone git@github.com:twolfson/find-work-app.git "$base_dir/app"
+  git clone git@github.com:findworkco/app.git "$base_dir/app"
 fi
 if ! test -f ~vagrant/quick-start-app.sh; then
   ln -s "$base_dir/app/bin/quick-start.sh" ~vagrant/quick-start-app.sh

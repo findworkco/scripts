@@ -28,7 +28,7 @@ cd tmp/build/
 
 # Clone our repository for a fresh start
 # DEV: This is to prevent using accidentally dirty `data/`
-git clone git@github.com:twolfson/find-work-scripts.git scripts
+git clone git@github.com:findworkco/scripts.git scripts
 cd scripts
 
 # Checkout the requested branch

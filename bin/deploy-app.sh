@@ -44,7 +44,7 @@ cd tmp/build/
 
 # Clone our repository for a fresh start
 # DEV: This is to prevent using accidentally dirty `data/`
-git clone $git_depth_flag git@github.com:twolfson/find-work-app.git app
+git clone $git_depth_flag git@github.com:findworkco/app.git app
 cd app
 
 # Checkout the requested branch
@@ -67,12 +67,12 @@ cd ../
 
 # Notify Librato that our deployment has started
 # https://www.librato.com/docs/api/#create-an-annotation
-# {"id":287072313,"title":"Deploy 20170213.224423.773304961","description":null,"source":"unassigned","start_time":1487025855,"end_time":null,"links":[{"label":"GitHub","href":"https://github.com/twolfson/find-work-app/tree/20170213.224423.773304961","rel":"github"}]}
+# {"id":287072313,"title":"Deploy 20170213.224423.773304961","description":null,"source":"unassigned","start_time":1487025855,"end_time":null,"links":[{"label":"GitHub","href":"https://github.com/findworkco/app/tree/20170213.224423.773304961","rel":"github"}]}
 librato_response="$(curl \
   -u "$librato_username:$librato_token" \
   -d "title=Deploy $git_tag&start_time=$start_time" \
   -d "links[0][label]=GitHub" \
-  -d "links[0][href]=https://github.com/twolfson/find-work-app/tree/$git_tag" \
+  -d "links[0][href]=https://github.com/findworkco/app/tree/$git_tag" \
   -d "links[0][rel]=github" \
   -X POST "https://metrics-api.librato.com/v1/annotations/app-deploys")"
 librato_annotation_id="$(echo "$librato_response" | sed -E "s/.*\"id\":([0-9]+).*/\1/")"

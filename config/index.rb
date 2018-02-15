@@ -1,5 +1,5 @@
 # Load in our dependencies
-# Based on https://github.com/twolfson/find-work-app/blob/20170325.015012.671544694/config/index.js
+# Based on https://github.com/findworkco/app/blob/20170325.015012.671544694/config/index.js
 require "date"
 require "yaml"
 require_relative "./static.rb"

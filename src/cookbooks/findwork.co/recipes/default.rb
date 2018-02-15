@@ -67,7 +67,7 @@ data_file "/etc/redis/app-redis.conf" do
   notifies(:run, "execute[app_redis_restart]", :delayed)
 end
 
-# Set up PostgreSQL user for our find-work-app repo
+# Set up PostgreSQL user for our findworkco/app repo
 # Guarantee our scripts are executable
 # DEV: We can lose executability during provisioning
 src_dir = ENV.fetch("src_dir")
@@ -90,7 +90,7 @@ execute "postgresql-add-user-find-work" do
   })
 end
 
-# Set up log folder for our find-work-app repo
+# Set up log folder for our findworkco/app repo
 directory "/var/log/findworkco" do
   owner("ubuntu")
   group("ubuntu")

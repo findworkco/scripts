@@ -27,7 +27,7 @@ To get our server running, perform the following steps:
 
 ```bash
 # Clone our repository
-git clone git@github.com:twolfson/find-work-scripts.git scripts
+git clone git@github.com:findworkco/scripts.git scripts
 cd scripts
 
 # Install our plugin dependencies
@@ -141,7 +141,7 @@ bin/bootstrap-remote.sh digital-my-server
 ```
 
 ### Deploying a service
-To deploy a service, use its respective `bin/deploy-*.sh` script. Here's an example with `find-work-app`:
+To deploy a service, use its respective `bin/deploy-*.sh` script. Here's an example with `findworkco/app`:
 
 ```bash
 bin/deploy-app.sh digital-my-server
@@ -156,10 +156,10 @@ We maintain a set of secrets (e.g. passwords) for provisioning in production in 
 - Install SOPS' dependencies as specified by https://github.com/mozilla/sops/tree/0494bc41911bc6e050ddd8a5da2bbb071a79a5b7#up-and-running-in-60-seconds
 - Install our consistent patched SOPS version
     - `pip install --upgrade sops==1.15`
-- Ask a coworker for the `find-work-scripts` PGP private key
+- Ask a coworker for the `findworkco/scripts` PGP private key
     - We assume you will receive it as `private.rsa`
     - For coworkers, see the Provisioning a new server section for dump commands
-- Install the `find-work-scripts` PGP private key to GPG
+- Install the `findworkco/scripts` PGP private key to GPG
     - `gpg --import private.rsa`
 - Edit the SOPS file
     - `bin/edit-secrets.sh`

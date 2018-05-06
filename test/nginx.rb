@@ -23,12 +23,12 @@ describe "NGINX" do
 
   it "has proper permissions for SSL certs" do
     crt_file = symlinked_file("/etc/letsencrypt/live/findwork.co/fullchain.pem")
-    expect(crt_file.mode).to(eq((USER_RWX | GROUP_RWX | OTHER_RWX).to_s(8)))
+    expect(crt_file.mode).to(eq((USER_RW | GROUP_R | OTHER_R).to_s(8)))
     expect(crt_file.owner).to(eq(ROOT_USER))
     expect(crt_file.group).to(eq(ROOT_GROUP))
 
     key_file = symlinked_file("/etc/letsencrypt/live/findwork.co/privkey.pem")
-    expect(key_file.mode).to(eq((USER_R | GROUP_NONE | OTHER_NONE).to_s(8)))
+    expect(key_file.mode).to(eq((USER_RW | GROUP_R | OTHER_R).to_s(8)))
     expect(key_file.owner).to(eq(ROOT_USER))
     expect(key_file.group).to(eq(ROOT_GROUP))
   end

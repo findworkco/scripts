@@ -27,7 +27,7 @@ sudo chown root:root /var/find-work/scripts/index.yml
 sudo chmod u=r,g=,o= /var/find-work/scripts/index.yml
 
 # If we haven't set up SSL certificates, then generate and install them
-if ! test -f /etc/ssl/certs/findwork.co.crt; then
+if ! test -f /etc/letsencrypt/live/findwork.co/fullchain.pem; then
   # Create our certificates
   # https://www.digitalocean.com/community/tutorials/openssl-essentials-working-with-ssl-certificates-private-keys-and-csrs#generate-a-self-signed-certificate
   # https://www.openssl.org/docs/manmaster/apps/req.html#EXAMPLES
@@ -40,18 +40,18 @@ if ! test -f /etc/ssl/certs/findwork.co.crt; then
   #   Email Address []:
   openssl_subj="/C=US/ST=Illinois/L=Chicago/O=Shoulders of Titans LLC/CN=Find Work/emailAddress=todd@findwork.co"
   openssl req \
-    -newkey rsa:2048 -nodes -keyout findwork.co.key \
-    -x509 -days 365 -out findwork.co.crt \
+    -newkey rsa:2048 -nodes -keyout privkey.pem \
+    -x509 -days 365 -out fullchain.pem \
     -subj "$openssl_subj"
 
   # Install our certificates
-  sudo mv findwork.co.crt /etc/ssl/certs/findwork.co.crt
-  sudo chown root:root /etc/ssl/certs/findwork.co.crt
-  sudo chmod a=rwx /etc/ssl/certs/findwork.co.crt # Anyone can do all the things
+  sudo mv fullchain.pem /etc/letsencrypt/live/findwork.co/fullchain.pem
+  sudo chown root:root /etc/letsencrypt/live/findwork.co/fullchain.pem
+  sudo chmod a=rwx /etc/letsencrypt/live/findwork.co/fullchain.pem # Anyone can do all the things
 
-  sudo mv findwork.co.key /etc/ssl/private/findwork.co.key
-  sudo chown root:root /etc/ssl/private/findwork.co.key
-  sudo chmod u=r,g=,o= /etc/ssl/private/findwork.co.key # Only user can read this file
+  sudo mv privkey.pem /etc/letsencrypt/live/findwork.co/privkey.pem
+  sudo chown root:root /etc/letsencrypt/live/findwork.co/privkey.pem
+  sudo chmod u=r,g=,o= /etc/letsencrypt/live/findwork.co/privkey.pem # Only user can read this file
 fi
 
 # If we haven't set up a Diffie-Hellman group, then create and install it

@@ -45,12 +45,15 @@ if ! test -f /etc/letsencrypt/archive/findwork.co/fullchain1.pem; then
     -subj "$openssl_subj"
 
   # Install our certificates
-  sudo ln -s ../../archive/fullchain1.pem /etc/letsencrypt/live/findwork.co/fullchain.pem
+  sudo mkdir -p /etc/letsencrypt/archive/findwork.co
+  sudo mkdir -p /etc/letsencrypt/live/findwork.co
+
+  sudo ln -s ../../archive/findwork.co/fullchain1.pem /etc/letsencrypt/live/findwork.co/fullchain.pem
   sudo mv fullchain1.pem /etc/letsencrypt/archive/findwork.co/fullchain1.pem
   sudo chown root:root /etc/letsencrypt/archive/findwork.co/fullchain1.pem
   sudo chmod u=rw,g=r,o=r /etc/letsencrypt/archive/findwork.co/fullchain1.pem # Only user can write this file, anyone can read
 
-  sudo ln -s ../../archive/privkey1.pem /etc/letsencrypt/live/findwork.co/privkey.pem
+  sudo ln -s ../../archive/findwork.co/privkey1.pem /etc/letsencrypt/live/findwork.co/privkey.pem
   sudo mv privkey1.pem /etc/letsencrypt/archive/findwork.co/privkey1.pem
   sudo chown root:root /etc/letsencrypt/archive/findwork.co/privkey1.pem
   sudo chmod u=rw,g=r,o=r /etc/letsencrypt/archive/findwork.co/privkey1.pem # Only user can write this file, anyone can read

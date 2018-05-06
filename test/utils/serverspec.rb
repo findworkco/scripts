@@ -50,7 +50,7 @@ def symlinked_file(filepath)
   link_file = file(filepath)
   # /etc/letsencrypt/live/findwork.co/fullchain.pem ->
   # /etc/letsencrypt/live/findwork.co + / + ../../archive/fullchain1.pem
-  return file(File::dirname(filepath) + File::SEPARATOR + link_file.link_target)
+  return file(File.dirname(filepath) + File::SEPARATOR + link_file.link_target)
 end
 
 # If we are using a SSH backend, then configure it

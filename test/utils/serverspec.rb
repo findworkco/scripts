@@ -48,7 +48,9 @@ TEST_ENV_WERCKER = "wercker".freeze()
 # Define symlink resolver for files
 def symlinked_file(filepath)
   link_file = file(filepath)
-  return file(File.dirname(filepath) + link_file.link_target)
+  # /etc/letsencrypt/live/findwork.co/fullchain.pem ->
+  # /etc/letsencrypt/live/findwork.co + / + ../../archive/fullchain1.pem
+  return file(File::dirname(filepath) + File::SEPARATOR + link_file.link_target)
 end
 
 # If we are using a SSH backend, then configure it

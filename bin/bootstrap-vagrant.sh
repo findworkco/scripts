@@ -27,7 +27,7 @@ sudo chown root:root /var/find-work/scripts/index.yml
 sudo chmod u=r,g=,o= /var/find-work/scripts/index.yml
 
 # If we haven't set up SSL certificates, then generate and install them
-if ! test -f /etc/ssl/certs/findwork.co.crt; then
+if ! test -f /etc/letsencrypt/archive/findwork.co/fullchain1.pem; then
   # Create our certificates
   # https://www.digitalocean.com/community/tutorials/openssl-essentials-working-with-ssl-certificates-private-keys-and-csrs#generate-a-self-signed-certificate
   # https://www.openssl.org/docs/manmaster/apps/req.html#EXAMPLES
@@ -40,18 +40,23 @@ if ! test -f /etc/ssl/certs/findwork.co.crt; then
   #   Email Address []:
   openssl_subj="/C=US/ST=Illinois/L=Chicago/O=Shoulders of Titans LLC/CN=Find Work/emailAddress=todd@findwork.co"
   openssl req \
-    -newkey rsa:2048 -nodes -keyout findwork.co.key \
-    -x509 -days 365 -out findwork.co.crt \
+    -newkey rsa:2048 -nodes -keyout privkey1.pem \
+    -x509 -days 365 -out fullchain1.pem \
     -subj "$openssl_subj"
 
   # Install our certificates
-  sudo mv findwork.co.crt /etc/ssl/certs/findwork.co.crt
-  sudo chown root:root /etc/ssl/certs/findwork.co.crt
-  sudo chmod a=rwx /etc/ssl/certs/findwork.co.crt # Anyone can do all the things
+  sudo mkdir -p /etc/letsencrypt/archive/findwork.co
+  sudo mkdir -p /etc/letsencrypt/live/findwork.co
 
-  sudo mv findwork.co.key /etc/ssl/private/findwork.co.key
-  sudo chown root:root /etc/ssl/private/findwork.co.key
-  sudo chmod u=r,g=,o= /etc/ssl/private/findwork.co.key # Only user can read this file
+  sudo ln -s ../../archive/findwork.co/fullchain1.pem /etc/letsencrypt/live/findwork.co/fullchain.pem
+  sudo mv fullchain1.pem /etc/letsencrypt/archive/findwork.co/fullchain1.pem
+  sudo chown root:root /etc/letsencrypt/archive/findwork.co/fullchain1.pem
+  sudo chmod u=rw,g=r,o=r /etc/letsencrypt/archive/findwork.co/fullchain1.pem # Only user can write this file, anyone can read
+
+  sudo ln -s ../../archive/findwork.co/privkey1.pem /etc/letsencrypt/live/findwork.co/privkey.pem
+  sudo mv privkey1.pem /etc/letsencrypt/archive/findwork.co/privkey1.pem
+  sudo chown root:root /etc/letsencrypt/archive/findwork.co/privkey1.pem
+  sudo chmod u=rw,g=r,o=r /etc/letsencrypt/archive/findwork.co/privkey1.pem # Only user can write this file, anyone can read
 fi
 
 # If we haven't set up a Diffie-Hellman group, then create and install it

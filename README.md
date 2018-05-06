@@ -90,8 +90,32 @@ Host digital-my-server
     HostName 127.0.0.1
 ```
 
-- Install our SSL certificates and Diffie-Hellman group to the server
-    - `bin/install-nginx-data-remote.sh digital-my-server --crt path/to/my-domain.crt --key path/to/my-domain.key --dhparam path/to/dhparam.pem`
+- Install our SSL certificates
+  ```bash
+  # Install certbot for NGINX
+  # DEV: We run all of this by hand as this only works for 1 server so far. We'll need to solve multiple server soon
+  # Taken from: https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04
+  # Verified in: https://certbot.eff.org/lets-encrypt/ubuntutyakkety-nginx
+  sudo add-apt-repository ppa:certbot/certbot
+  sudo apt-get update
+  sudo apt-get install python-certbot-nginx
+
+  # Obtain our certificates for NGINX and explicitly our domain
+  sudo certbot --nginx -d findwork.co -d www.findwork.co
+  # Email address: todd@findwork.co
+  # Terms of Service: Agree
+  # Share email with EFF: Yes
+  # No redirect/redirect: No redirect (already heavily configured)
+  # Files are stored at /etc/letsencrypt/live/findwork.co/fullchain.pem
+
+  # Outside of SSH, verify the certificate looks good
+  # https://www.ssllabs.com/ssltest/analyze.html?d=findwork.co
+
+  # Verify renewal works as expected
+  sudo certbot renew --dry-run
+  ```
+- Install our Diffie-Hellman group to the server
+    - `bin/install-nginx-data-remote.sh digital-my-server --dhparam path/to/dhparam.pem`
     - If you are trying to get a replica working (e.g. don't have these certificates), then self-signed certificates and a `dhparam.pem` can be generated via the `openssl` commands in `bin/bootstrap-vagrant.sh`
 - Install our PGP private key to the server
     - `bin/install-pgp-data-remote.sh digital-my-server --secret-key path/to/private.rsa`

@@ -93,6 +93,6 @@ end
 # http://undeadly.org/cgi?action=article&sid=20160114142733
 describe "ssh" do
   it "is a version patched for malicious UseRoaming" do
-    expect(package("openssh-server").version).to(eq("1:6.6p1-2ubuntu2.8"))
+    expect(package("openssh-server").version).to(eq("1:6.6p1-2ubuntu2.10"))
   end
 end

@@ -132,7 +132,7 @@ end
 #   https://lobste.rs/s/mzodhj/openssh_client_bug_can_leak_keys_to_malicious_servers
 #   http://undeadly.org/cgi?action=article&sid=20160114142733
 apt_package "openssh-server" do
-  version("1:6.6p1-2ubuntu2.8")
+  version("1:6.6p1-2ubuntu2.10")
 end
 # DEV: Equivalent to `sudo service ssh *`
 service "ssh" do
@@ -156,9 +156,9 @@ end
 
 # Guarantee `nginx` is installed
 # @depends_on exectue[apt-get-update-periodic] (to make sure apt is updated)
-# DEV: Equivalent to `sudo apt-get install -y "nginx=1.4.6-1ubuntu3.7"`
+# DEV: Equivalent to `sudo apt-get install -y "nginx=1.4.6-1ubuntu3.8"`
 apt_package "nginx" do
-  version("1.4.6-1ubuntu3.7")
+  version("1.4.6-1ubuntu3.8")
 end
 # DEV: Equivalent to `sudo /etc/init.d/nginx *`
 service "nginx" do

@@ -45,6 +45,14 @@ TEST_ENV_REMOTE = "remote".freeze()
 TEST_ENV_VAGRANT = "vagrant".freeze()
 TEST_ENV_WERCKER = "wercker".freeze()
 
+# Define symlink resolver for files
+def symlinked_file(filepath)
+  link_file = file(filepath)
+  # /etc/letsencrypt/live/findwork.co/fullchain.pem ->
+  # /etc/letsencrypt/live/findwork.co + / + ../../archive/fullchain1.pem
+  return file(File.dirname(filepath) + File::SEPARATOR + link_file.link_target)
+end
+
 # If we are using a SSH backend, then configure it
 if ENV["SERVERSPEC_BACKEND"] == "ssh"
   # Load in our environment variable to the SSH config

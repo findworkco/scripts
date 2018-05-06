@@ -101,7 +101,7 @@ Host digital-my-server
   sudo apt-get install python-certbot-nginx
 
   # Obtain our certificates for NGINX and explicitly our domain
-  sudo certbot --nginx -d findwork.co
+  sudo certbot --nginx -d findwork.co -d www.findwork.co
   # Email address: todd@findwork.co
   # Terms of Service: Agree
   # Share email with EFF: Yes
